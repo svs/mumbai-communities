@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Mcgm App" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <nav class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-6">
+            <%= link_to root_path, class: "text-xl font-bold text-gray-800 hover:text-gray-600" do %>
+              MCGM.in
+            <% end %>
+            <div class="hidden md:flex space-x-4">
+              <%= link_to "Home", root_path, class: "text-gray-600 hover:text-gray-800" %>
+              <%= link_to "Ward Boundaries", prabhags_path, class: "text-gray-600 hover:text-gray-800" %>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <% if user_signed_in? %>
+              <% if current_user.admin? %>
+                <%= link_to "Admin Panel", admin_prabhags_path, 
+                            class: "bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm" %>
+              <% end %>
+              <span class="text-sm text-gray-600">Welcome, <%= current_user.name || current_user.email %></span>
+              <%= link_to "Sign Out", destroy_user_session_path,
+                          class: "bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm",
+                          data: { turbo_method: :delete } %>
+            <% else %>
+              <%= link_to "Sign In", new_user_session_path, class: "text-gray-600 hover:text-gray-800" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded" %>
+            <% end %>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Flash Messages -->
+    <% if notice %>
+      <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 mx-4 mt-4 rounded">
+        <%= notice %>
+      </div>
+    <% end %>
+    <% if alert %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mx-4 mt-4 rounded">
+        <%= alert %>
+      </div>
+    <% end %>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-4">
+      <%= yield %>
+    </main>
+
+    <!-- Sticky Footer -->
+    <footer class="bg-gray-100 border-t border-gray-200 mt-auto">
+      <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800">MCGM.in</h3>
+            <p class="text-gray-600 text-sm">Mumbai Municipal Corporation Citizen Engagement Platform for mapping ward boundaries.</p>
+          </div>
+          <div>
+            <h4 class="text-md font-semibold mb-3 text-gray-700">Quick Links</h4>
+            <ul class="space-y-2 text-sm">
+              <li><%= link_to "Home", root_path, class: "text-gray-600 hover:text-gray-800" %></li>
+              <li><%= link_to "Ward Boundaries", prabhags_path, class: "text-gray-600 hover:text-gray-800" %></li>
+              <li><a href="#" class="text-gray-600 hover:text-gray-800">About MCGM</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-md font-semibold mb-3 text-gray-700">Help</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="text-gray-600 hover:text-gray-800">How to Trace</a></li>
+              <li><a href="#" class="text-gray-600 hover:text-gray-800">FAQ</a></li>
+              <li><a href="#" class="text-gray-600 hover:text-gray-800">Contact Support</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-md font-semibold mb-3 text-gray-700">Connect</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="text-gray-600 hover:text-gray-800">Twitter</a></li>
+              <li><a href="#" class="text-gray-600 hover:text-gray-800">Facebook</a></li>
+              <li><a href="https://www.mcgm.gov.in" target="_blank" class="text-gray-600 hover:text-gray-800">MCGM Official</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-200 mt-8 pt-4 text-center text-sm text-gray-500">
+          <p>&copy; <%= Date.current.year %> Mumbai Municipal Corporation. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

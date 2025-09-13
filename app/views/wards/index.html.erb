@@ -1,0 +1,139 @@
+<div class="max-w-7xl mx-auto">
+  <div class="text-center mb-12">
+    <h1 class="font-bold text-5xl mb-6 text-gray-800">MCGM.in</h1>
+    <p class="text-xl mb-4 text-gray-600">Mumbai Municipal Corporation - Citizen Engagement Platform</p>
+    <p class="text-lg text-gray-500">Select your ward to see civic tasks and issues</p>
+  </div>
+
+  <!-- Platform Statistics -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
+    <div class="bg-blue-100 p-6 rounded-lg text-center">
+      <div class="text-3xl font-bold text-blue-800"><%= @total_wards %></div>
+      <div class="text-blue-600">Mumbai Wards</div>
+    </div>
+    <div class="bg-green-100 p-6 rounded-lg text-center">
+      <div class="text-3xl font-bold text-green-800"><%= @geocoded_wards %></div>
+      <div class="text-green-600">Mapped Wards</div>
+    </div>
+    <div class="bg-yellow-100 p-6 rounded-lg text-center">
+      <div class="text-3xl font-bold text-yellow-800"><%= @open_tickets %></div>
+      <div class="text-yellow-600">Open Tasks</div>
+    </div>
+    <div class="bg-red-100 p-6 rounded-lg text-center">
+      <div class="text-3xl font-bold text-red-800"><%= @overdue_tickets %></div>
+      <div class="text-red-600">Overdue Tasks</div>
+    </div>
+  </div>
+
+  <!-- Authentication Section -->
+  <% unless user_signed_in? %>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-8 mb-12 text-center">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Join the Community</h2>
+      <p class="text-blue-600 mb-6">Sign in to start contributing to Mumbai's civic improvement</p>
+      <div class="space-x-4">
+        <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, 
+                    method: :post, 
+                    class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg inline-block" %>
+        <div class="mt-4 text-sm">
+          <%= link_to "Sign In", new_user_session_path, 
+                      class: "text-blue-600 hover:text-blue-800 underline" %>
+          |
+          <%= link_to "Sign Up", new_user_registration_path, 
+                      class: "text-blue-600 hover:text-blue-800 underline" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Current User Tasks -->
+  <% if user_signed_in? && current_user.active_tickets.any? %>
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-12">
+      <h3 class="text-xl font-semibold text-yellow-800 mb-4">Your Active Tasks</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% current_user.active_tickets.limit(4).each do |ticket| %>
+          <div class="bg-white p-4 rounded border">
+            <h4 class="font-semibold text-gray-800"><%= ticket.title %></h4>
+            <p class="text-sm text-gray-600 mb-2">Ward <%= ticket.ward_code %></p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs px-2 py-1 rounded <%= ticket.overdue? ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800' %>">
+                <%= ticket.overdue? ? 'Overdue' : "#{ticket.days_remaining} days left" %>
+              </span>
+              <%= link_to "Continue", work_ticket_path(ticket), 
+                          class: "text-blue-600 hover:text-blue-800 text-sm" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Ward Grid -->
+  <div>
+    <h2 class="text-3xl font-semibold mb-8 text-center text-gray-800">Mumbai Wards</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+      <% @wards.each do |ward| %>
+        <div class="bg-white border rounded-lg p-6 hover:shadow-lg transition-shadow">
+          <%= link_to ward_path(ward.ward_code), class: "block" do %>
+            <div class="text-center">
+              <h3 class="text-2xl font-bold text-gray-800 mb-2">Ward <%= ward.ward_code %></h3>
+              
+              <!-- Status Indicator -->
+              <div class="mb-4">
+                <% if ward.fully_mapped? %>
+                  <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-800">
+                    Fully Mapped
+                  </span>
+                <% elsif ward.completion_percentage > 0 %>
+                  <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    <%= ward.completion_percentage %>% Mapped
+                  </span>
+                <% else %>
+                  <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-gray-100 text-gray-800">
+                    Not Mapped
+                  </span>
+                <% end %>
+              </div>
+
+              <!-- Ward Stats -->
+              <div class="text-sm text-gray-600 space-y-1">
+                <div><%= ward.prabhags.count %> Prabhags</div>
+                <div><%= ward.open_tickets %> Open Tasks</div>
+                <% if ward.overdue_tickets > 0 %>
+                  <div class="text-red-600"><%= ward.overdue_tickets %> Overdue</div>
+                <% end %>
+              </div>
+
+              <!-- Progress Bar -->
+              <div class="w-full bg-gray-200 rounded-full h-2 mt-4">
+                <div class="bg-blue-500 h-2 rounded-full" 
+                     style="width: <%= ward.completion_percentage %>%"></div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <div class="mt-16 bg-gray-50 rounded-lg p-8">
+    <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">How MCGM.in Works</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="text-center">
+        <div class="text-4xl mb-4">🗺️</div>
+        <h3 class="text-lg font-semibold mb-2">1. Find Your Ward</h3>
+        <p class="text-gray-600">Click on your ward to see all civic tasks and issues in your area</p>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl mb-4">🎯</div>
+        <h3 class="text-lg font-semibold mb-2">2. Pick a Task</h3>
+        <p class="text-gray-600">Choose from boundary mapping, infrastructure reports, or other civic tasks</p>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl mb-4">✅</div>
+        <h3 class="text-lg font-semibold mb-2">3. Make Impact</h3>
+        <p class="text-gray-600">Complete tasks to help improve your ward and engage with local governance</p>
+      </div>
+    </div>
+  </div>
+</div>

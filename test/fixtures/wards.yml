@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ward_code: MyString
+  name: MyString
+  boundary_geojson: MyText
+  is_geocoded: false
+  total_area: 9.99
+  population_estimate: 1
+  contact_officer_name: MyString
+  contact_officer_email: MyString
+  contact_officer_phone: MyString
+
+two:
+  ward_code: MyString
+  name: MyString
+  boundary_geojson: MyText
+  is_geocoded: false
+  total_area: 9.99
+  population_estimate: 1
+  contact_officer_name: MyString
+  contact_officer_email: MyString
+  contact_officer_phone: MyString

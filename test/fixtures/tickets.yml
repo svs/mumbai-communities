@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  ticket_type: MyString
+  ward_code: MyString
+  prabhag_number: 1
+  status: MyString
+  priority: MyString
+  due_date: 2025-08-24 15:13:41
+  estimated_hours: 9.99
+  assigned_to: one
+  created_by: one
+  location_latitude: 9.99
+  location_longitude: 9.99
+  location_address: MyText
+
+two:
+  title: MyString
+  description: MyText
+  ticket_type: MyString
+  ward_code: MyString
+  prabhag_number: 1
+  status: MyString
+  priority: MyString
+  due_date: 2025-08-24 15:13:41
+  estimated_hours: 9.99
+  assigned_to: two
+  created_by: two
+  location_latitude: 9.99
+  location_longitude: 9.99
+  location_address: MyText

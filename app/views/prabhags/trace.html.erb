@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <title>Trace Boundary - Prabhag <%= @prabhag.number %></title>
+    <style>
+      body {
+          margin: 0;
+          padding: 0;
+          font-family: Arial, sans-serif;
+      }
+
+      #container {
+          display: flex;
+          width: 100vw;
+          height: 100vh;
+          flex-direction: column;
+          padding-top: 50px; /* Account for fixed back button */
+      }
+
+      #main-content {
+          display: flex;
+          flex: 1;
+          overflow: hidden;
+      }
+
+      #pdf-half {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          border-right: 2px solid #ddd;
+      }
+
+      #pdf-content {
+          flex: 1;
+          background: #f5f5f5;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+      }
+
+      #pdf-image {
+          max-width: 95%;
+          max-height: 95%;
+          object-fit: contain;
+          border: 1px solid #ccc;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          transition: transform 0.1s ease;
+      }
+
+      #pdf-toolbar {
+          background: #e8f4f8;
+          border-top: 1px solid #ddd;
+          padding: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          min-height: 50px;
+      }
+
+      #map-half {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+      }
+
+      #map-content {
+          flex: 1;
+          position: relative;
+      }
+
+      #map {
+          width: 100%;
+          height: 100%;
+      }
+
+      #map-toolbar {
+          background: white;
+          border-top: 2px solid #ddd;
+          padding: 15px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 15px;
+          min-height: 60px;
+      }
+
+      .side-label {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          background: rgba(255,255,255,0.9);
+          padding: 5px 10px;
+          border-radius: 4px;
+          font-weight: bold;
+          font-size: 12px;
+          z-index: 100;
+      }
+
+        .pdf-control-btn {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            margin: 0;
+        }
+
+        .pdf-control-btn:hover {
+            background: #f0f0f0;
+            color: #000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+      .pdf-control-btn:active {
+          transform: scale(0.95);
+      }
+
+      .pdf-control-group {
+          display: flex;
+          gap: 2px;
+          align-items: center;
+      }
+
+        .pdf-control-group label {
+            font-size: 11px;
+            margin: 0 5px 0 0;
+            font-weight: bold;
+            color: #333;
+        }
+
+      .toolbar-section {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+      }
+
+      .control-group {
+          margin: 0;
+      }
+
+      label {
+          display: block;
+          margin-bottom: 5px;
+          font-weight: bold;
+          font-size: 12px;
+      }
+
+      input[type="range"] {
+          width: 100%;
+      }
+
+      button {
+          background: #4285f4;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          margin: 5px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 14px;
+      }
+
+      button:hover {
+          background: #357ae8;
+      }
+
+      button.danger {
+          background: #dc3545;
+      }
+
+      button.danger:hover {
+          background: #c82333;
+      }
+
+      button.success {
+          background: #28a745;
+      }
+
+      button.success:hover {
+          background: #218838;
+      }
+
+      .info {
+          font-size: 12px;
+          color: #666;
+          margin-top: 5px;
+      }
+
+      #coordinates {
+          margin-top: 10px;
+          padding: 10px;
+          background: #f8f9fa;
+          border-radius: 4px;
+          max-height: 200px;
+          overflow-y: auto;
+          font-family: monospace;
+          font-size: 11px;
+      }
+
+      .toggle-group {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 10px;
+      }
+
+      .toggle-btn {
+          flex: 1;
+          padding: 5px;
+          font-size: 12px;
+      }
+
+      .toggle-btn.active {
+          background: #28a745;
+      }
+
+      .back-btn {
+          position: fixed;
+          top: 10px;
+          right: 10px;
+          z-index: 1000;
+          background: #6c757d;
+          color: white;
+          text-decoration: none;
+          padding: 10px 20px;
+          border-radius: 6px;
+          font-size: 14px;
+      }
+
+      .back-btn:hover {
+          background: #5a6268;
+          color: white;
+          text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <%= link_to "← Back", @prabhag, class: "back-btn" %>
+    <div data-controller="boundary-tracer"
+         data-boundary-tracer-prabhag-id-value="<%= @prabhag.id %>"
+         data-boundary-tracer-api-key-value="<%= ENV['GOOGLE_MAPS_API_KEY'] || 'AIzaSyCdaO8AJfaBvqAWeAwHSp4c282lVOEgHgk' %>"
+         data-boundary-tracer-center-value='{"lat": 19.1136, "lng": 72.8697}'
+         data-boundary-tracer-initial-zoom-value="15">
+      <div id="container">
+        <div id="main-content">
+          <div id="pdf-half">
+            <div id="pdf-content">
+              <div class="side-label">Reference Map - Prabhag <%= @prabhag.number %></div>
+              <img id="pdf-image" data-boundary-tracer-target="pdfImage" src="<%= @prabhag.map_image_src %>" alt="Prabhag <%= @prabhag.number %> Map">
+            </div>
+            <div id="pdf-toolbar" data-boundary-tracer-target="pdfControls">
+              <div class="pdf-control-group">
+                <label>Zoom:</label>
+                <button class="pdf-control-btn" data-action="click->boundary-tracer#zoomPDFOut" title="Zoom Out">−</button>
+                <button class="pdf-control-btn" data-action="click->boundary-tracer#resetPDFZoom" title="Reset">⌂</button>
+                <button class="pdf-control-btn" data-action="click->boundary-tracer#zoomPDFIn" title="Zoom In">+</button>
+              </div>
+              <div class="pdf-control-group">
+                <label>Pan:</label>
+                <button class="pdf-control-btn" data-action="click->boundary-tracer#panPDFUp" title="Pan Up">↑</button>
+                <button class="pdf-control-btn" data-action="click->boundary-tracer#panPDFDown" title="Pan Down">↓</button>
+                <button class="pdf-control-btn" data-action="click->boundary-tracer#panPDFLeft" title="Pan Left">←</button>
+                <button class="pdf-control-btn" data-action="click->boundary-tracer#panPDFRight" title="Pan Right">→</button>
+              </div>
+            </div>
+          </div>
+          <div id="map-half">
+            <div id="map-content">
+              <div class="side-label">Draw Boundary</div>
+              <div id="map" data-boundary-tracer-target="map"></div>
+            </div>
+            <div id="map-toolbar" data-boundary-tracer-target="mapControls">
+              <div class="toolbar-section">
+                <strong>Prabhag <%= @prabhag.number %> Boundary Tracing</strong>
+              </div>
+              <div class="toolbar-section" style="display: none;">
+                <div class="toggle-group">
+                  <button data-action="click->boundary-tracer#setDrawMode" class="toggle-btn active">✏️ Draw</button>
+                  <button data-action="click->boundary-tracer#setPanMode" class="toggle-btn">👋 Pan</button>
+                </div>
+              </div>
+              <div class="toolbar-section">
+                <button data-action="click->boundary-tracer#undoLastPoint" class="danger" style="font-size: 12px;">↶ Undo</button>
+                <button data-action="click->boundary-tracer#clearBoundary" class="danger" style="font-size: 12px;">🗑️ Clear</button>
+                <button data-action="click->boundary-tracer#closePolygon" class="success" style="font-size: 12px;">🔗 Close</button>
+              </div>
+              <div class="toolbar-section">
+                <span style="font-size: 12px; color: #666;">
+                  Points: <strong><span data-boundary-tracer-target="pointCount">0</span></strong>
+                </span>
+              </div>
+              <div class="toolbar-section">
+                <%= form_with url: submit_prabhag_path(@prabhag), local: true,
+                                          style: "margin: 0;",
+                                          data: { boundary_tracer_target: "submitForm" } do |form| %>
+                  <%= form.hidden_field :boundary_geojson, data: { boundary_tracer_target: "geojsonInput" } %>
+                  <%= form.submit "✅ Submit Boundary",
+                                             class: "success",
+                                             style: "margin: 0; font-size: 14px; padding: 8px 16px;",
+                                             data: {
+                                               confirm: "Submit this boundary for review?",
+                                               action: "click->boundary-tracer#generateGeoJSON"
+                                             } %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Google Maps API is loaded by the Stimulus controller -->
+  </body>
+</html>

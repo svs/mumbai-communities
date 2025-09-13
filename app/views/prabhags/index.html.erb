@@ -1,0 +1,135 @@
+<div class="w-full">
+  <div class="flex justify-between items-center mb-8">
+    <% if params[:ward_id].present? %>
+      <h1 class="font-bold text-3xl">Ward <%= @ward_name %> Prabhags</h1>
+      <%= link_to "← Back to Ward #{@ward_name}", ward_path(@ward_name), class: "text-blue-500 hover:text-blue-700" %>
+    <% else %>
+      <h1 class="font-bold text-3xl">Ward Boundary Mapping</h1>
+      <%= link_to "← Back to Home", root_path, class: "text-blue-500 hover:text-blue-700" %>
+    <% end %>
+  </div>
+  <!-- Progress Statistics -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <div class="bg-blue-100 p-4 rounded-lg">
+      <div class="text-2xl font-bold text-blue-800"><%= @total_prabhags %></div>
+      <div class="text-blue-600">Total Prabhags</div>
+    </div>
+    <div class="bg-green-100 p-4 rounded-lg">
+      <div class="text-2xl font-bold text-green-800"><%= @completed_prabhags %></div>
+      <div class="text-green-600">Completed</div>
+    </div>
+    <div class="bg-yellow-100 p-4 rounded-lg">
+      <div class="text-2xl font-bold text-yellow-800"><%= @assigned_prabhags %></div>
+      <div class="text-yellow-600">In Progress</div>
+    </div>
+    <div class="bg-gray-100 p-4 rounded-lg">
+      <div class="text-2xl font-bold text-gray-800"><%= @total_prabhags - @completed_prabhags - @assigned_prabhags %></div>
+      <div class="text-gray-600">Available</div>
+    </div>
+  </div>
+  <!-- In Progress Prabhags -->
+  <% if @assigned_prabhags > 0 %>
+    <div class="mb-8">
+      <h2 class="text-2xl font-semibold mb-4">In Progress</h2>
+      <% in_progress_prabhags = Prabhag.where(status: ['assigned', 'submitted']).includes(:assigned_to).order(:ward_code, :number) %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% in_progress_prabhags.limit(12).each do |prabhag| %>
+          <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-semibold">Prabhag <%= prabhag.number %></h3>
+              <span class="text-sm text-gray-500">Ward <%= prabhag.ward_code %></span>
+            </div>
+            <div class="text-sm text-gray-600 mb-2">
+              <% if prabhag.status == 'submitted' %>
+                <span class="text-orange-600">Submitted for Review</span>
+              <% else %>
+                Assigned to: <%= prabhag.assigned_to&.name || prabhag.assigned_to&.email || 'Unknown' %>
+              <% end %>
+            </div>
+            <div class="flex gap-2">
+              <%= link_to "View", prabhag, class: "text-blue-500 hover:text-blue-700 text-sm" %>
+              <% if user_signed_in? && current_user == prabhag.assigned_to %>
+                <% if prabhag.status == 'submitted' %>
+                  <span class="text-orange-600 text-sm">Waiting for Review</span>
+                <% else %>
+                  <%= link_to "Continue Tracing", trace_prabhag_path(prabhag),
+                            class: "bg-green-500 hover:bg-green-700 text-white text-sm px-3 py-1 rounded" %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <% if in_progress_prabhags.count > 12 %>
+        <p class="text-center mt-4 text-gray-600">
+          Showing 12 of <%= in_progress_prabhags.count %> in progress prabhags
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+  <!-- Available Prabhags -->
+  <div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Available Prabhags</h2>
+    <% if @available_prabhags.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% @available_prabhags.limit(12).each do |prabhag| %>
+          <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-semibold">Prabhag <%= prabhag.number %></h3>
+              <span class="text-sm text-gray-500">Ward <%= prabhag.ward_code %></span>
+            </div>
+            <div class="flex gap-2">
+              <%= link_to "View", prabhag, class: "text-blue-500 hover:text-blue-700 text-sm" %>
+              <% if user_signed_in? %>
+                <%= link_to "Assign to Me", assign_prabhag_path(prabhag), method: :post,
+                          class: "bg-blue-500 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded",
+                          data: { confirm: "Assign Prabhag #{prabhag.number} to yourself?" } %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <% if @available_prabhags.count > 12 %>
+        <p class="text-center mt-4 text-gray-600">
+          Showing 12 of <%= @available_prabhags.count %> available prabhags
+        </p>
+      <% end %>
+    <% else %>
+      <p class="text-gray-600">All prabhags are currently assigned or completed!</p>
+    <% end %>
+  </div>
+  <!-- Ward Overview - only show when viewing all prabhags -->
+  <% unless params[:ward_id].present? %>
+    <div>
+      <h2 class="text-2xl font-semibold mb-4">Ward Overview</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% @wards.each do |ward_code| %>
+          <% total_prabhags = Prabhag.for_ward(ward_code).count %>
+          <% completed_prabhags = Prabhag.for_ward(ward_code).approved.count %>
+          <% completion_percentage = total_prabhags > 0 ? (completed_prabhags.to_f / total_prabhags * 100).round(1) : 0 %>
+          <div class="border rounded-lg p-4">
+            <h3 class="font-semibold mb-2">Ward <%= ward_code %></h3>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span><%= completed_prabhags %>/<%= total_prabhags %> completed</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+              <div class="bg-green-500 h-2 rounded-full"
+                   style="width: <%= completion_percentage %>%"></div>
+            </div>
+            <div class="text-right text-xs text-gray-500 mt-1">
+              <%= completion_percentage %>% complete
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <% unless user_signed_in? %>
+    <div class="mt-8 p-4 bg-blue-50 rounded-lg text-center">
+      <p class="text-blue-800">
+        <%= link_to "Sign in", new_user_session_path, class: "text-blue-600 hover:text-blue-800 font-semibold" %>
+        to assign prabhags to yourself and start tracing boundaries!
+      </p>
+    </div>
+  <% end %>
+</div>

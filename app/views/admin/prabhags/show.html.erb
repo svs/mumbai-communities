@@ -1,0 +1,144 @@
+<div class="w-full">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="font-bold text-3xl">Admin: Prabhag <%= @prabhag.number %></h1>
+    <%= link_to "← Back to Admin Dashboard", admin_prabhags_path, class: "text-blue-500 hover:text-blue-700" %>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Prabhag Information -->
+    <div class="space-y-6">
+      <div class="bg-white border rounded-lg p-6 shadow-sm">
+        <h2 class="text-xl font-semibold mb-4">Prabhag Information</h2>
+        <dl class="space-y-2">
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Number:</dt>
+            <dd class="text-gray-900"><%= @prabhag.number %></dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Ward:</dt>
+            <dd class="text-gray-900"><%= @prabhag.ward_code %></dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Status:</dt>
+            <dd>
+              <% case @prabhag.status %>
+              <% when 'available' %>
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">Available</span>
+              <% when 'assigned' %>
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">In Progress</span>
+              <% when 'submitted' %>
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Under Review</span>
+              <% when 'approved' %>
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
+              <% when 'rejected' %>
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>
+            <% end %>
+          </dd>
+        </div>
+        <% if @prabhag.assigned_to %>
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Assigned to:</dt>
+            <dd class="text-gray-900"><%= @prabhag.assigned_to.name || @prabhag.assigned_to.email %></dd>
+          </div>
+        <% end %>
+        <% if @prabhag.boundary_geojson.present? %>
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Boundary Points:</dt>
+            <dd class="text-gray-900"><%= @geojson_data.dig("geometry", "coordinates", 0)&.length || 0 %></dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+    <!-- Admin Actions -->
+    <div class="bg-white border rounded-lg p-6 shadow-sm">
+      <h2 class="text-xl font-semibold mb-4">Admin Actions</h2>
+      <div class="space-y-3">
+        <%= link_to "View PDF", @prabhag.pdf_url, target: '_blank',
+                      class: "block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center" %>
+        <% if @prabhag.status == 'submitted' %>
+          <div class="grid grid-cols-2 gap-3">
+            <%= button_to "✅ Approve", approve_admin_prabhag_path(@prabhag),
+                           class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded",
+                           data: { confirm: "Approve this boundary? This will mark it as completed." } %>
+            <%= button_to "❌ Reject", reject_admin_prabhag_path(@prabhag),
+                           class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
+                           data: { confirm: "Reject this boundary? This will make it available for reassignment." } %>
+          </div>
+        <% elsif @prabhag.status == 'approved' %>
+          <div class="bg-green-100 text-green-800 font-bold py-2 px-4 rounded text-center">
+            ✅ Approved
+          </div>
+        <% elsif @prabhag.status == 'rejected' %>
+          <div class="bg-red-100 text-red-800 font-bold py-2 px-4 rounded text-center">
+            ❌ Rejected
+          </div>
+        <% else %>
+          <div class="bg-gray-100 text-gray-600 font-bold py-2 px-4 rounded text-center">
+            <%= @prabhag.status == 'available' ? 'Available for Assignment' : 'In Progress' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <!-- Map Preview -->
+  <div class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">Boundary Review</h2>
+    <% if @prabhag.boundary_geojson.present? %>
+      <div id="map" class="border rounded h-96"></div>
+      <script>
+        function initMap() {
+          const geojson = <%= @prabhag.boundary_geojson.html_safe %>;
+          const coordinates = geojson.geometry.coordinates[0];
+          const path = coordinates.map(coord => ({ lat: coord[1], lng: coord[0] }));
+
+          // Calculate center
+          const bounds = new google.maps.LatLngBounds();
+          path.forEach(point => bounds.extend(point));
+          const center = bounds.getCenter();
+
+          const map = new google.maps.Map(document.getElementById('map'), {
+            center: center,
+            zoom: 15,
+            mapTypeId: 'roadmap'
+          });
+
+          // Fit bounds to polygon
+          map.fitBounds(bounds, 50);
+
+          // Create the polygon
+          const polygon = new google.maps.Polygon({
+            paths: path,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: '#FF0000',
+            fillOpacity: 0.2,
+            editable: false,
+            clickable: false
+          });
+
+          polygon.setMap(map);
+        }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdaO8AJfaBvqAWeAwHSp4c282lVOEgHgk&callback=initMap" async defer></script>
+      <% if @prabhag.status == 'submitted' %>
+        <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded">
+          <h3 class="font-semibold text-blue-900 mb-2">Review Instructions</h3>
+          <ul class="text-sm text-blue-800 space-y-1">
+            <li>• Verify the boundary follows the prabhag lines accurately</li>
+            <li>• Check that all boundary points are correctly placed</li>
+            <li>• Ensure the polygon is complete and properly closed</li>
+            <li>• Compare with the reference PDF if needed</li>
+          </ul>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="border rounded h-96 bg-gray-50 flex items-center justify-center">
+        <div class="text-center text-gray-600">
+          <p>No boundary traced yet</p>
+          <p class="text-sm">Boundary will appear here once traced</p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+</div>

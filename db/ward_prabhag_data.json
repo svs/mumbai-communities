@@ -1,0 +1,1066 @@
+{
+  "zones": [
+    {
+      "ward_code": "A",
+      "name": "Ward A",
+      "prabhags": [
+        {
+          "number": 225,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/A/Prabhag_225.pdf"
+        },
+        {
+          "number": 226,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/A/Prabhag_226.pdf"
+        },
+        {
+          "number": 227,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/A/Prabhag_227.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "B",
+      "name": "Ward B",
+      "prabhags": [
+        {
+          "number": 223,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/B/Prabhag_223.pdf"
+        },
+        {
+          "number": 224,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/B/Prabhag_224.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "C",
+      "name": "Ward C",
+      "prabhags": [
+        {
+          "number": 220,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/C/Prabhag_220.pdf"
+        },
+        {
+          "number": 221,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/C/Prabhag_221.pdf"
+        },
+        {
+          "number": 222,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/C/Prabhag_222.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "D",
+      "name": "Ward D",
+      "prabhags": [
+        {
+          "number": 214,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/D/Prabhag_214.pdf"
+        },
+        {
+          "number": 215,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/D/Prabhag_215.pdf"
+        },
+        {
+          "number": 216,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/D/Prabhag_216.pdf"
+        },
+        {
+          "number": 217,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/D/Prabhag_217.pdf"
+        },
+        {
+          "number": 218,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/D/Prabhag_218.pdf"
+        },
+        {
+          "number": 219,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/D/Prabhag_219.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "E",
+      "name": "Ward E",
+      "prabhags": [
+        {
+          "number": 207,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/E/Prabhag_207.pdf"
+        },
+        {
+          "number": 208,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/E/Prabhag_208.pdf"
+        },
+        {
+          "number": 209,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/E/Prabhag_209.pdf"
+        },
+        {
+          "number": 210,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/E/Prabhag_210.pdf"
+        },
+        {
+          "number": 211,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/E/Prabhag_211.pdf"
+        },
+        {
+          "number": 212,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/E/Prabhag_212.pdf"
+        },
+        {
+          "number": 213,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/E/Prabhag_213.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "F NORTH",
+      "name": "Ward F NORTH",
+      "prabhags": [
+        {
+          "number": 172,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_172.pdf"
+        },
+        {
+          "number": 173,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_173.pdf"
+        },
+        {
+          "number": 174,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_174.pdf"
+        },
+        {
+          "number": 175,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_175.pdf"
+        },
+        {
+          "number": 176,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_176.pdf"
+        },
+        {
+          "number": 177,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_177.pdf"
+        },
+        {
+          "number": 178,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_178.pdf"
+        },
+        {
+          "number": 179,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_179.pdf"
+        },
+        {
+          "number": 180,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_180.pdf"
+        },
+        {
+          "number": 181,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20NORTH/Prabhag_181.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "F SOUTH",
+      "name": "Ward F SOUTH",
+      "prabhags": [
+        {
+          "number": 200,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20SOUTH/Prabhag_200.pdf"
+        },
+        {
+          "number": 201,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20SOUTH/Prabhag_201.pdf"
+        },
+        {
+          "number": 202,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20SOUTH/Prabhag_202.pdf"
+        },
+        {
+          "number": 203,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20SOUTH/Prabhag_203.pdf"
+        },
+        {
+          "number": 204,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20SOUTH/Prabhag_204.pdf"
+        },
+        {
+          "number": 205,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20SOUTH/Prabhag_205.pdf"
+        },
+        {
+          "number": 206,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/F%20SOUTH/Prabhag_206.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "G NORTH",
+      "name": "Ward G NORTH",
+      "prabhags": [
+        {
+          "number": 182,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_182.pdf"
+        },
+        {
+          "number": 183,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_183.pdf"
+        },
+        {
+          "number": 184,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_184.pdf"
+        },
+        {
+          "number": 185,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_185.pdf"
+        },
+        {
+          "number": 186,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_186.pdf"
+        },
+        {
+          "number": 187,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_187.pdf"
+        },
+        {
+          "number": 188,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_188.pdf"
+        },
+        {
+          "number": 189,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_189.pdf"
+        },
+        {
+          "number": 190,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_190.pdf"
+        },
+        {
+          "number": 191,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_191.pdf"
+        },
+        {
+          "number": 192,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20NORTH/Prabhag_192.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "G SOUTH",
+      "name": "Ward G SOUTH",
+      "prabhags": [
+        {
+          "number": 193,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20SOUTH/Prabhag_193.pdf"
+        },
+        {
+          "number": 194,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20SOUTH/Prabhag_194.pdf"
+        },
+        {
+          "number": 195,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20SOUTH/Prabhag_195.pdf"
+        },
+        {
+          "number": 196,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20SOUTH/Prabhag_196.pdf"
+        },
+        {
+          "number": 197,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20SOUTH/Prabhag_197.pdf"
+        },
+        {
+          "number": 198,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20SOUTH/Prabhag_198.pdf"
+        },
+        {
+          "number": 199,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/G%20SOUTH/Prabhag_199.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "H EAST",
+      "name": "Ward H EAST",
+      "prabhags": [
+        {
+          "number": 87,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_87.pdf"
+        },
+        {
+          "number": 88,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_88.pdf"
+        },
+        {
+          "number": 89,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_89.pdf"
+        },
+        {
+          "number": 90,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_90.pdf"
+        },
+        {
+          "number": 91,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_91.pdf"
+        },
+        {
+          "number": 92,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_92.pdf"
+        },
+        {
+          "number": 93,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_93.pdf"
+        },
+        {
+          "number": 94,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_94.pdf"
+        },
+        {
+          "number": 95,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_95.pdf"
+        },
+        {
+          "number": 96,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20EAST/Prabhag_96.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "H WEST",
+      "name": "Ward H WEST",
+      "prabhags": [
+        {
+          "number": 97,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20WEST/Prabhag_97.pdf"
+        },
+        {
+          "number": 98,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20WEST/Prabhag_98.pdf"
+        },
+        {
+          "number": 99,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20WEST/Prabhag_99.pdf"
+        },
+        {
+          "number": 100,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20WEST/Prabhag_100.pdf"
+        },
+        {
+          "number": 101,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20WEST/Prabhag_101.pdf"
+        },
+        {
+          "number": 102,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/H%20WEST/Prabhag_102.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "K EAST",
+      "name": "Ward K EAST",
+      "prabhags": [
+        {
+          "number": 80,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20EAST/Prabhag_80.pdf"
+        },
+        {
+          "number": 81,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20EAST/Prabhag_81.pdf"
+        },
+        {
+          "number": 82,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20EAST/Prabhag_82.pdf"
+        },
+        {
+          "number": 83,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20EAST/Prabhag_83.pdf"
+        },
+        {
+          "number": 84,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20EAST/Prabhag_84.pdf"
+        },
+        {
+          "number": 85,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20EAST/Prabhag_85.pdf"
+        },
+        {
+          "number": 86,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20EAST/Prabhag_86.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "K NORTH",
+      "name": "Ward K NORTH",
+      "prabhags": [
+        {
+          "number": 72,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20NORTH/Prabhag_72.pdf"
+        },
+        {
+          "number": 73,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20NORTH/Prabhag_73.pdf"
+        },
+        {
+          "number": 74,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20NORTH/Prabhag_74.pdf"
+        },
+        {
+          "number": 75,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20NORTH/Prabhag_75.pdf"
+        },
+        {
+          "number": 76,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20NORTH/Prabhag_76.pdf"
+        },
+        {
+          "number": 77,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20NORTH/Prabhag_77.pdf"
+        },
+        {
+          "number": 78,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20NORTH/Prabhag_78.pdf"
+        },
+        {
+          "number": 79,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20NORTH/Prabhag_79.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "K WEST",
+      "name": "Ward K WEST",
+      "prabhags": [
+        {
+          "number": 59,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_59.pdf"
+        },
+        {
+          "number": 60,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_60.pdf"
+        },
+        {
+          "number": 61,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_61.pdf"
+        },
+        {
+          "number": 62,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_62.pdf"
+        },
+        {
+          "number": 63,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_63.pdf"
+        },
+        {
+          "number": 64,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_64.pdf"
+        },
+        {
+          "number": 65,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_65.pdf"
+        },
+        {
+          "number": 66,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_66.pdf"
+        },
+        {
+          "number": 67,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_67.pdf"
+        },
+        {
+          "number": 68,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_68.pdf"
+        },
+        {
+          "number": 69,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_69.pdf"
+        },
+        {
+          "number": 70,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_70.pdf"
+        },
+        {
+          "number": 71,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/K%20WEST/Prabhag_71.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "L",
+      "name": "Ward L",
+      "prabhags": [
+        {
+          "number": 156,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_156.pdf"
+        },
+        {
+          "number": 157,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_157.pdf"
+        },
+        {
+          "number": 158,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_158.pdf"
+        },
+        {
+          "number": 159,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_159.pdf"
+        },
+        {
+          "number": 160,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_160.pdf"
+        },
+        {
+          "number": 161,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_161.pdf"
+        },
+        {
+          "number": 162,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_162.pdf"
+        },
+        {
+          "number": 163,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_163.pdf"
+        },
+        {
+          "number": 164,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_164.pdf"
+        },
+        {
+          "number": 165,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_165.pdf"
+        },
+        {
+          "number": 166,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_166.pdf"
+        },
+        {
+          "number": 167,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_167.pdf"
+        },
+        {
+          "number": 168,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_168.pdf"
+        },
+        {
+          "number": 169,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Edition)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_169.pdf"
+        },
+        {
+          "number": 170,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/L/Prabhag_170.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "M EAST",
+      "name": "Ward M EAST",
+      "prabhags": [
+        {
+          "number": 134,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_134.pdf"
+        },
+        {
+          "number": 135,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_135.pdf"
+        },
+        {
+          "number": 136,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_136.pdf"
+        },
+        {
+          "number": 137,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_137.pdf"
+        },
+        {
+          "number": 138,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_138.pdf"
+        },
+        {
+          "number": 139,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_139.pdf"
+        },
+        {
+          "number": 140,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_140.pdf"
+        },
+        {
+          "number": 141,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_141.pdf"
+        },
+        {
+          "number": 142,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_142.pdf"
+        },
+        {
+          "number": 143,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_143.pdf"
+        },
+        {
+          "number": 144,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_144.pdf"
+        },
+        {
+          "number": 145,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_145.pdf"
+        },
+        {
+          "number": 146,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_146.pdf"
+        },
+        {
+          "number": 147,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_147.pdf"
+        },
+        {
+          "number": 148,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20EAST/Prabhag_148.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "M WEST",
+      "name": "Ward M WEST",
+      "prabhags": [
+        {
+          "number": 149,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20WEST/Prabhag_149.pdf"
+        },
+        {
+          "number": 150,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20WEST/Prabhag_150.pdf"
+        },
+        {
+          "number": 151,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20WEST/Prabhag_151.pdf"
+        },
+        {
+          "number": 152,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20WEST/Prabhag_152.pdf"
+        },
+        {
+          "number": 153,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20WEST/Prabhag_153.pdf"
+        },
+        {
+          "number": 154,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20WEST/Prabhag_154.pdf"
+        },
+        {
+          "number": 155,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/M%20WEST/Prabhag_155.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "N",
+      "name": "Ward N",
+      "prabhags": [
+        {
+          "number": 123,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_123.pdf"
+        },
+        {
+          "number": 124,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_124.pdf"
+        },
+        {
+          "number": 125,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_125.pdf"
+        },
+        {
+          "number": 126,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_126.pdf"
+        },
+        {
+          "number": 127,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_127.pdf"
+        },
+        {
+          "number": 128,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_128.pdf"
+        },
+        {
+          "number": 129,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_129.pdf"
+        },
+        {
+          "number": 130,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_130.pdf"
+        },
+        {
+          "number": 131,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_131.pdf"
+        },
+        {
+          "number": 132,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_132.pdf"
+        },
+        {
+          "number": 133,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/N/Prabhag_133.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "P EAST",
+      "name": "Ward P EAST",
+      "prabhags": [
+        {
+          "number": 36,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_36.pdf"
+        },
+        {
+          "number": 37,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_37.pdf"
+        },
+        {
+          "number": 38,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_38.pdf"
+        },
+        {
+          "number": 39,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_39.pdf"
+        },
+        {
+          "number": 40,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_40.pdf"
+        },
+        {
+          "number": 41,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_41.pdf"
+        },
+        {
+          "number": 42,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_42.pdf"
+        },
+        {
+          "number": 43,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_43.pdf"
+        },
+        {
+          "number": 44,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_44.pdf"
+        },
+        {
+          "number": 45,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20EAST/Prabhag_45.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "P NORTH",
+      "name": "Ward P NORTH",
+      "prabhags": [
+        {
+          "number": 32,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20NORTH/Prabhag_32.pdf"
+        },
+        {
+          "number": 33,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20NORTH/Prabhag_33.pdf"
+        },
+        {
+          "number": 34,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20NORTH/Prabhag_34.pdf"
+        },
+        {
+          "number": 35,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20NORTH/Prabhag_35.pdf"
+        },
+        {
+          "number": 46,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20NORTH/Prabhag_46.pdf"
+        },
+        {
+          "number": 47,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20NORTH/Prabhag_47.pdf"
+        },
+        {
+          "number": 48,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20NORTH/Prabhag_48.pdf"
+        },
+        {
+          "number": 49,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20NORTH/Prabhag_49.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "P SOUTH",
+      "name": "Ward P SOUTH",
+      "prabhags": [
+        {
+          "number": 50,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20SOUTH/Prabhag_50.pdf"
+        },
+        {
+          "number": 51,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20SOUTH/Prabhag_51.pdf"
+        },
+        {
+          "number": 52,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20SOUTH/Prabhag_52.pdf"
+        },
+        {
+          "number": 53,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20SOUTH/Prabhag_53.pdf"
+        },
+        {
+          "number": 54,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20SOUTH/Prabhag_54.pdf"
+        },
+        {
+          "number": 55,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20SOUTH/Prabhag_55.pdf"
+        },
+        {
+          "number": 56,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20SOUTH/Prabhag_56.pdf"
+        },
+        {
+          "number": 57,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20SOUTH/Prabhag_57.pdf"
+        },
+        {
+          "number": 58,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/P%20SOUTH/Prabhag_58.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "R SOUTH",
+      "name": "Ward R SOUTH",
+      "prabhags": [
+        {
+          "number": 19,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_19.pdf"
+        },
+        {
+          "number": 20,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_20.pdf"
+        },
+        {
+          "number": 21,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_21.pdf"
+        },
+        {
+          "number": 22,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_22.pdf"
+        },
+        {
+          "number": 23,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_23.pdf"
+        },
+        {
+          "number": 24,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_24.pdf"
+        },
+        {
+          "number": 25,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_25.pdf"
+        },
+        {
+          "number": 26,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_26.pdf"
+        },
+        {
+          "number": 27,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_27.pdf"
+        },
+        {
+          "number": 28,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_28.pdf"
+        },
+        {
+          "number": 29,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_29.pdf"
+        },
+        {
+          "number": 30,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_30.pdf"
+        },
+        {
+          "number": 31,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R%20SOUTH/Prabhag_31.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "R/Central",
+      "name": "Ward R/Central",
+      "prabhags": [
+        {
+          "number": 9,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_9.pdf"
+        },
+        {
+          "number": 10,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_10.pdf"
+        },
+        {
+          "number": 11,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_11.pdf"
+        },
+        {
+          "number": 12,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_12.pdf"
+        },
+        {
+          "number": 13,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_13.pdf"
+        },
+        {
+          "number": 14,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_14.pdf"
+        },
+        {
+          "number": 15,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_15.pdf"
+        },
+        {
+          "number": 16,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_16.pdf"
+        },
+        {
+          "number": 17,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_17.pdf"
+        },
+        {
+          "number": 18,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_Central/Prabhag_18.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "R/North",
+      "name": "Ward R/North",
+      "prabhags": [
+        {
+          "number": 1,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_North/Prabhag_1.pdf"
+        },
+        {
+          "number": 2,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_North/Prabhag_2.pdf"
+        },
+        {
+          "number": 3,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_North/Prabhag_3.pdf"
+        },
+        {
+          "number": 4,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_North/Prabhag_4.pdf"
+        },
+        {
+          "number": 5,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_North/Prabhag_5.pdf"
+        },
+        {
+          "number": 6,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_North/Prabhag_6.pdf"
+        },
+        {
+          "number": 7,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_North/Prabhag_7.pdf"
+        },
+        {
+          "number": 8,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/R_North/Prabhag_8.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "S",
+      "name": "Ward S",
+      "prabhags": [
+        {
+          "number": 109,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_109.pdf"
+        },
+        {
+          "number": 110,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_110.pdf"
+        },
+        {
+          "number": 111,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_111.pdf"
+        },
+        {
+          "number": 112,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_112.pdf"
+        },
+        {
+          "number": 113,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_113.pdf"
+        },
+        {
+          "number": 114,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_114.pdf"
+        },
+        {
+          "number": 115,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_115.pdf"
+        },
+        {
+          "number": 116,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_116.pdf"
+        },
+        {
+          "number": 117,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_117.pdf"
+        },
+        {
+          "number": 118,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_118.pdf"
+        },
+        {
+          "number": 119,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_119.pdf"
+        },
+        {
+          "number": 120,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_120.pdf"
+        },
+        {
+          "number": 121,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_121.pdf"
+        },
+        {
+          "number": 122,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/S/Prabhag_122.pdf"
+        }
+      ]
+    },
+    {
+      "ward_code": "T",
+      "name": "Ward T",
+      "prabhags": [
+        {
+          "number": 103,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/T/Prabhag_103.pdf"
+        },
+        {
+          "number": 104,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/T/Prabhag_104.pdf"
+        },
+        {
+          "number": 105,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/T/Prabhag_105.pdf"
+        },
+        {
+          "number": 106,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/T/Prabhag_106.pdf"
+        },
+        {
+          "number": 107,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/T/Prabhag_107.pdf"
+        },
+        {
+          "number": 108,
+          "pdf_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/T/Prabhag_108.pdf"
+        }
+      ]
+    }
+  ],
+  "total_zones": 26,
+  "total_prabhags": 226
+}

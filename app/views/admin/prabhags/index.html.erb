@@ -1,0 +1,132 @@
+<div class="w-full">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="font-bold text-3xl">Admin Panel - Boundary Review</h1>
+    <%= link_to "← Back to Main Site", root_path, class: "text-blue-500 hover:text-blue-700" %>
+  </div>
+
+  <!-- Statistics -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div class="bg-yellow-100 p-4 rounded-lg">
+      <div class="text-2xl font-bold text-yellow-800"><%= @total_submitted %></div>
+      <div class="text-yellow-600">Pending Review</div>
+    </div>
+    <div class="bg-green-100 p-4 rounded-lg">
+      <div class="text-2xl font-bold text-green-800"><%= @total_approved %></div>
+      <div class="text-green-600">Approved</div>
+    </div>
+    <div class="bg-red-100 p-4 rounded-lg">
+      <div class="text-2xl font-bold text-red-800"><%= @total_rejected %></div>
+      <div class="text-red-600">Rejected</div>
+    </div>
+  </div>
+
+  <!-- Submitted Prabhags (Pending Review) -->
+  <div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4 text-yellow-700">Pending Review (<%= @total_submitted %>)</h2>
+    <% if @submitted_prabhags.any? %>
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="min-w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Prabhag</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ward</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Submitted By</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Submitted</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @submitted_prabhags.each do |prabhag| %>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="font-medium text-gray-900">Prabhag <%= prabhag.number %></div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  Ward <%= prabhag.ward_code %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= prabhag.assigned_to.name || prabhag.assigned_to.email %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= time_ago_in_words(prabhag.updated_at) %> ago
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex space-x-2">
+                    <%= link_to "Review", admin_prabhag_path(prabhag), 
+                                class: "text-blue-600 hover:text-blue-900" %>
+                    <%= link_to "Approve", approve_admin_prabhag_path(prabhag), 
+                                method: :post,
+                                class: "text-green-600 hover:text-green-900",
+                                data: { confirm: "Approve this boundary?" } %>
+                    <%= link_to "Reject", reject_admin_prabhag_path(prabhag), 
+                                method: :post,
+                                class: "text-red-600 hover:text-red-900",
+                                data: { confirm: "Reject this boundary?" } %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-gray-600 bg-gray-50 p-4 rounded-lg">No prabhags pending review.</p>
+    <% end %>
+  </div>
+
+  <!-- Recently Approved -->
+  <div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4 text-green-700">Recently Approved</h2>
+    <% if @approved_prabhags.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% @approved_prabhags.limit(6).each do |prabhag| %>
+          <div class="border border-green-200 rounded-lg p-4 bg-green-50">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-semibold text-green-800">Prabhag <%= prabhag.number %></h3>
+              <span class="text-xs text-green-600">Ward <%= prabhag.ward_code %></span>
+            </div>
+            <p class="text-sm text-green-700 mb-2">
+              By: <%= prabhag.assigned_to.name || prabhag.assigned_to.email %>
+            </p>
+            <p class="text-xs text-green-600">
+              Approved <%= time_ago_in_words(prabhag.updated_at) %> ago
+            </p>
+            <div class="mt-2">
+              <%= link_to "View", admin_prabhag_path(prabhag), 
+                          class: "text-green-600 hover:text-green-800 text-sm" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-600 bg-gray-50 p-4 rounded-lg">No approved prabhags yet.</p>
+    <% end %>
+  </div>
+
+  <!-- Recently Rejected -->
+  <% if @rejected_prabhags.any? %>
+    <div>
+      <h2 class="text-2xl font-semibold mb-4 text-red-700">Recently Rejected</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% @rejected_prabhags.limit(6).each do |prabhag| %>
+          <div class="border border-red-200 rounded-lg p-4 bg-red-50">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-semibold text-red-800">Prabhag <%= prabhag.number %></h3>
+              <span class="text-xs text-red-600">Ward <%= prabhag.ward_code %></span>
+            </div>
+            <p class="text-sm text-red-700 mb-2">
+              By: <%= prabhag.assigned_to&.name || prabhag.assigned_to&.email || 'N/A' %>
+            </p>
+            <p class="text-xs text-red-600">
+              Rejected <%= time_ago_in_words(prabhag.updated_at) %> ago
+            </p>
+            <div class="mt-2">
+              <%= link_to "View", admin_prabhag_path(prabhag), 
+                          class: "text-red-600 hover:text-red-800 text-sm" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
