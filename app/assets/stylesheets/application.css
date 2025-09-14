@@ -8,3 +8,38 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+/* Font Configuration */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Improvements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.font-display {
+  font-family: 'Barlow', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Better text rendering for small text */
+.text-sm, .text-xs {
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Improved button typography */
+button, .btn {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}

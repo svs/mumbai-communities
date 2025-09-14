@@ -20,6 +20,11 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
 
+    <%# Google Fonts %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Barlow:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <%# Font Awesome Icons %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -223,7 +228,7 @@
           </div>
         </div>
         <div class="border-t border-gray-200 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-          <p>&copy; <%= Date.current.year %> Mumbai Municipal Corporation. All rights reserved.</p>
+          <p>&copy; <%= Date.current.year %> SVS. All rights reserved.</p>
           <p class="mt-4 md:mt-0">
             Built with <i class="fas fa-heart text-red-500"></i> for Mumbai's civic engagement
           </p>

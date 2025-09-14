@@ -1,11 +1,15 @@
 <!-- Hero Section -->
-<div class="bg-gradient-to-b from-blue-50 to-white py-16">
-  <div class="max-w-6xl mx-auto text-center px-4">
+<div class="py-16 relative overflow-hidden">
+  <!-- Mumbai Skyline Background -->
+  <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-6xl pointer-events-none" style="bottom: 40px; opacity: 0.35;">
+    <%= image_tag "mumbai-skyline-elongated.png", alt: "Mumbai Skyline", class: "w-full h-auto" %>
+  </div>
+  <div class="max-w-6xl mx-auto text-center px-4 relative z-10">
     <% if user_signed_in? %>
       <!-- Logged in user hero -->
       <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 max-w-4xl mx-auto">
-        <h1 class="font-bold text-4xl mb-4 text-gray-800">
-          Welcome back, <%= current_user.name&.split&.first || current_user.email&.split('@')&.first || 'Citizen' %>! 👋
+        <h1 class="font-display text-4xl mb-4 text-gray-800">
+          Welcome back, <%= current_user.name&.split&.first || current_user.email&.split('@')&.first || 'Citizen' %>! <i class="fas fa-hand-wave"></i>
         </h1>
         <p class="text-xl mb-6 text-gray-600">
           Ready to continue making a difference in Mumbai's communities?
@@ -13,7 +17,7 @@
 
         <% if @user_assignments&.any? || @user_tickets&.any? %>
           <div class="bg-blue-50 rounded-lg p-4 mb-6">
-            <p class="text-blue-800 font-semibold mb-2">🎯 Your Active Contributions</p>
+            <p class="text-blue-800 font-semibold mb-2"><i class="fas fa-bullseye mr-2"></i>Your Active Contributions</p>
             <p class="text-blue-600 text-sm">
               You have <%= (@user_assignments&.count || 0) + (@user_tickets&.count || 0) %> active tasks across Mumbai's wards
             </p>
@@ -45,7 +49,7 @@
       </div>
     <% else %>
       <!-- Non-logged in user hero -->
-      <h1 class="font-bold text-6xl mb-6 text-gray-800">
+      <h1 class="font-display text-6xl mb-6 text-gray-800">
         CONNECT WITH YOUR<br>
         <span class="text-blue-600">WARD COMMUNITY</span>
       </h1>
@@ -56,7 +60,7 @@
       <!-- Ward Discovery Section -->
       <div class="bg-white rounded-2xl shadow-lg p-8 max-w-2xl mx-auto">
         <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center justify-center">
-          <span class="mr-3">🏘️</span> Join Your Ward Community
+          <i class="fas fa-home mr-3"></i> Join Your Ward Community
         </h2>
 
         <div class="space-y-4">
@@ -70,15 +74,15 @@
     <!-- Progress Indicators (for all users) -->
     <div class="flex justify-center items-center space-x-8 mt-8 flex-wrap gap-4">
       <div class="flex items-center">
-        <span class="text-green-600 text-2xl mr-2">✅</span>
+        <i class="fas fa-check-circle text-xl mr-2"></i>
         <span class="text-gray-700"><%= @active_communities %> Active Ward Communities</span>
       </div>
       <div class="flex items-center">
-        <span class="text-blue-600 text-2xl mr-2">🔧</span>
+        <i class="fas fa-tools text-xl mr-2"></i>
         <span class="text-gray-700"><%= @total_issues_resolved %> Issues Resolved</span>
       </div>
       <div class="flex items-center">
-        <span class="text-purple-600 text-2xl mr-2">📅</span>
+        <i class="fas fa-calendar-alt text-xl mr-2"></i>
         <span class="text-gray-700"><%= @events_this_month %> Events This Month</span>
       </div>
     </div>
@@ -137,26 +141,26 @@
     <!-- Community Impact -->
     <div class="bg-white p-8 rounded-2xl shadow-md">
       <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
-        <span class="mr-3">📊</span> Community Impact
+        <i class="fas fa-chart-bar mr-3"></i> Community Impact
       </h2>
       <div class="space-y-4">
         <div class="flex justify-between">
           <span class="text-gray-600">Active Wards</span>
-          <span class="font-semibold text-green-600"><%= @active_communities %></span>
+          <span class="font-semibold"><%= @active_communities %></span>
         </div>
         <div class="flex justify-between">
           <span class="text-gray-600">Issues Resolved</span>
-          <span class="font-semibold text-blue-600"><%= @total_issues_resolved %></span>
+          <span class="font-semibold"><%= @total_issues_resolved %></span>
         </div>
         <div class="flex justify-between">
           <span class="text-gray-600">Resolution Rate</span>
-          <span class="font-semibold text-purple-600">
+          <span class="font-semibold">
             <%= @total_issues_resolved > 0 ? "#{((@total_issues_resolved.to_f / (@total_issues_resolved + Ticket.where(status: ['open', 'assigned', 'in_progress']).count)) * 100).round}%" : '0%' %>
           </span>
         </div>
         <div class="flex justify-between">
           <span class="text-gray-600">Citizens Engaged</span>
-          <span class="font-semibold text-orange-600"><%= @total_citizens %></span>
+          <span class="font-semibold"><%= @total_citizens %></span>
         </div>
       </div>
     </div>
@@ -164,7 +168,7 @@
     <!-- Recent Activity -->
     <div class="bg-white p-8 rounded-2xl shadow-md">
       <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
-        <span class="mr-3">⚡</span>
+        <i class="fas fa-bolt mr-3"></i>
         <% if user_signed_in? %>
           Your Recent Activity
         <% else %>
@@ -214,7 +218,7 @@
     <!-- How It Works -->
     <div class="bg-white p-8 rounded-2xl shadow-md">
       <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
-        <span class="mr-3">💡</span> How It Works
+        <i class="fas fa-lightbulb mr-3"></i> How It Works
       </h2>
       <div class="space-y-4">
         <div class="flex items-start space-x-3">
@@ -244,15 +248,15 @@
       <div class="flex justify-center space-x-6 text-sm">
         <div class="flex items-center">
           <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
-          <span class="text-gray-600">🟢 Active</span>
+          <span class="text-gray-600"><i class="fas fa-circle mr-1"></i>Active</span>
         </div>
         <div class="flex items-center">
           <div class="w-4 h-4 bg-yellow-500 rounded-full mr-2"></div>
-          <span class="text-gray-600">🟡 Growing</span>
+          <span class="text-gray-600"><i class="fas fa-circle mr-1"></i>Growing</span>
         </div>
         <div class="flex items-center">
           <div class="w-4 h-4 bg-gray-400 rounded-full mr-2"></div>
-          <span class="text-gray-600">⚪ Inactive</span>
+          <span class="text-gray-600"><i class="fas fa-circle mr-1"></i>Inactive</span>
         </div>
       </div>
     </div>
@@ -284,20 +288,20 @@
 
   <!-- Authentication Call-to-Action for non-logged in users -->
   <% unless user_signed_in? %>
-    <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-center text-white">
-      <h2 class="text-3xl font-bold mb-4">Ready to Make a Difference?</h2>
-      <p class="text-xl mb-8 text-blue-100">Join thousands of Mumbai citizens building stronger communities</p>
+    <div class="bg-white border border-gray-200 rounded-2xl p-8 text-center">
+      <h2 class="text-3xl font-bold mb-4 text-gray-800">Ready to Make a Difference?</h2>
+      <p class="text-xl mb-8 text-gray-600">Join thousands of Mumbai citizens building stronger communities</p>
       <div class="space-x-4">
         <%= button_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path,
                       method: :post,
                       data: { turbo: false },
-                      class: "bg-white text-blue-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg border-0" %>
-        <div class="mt-4 text-sm text-blue-200">
+                      class: "bg-blue-600 text-white hover:bg-blue-700 font-bold py-3 px-8 rounded-lg border-0" %>
+        <div class="mt-4 text-sm text-gray-500">
           <%= link_to "Sign In", new_user_session_path,
-                      class: "text-blue-200 hover:text-white underline" %>
+                      class: "text-blue-600 hover:text-blue-800 underline" %>
           |
           <%= link_to "Sign Up", new_user_registration_path,
-                      class: "text-blue-200 hover:text-white underline" %>
+                      class: "text-blue-600 hover:text-blue-800 underline" %>
         </div>
       </div>
     </div>
