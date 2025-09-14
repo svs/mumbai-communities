@@ -10,7 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_24_094610) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_14_080827) do
+  create_table "boundaries", force: :cascade do |t|
+    t.string "boundable_type", null: false
+    t.integer "boundable_id", null: false
+    t.text "geojson", null: false
+    t.string "source_type", null: false
+    t.integer "year"
+    t.string "status", default: "pending"
+    t.boolean "is_canonical", default: false
+    t.integer "submitted_by_id"
+    t.integer "approved_by_id"
+    t.json "metadata"
+    t.datetime "approved_at"
+    t.text "rejection_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approved_by_id"], name: "index_boundaries_on_approved_by_id"
+    t.index ["boundable_type", "boundable_id", "is_canonical"], name: "index_boundaries_on_boundable_and_canonical"
+    t.index ["boundable_type", "boundable_id"], name: "index_boundaries_on_boundable_type_and_boundable_id"
+    t.index ["status"], name: "index_boundaries_on_status"
+    t.index ["submitted_by_id"], name: "index_boundaries_on_submitted_by_id"
+    t.index ["year", "source_type"], name: "index_boundaries_on_year_and_source_type"
+  end
+
   create_table "prabhags", force: :cascade do |t|
     t.integer "number"
     t.string "name"
@@ -77,6 +100,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_24_094610) do
     t.index ["ward_code"], name: "index_wards_on_ward_code", unique: true
   end
 
+  add_foreign_key "boundaries", "users", column: "approved_by_id"
+  add_foreign_key "boundaries", "users", column: "submitted_by_id"
   add_foreign_key "prabhags", "users", column: "assigned_to_id"
   add_foreign_key "tickets", "users", column: "assigned_to_id"
   add_foreign_key "tickets", "users", column: "created_by_id"

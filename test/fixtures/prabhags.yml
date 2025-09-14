@@ -1,19 +1,17 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+prabhag_one:
+  number: 172
+  name: Prabhag 172
+  ward_code: A
+  pdf_url: https://portal.mcgm.gov.in/example/172.pdf
+  boundary_geojson: '{"type":"Polygon","coordinates":[[[72.84,19.14],[72.85,19.14],[72.85,19.15],[72.84,19.15],[72.84,19.14]]]}'
+  status: available
+  assigned_to: user_one
 
-one:
-  number: 1
-  name: MyString
-  ward: one
-  pdf_url: MyString
-  boundary_geojson: MyText
-  status: MyString
-  assigned_to: one
-
-two:
-  number: 1
-  name: MyString
-  ward: two
-  pdf_url: MyString
-  boundary_geojson: MyText
-  status: MyString
-  assigned_to: two
+prabhag_two:
+  number: 173
+  name: Prabhag 173
+  ward_code: B
+  pdf_url: https://portal.mcgm.gov.in/example/173.pdf
+  boundary_geojson: '{"type":"Polygon","coordinates":[[[72.86,19.16],[72.87,19.16],[72.87,19.17],[72.86,19.17],[72.86,19.16]]]}'
+  status: assigned
+  assigned_to: user_two

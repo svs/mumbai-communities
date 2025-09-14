@@ -1,23 +1,21 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+ward_one:
+  ward_code: A
+  name: Ward A
+  boundary_geojson: '{"type":"Polygon","coordinates":[[[72.8,19.1],[72.81,19.1],[72.81,19.11],[72.8,19.11],[72.8,19.1]]]}'
+  is_geocoded: true
+  total_area: 25.5
+  population_estimate: 50000
+  contact_officer_name: Officer A
+  contact_officer_email: officer.a@mcgm.gov.in
+  contact_officer_phone: +91-22-1234567
 
-one:
-  ward_code: MyString
-  name: MyString
-  boundary_geojson: MyText
-  is_geocoded: false
-  total_area: 9.99
-  population_estimate: 1
-  contact_officer_name: MyString
-  contact_officer_email: MyString
-  contact_officer_phone: MyString
-
-two:
-  ward_code: MyString
-  name: MyString
-  boundary_geojson: MyText
-  is_geocoded: false
-  total_area: 9.99
-  population_estimate: 1
-  contact_officer_name: MyString
-  contact_officer_email: MyString
-  contact_officer_phone: MyString
+ward_two:
+  ward_code: B
+  name: Ward B
+  boundary_geojson: '{"type":"Polygon","coordinates":[[[72.82,19.12],[72.83,19.12],[72.83,19.13],[72.82,19.13],[72.82,19.12]]]}'
+  is_geocoded: true
+  total_area: 30.2
+  population_estimate: 75000
+  contact_officer_name: Officer B
+  contact_officer_email: officer.b@mcgm.gov.in
+  contact_officer_phone: +91-22-7654321

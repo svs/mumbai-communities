@@ -76,4 +76,8 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # Declarative matchers for testing [https://github.com/thoughtbot/shoulda-matchers]
+  gem "shoulda-matchers"
+  # Mocking and stubbing framework [https://github.com/freerange/mocha]
+  gem "mocha"
 end

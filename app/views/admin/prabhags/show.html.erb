@@ -40,11 +40,17 @@
             <dd class="text-gray-900"><%= @prabhag.assigned_to.name || @prabhag.assigned_to.email %></dd>
           </div>
         <% end %>
-        <% if @prabhag.boundary_geojson.present? %>
+        <% if @prabhag.has_boundary? %>
           <div class="flex justify-between">
-            <dt class="font-medium text-gray-600">Boundary Points:</dt>
-            <dd class="text-gray-900"><%= @geojson_data.dig("geometry", "coordinates", 0)&.length || 0 %></dd>
+            <dt class="font-medium text-gray-600">Boundaries:</dt>
+            <dd class="text-gray-900"><%= @prabhag.boundaries.count %> submitted</dd>
           </div>
+          <% if @geojson_data %>
+            <div class="flex justify-between">
+              <dt class="font-medium text-gray-600">Boundary Points:</dt>
+              <dd class="text-gray-900"><%= @geojson_data.dig("geometry", "coordinates", 0)&.length || 0 %></dd>
+            </div>
+          <% end %>
         <% end %>
       </dl>
     </div>
@@ -79,14 +85,69 @@
       </div>
     </div>
   </div>
+  <!-- Boundary History Section -->
+  <% if @prabhag.boundaries.any? %>
+    <div class="bg-white border rounded-lg p-6 shadow-sm mb-6">
+      <h2 class="text-xl font-semibold mb-4">Boundary History</h2>
+      <div class="space-y-3">
+        <% @prabhag.boundaries.order(:created_at).reverse_each do |boundary| %>
+          <div class="border rounded-lg p-3 <%= boundary.status == 'approved' ? 'border-green-200 bg-green-50' : boundary.status == 'rejected' ? 'border-red-200 bg-red-50' : boundary.status == 'canonical' ? 'border-purple-200 bg-purple-50' : 'border-yellow-200 bg-yellow-50' %>">
+            <div class="flex justify-between items-center">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <% case boundary.status %>
+                  <% when 'approved' %>
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">✅ Approved</span>
+                  <% when 'rejected' %>
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">❌ Rejected</span>
+                  <% when 'canonical' %>
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">⭐ Canonical</span>
+                  <% when 'pending' %>
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">⏳ Pending Review</span>
+                  <% end %>
+                  <span class="text-sm text-gray-600"><%= boundary.source_type.humanize %> • <%= boundary.year %></span>
+                </div>
+                <div class="text-sm text-gray-600 mt-1">
+                  Submitted <%= time_ago_in_words(boundary.created_at) %> ago
+                  <% if boundary.submitted_by %>
+                    by <%= boundary.submitted_by.name || boundary.submitted_by.email %>
+                  <% end %>
+                </div>
+                <% if boundary.approved_by && boundary.approved_at %>
+                  <div class="text-sm text-gray-600">
+                    Approved by <%= boundary.approved_by.name || boundary.approved_by.email %>
+                    <%= time_ago_in_words(boundary.approved_at) %> ago
+                  </div>
+                <% end %>
+                <% if boundary.rejection_reason.present? %>
+                  <div class="text-sm text-red-600 mt-1">
+                    <strong>Reason:</strong> <%= boundary.rejection_reason %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
   <!-- Map Preview -->
   <div class="bg-white border rounded-lg p-6 shadow-sm">
     <h2 class="text-xl font-semibold mb-4">Boundary Review</h2>
-    <% if @prabhag.boundary_geojson.present? %>
+    <% boundary_to_show = @prabhag.boundaries.where(status: 'pending').order(:created_at).last || @prabhag.boundary %>
+    <% if boundary_to_show&.geojson.present? %>
+      <div class="mb-3 text-sm text-gray-600">
+        Showing <%= boundary_to_show.status %> boundary
+        (<%= boundary_to_show.source_type.humanize %>, <%= boundary_to_show.year %>)
+        <% if boundary_to_show.submitted_by %>
+          submitted by <%= boundary_to_show.submitted_by.name || boundary_to_show.submitted_by.email %>
+        <% end %>
+      </div>
       <div id="map" class="border rounded h-96"></div>
       <script>
         function initMap() {
-          const geojson = <%= @prabhag.boundary_geojson.html_safe %>;
+          const geojson = <%= boundary_to_show.geojson.html_safe %>;
           const coordinates = geojson.geometry.coordinates[0];
           const path = coordinates.map(coord => ({ lat: coord[1], lng: coord[0] }));
 
@@ -107,10 +168,10 @@
           // Create the polygon
           const polygon = new google.maps.Polygon({
             paths: path,
-            strokeColor: '#FF0000',
+            strokeColor: '<%= boundary_to_show.status == 'canonical' ? '#8B5CF6' : boundary_to_show.status == 'approved' ? '#10B981' : boundary_to_show.status == 'rejected' ? '#EF4444' : '#F59E0B' %>',
             strokeOpacity: 0.8,
             strokeWeight: 3,
-            fillColor: '#FF0000',
+            fillColor: '<%= boundary_to_show.status == 'canonical' ? '#8B5CF6' : boundary_to_show.status == 'approved' ? '#10B981' : boundary_to_show.status == 'rejected' ? '#EF4444' : '#F59E0B' %>',
             fillOpacity: 0.2,
             editable: false,
             clickable: false

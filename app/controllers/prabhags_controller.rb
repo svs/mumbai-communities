@@ -40,7 +40,7 @@ class PrabhagsController < ApplicationController
     if @prabhag.assigned_to == current_user
       boundary_data = params[:boundary_geojson]
       if boundary_data.present?
-        @prabhag.submit_boundary!(boundary_data)
+        @prabhag.submit_boundary!(boundary_data, submitted_by: current_user)
         redirect_to @prabhag, notice: "Boundary submitted for review!"
       else
         redirect_to trace_prabhag_path(@prabhag), alert: "Please trace the boundary before submitting."

@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2">
+ <Document>
+  <name>
+   mumbai-ward-offices.geojson
+  </name>
+  <open>
+   1
+  </open>
+  <Schema id="J_mumbai_ward_offices_SSSIS" name="mumbai_ward_offices">
+   <SimpleField name="BRD_LINE_N" type="string">
+    <displayName>
+     BRD_LINE_N
+    </displayName>
+   </SimpleField>
+   <SimpleField name="CNTRL_ROOM" type="string">
+    <displayName>
+     CNTRL_ROOM
+    </displayName>
+   </SimpleField>
+   <SimpleField name="LOCATION" type="string">
+    <displayName>
+     LOCATION
+    </displayName>
+   </SimpleField>
+   <SimpleField name="OBJECTID" type="int">
+    <displayName>
+     OBJECTID
+    </displayName>
+   </SimpleField>
+   <SimpleField name="WARD_NAME" type="string">
+    <displayName>
+     WARD_NAME
+    </displayName>
+   </SimpleField>
+  </Schema>
+  <Style id="mumbai_ward_offices_style">
+   <BalloonStyle>
+    <text>
+     &lt;table border="0"&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;b&gt;$[mumbai_ward_offices/BRD_LINE_N/displayName]&lt;/b&gt;&lt;/td&gt;&lt;td&gt;$[mumbai_ward_offices/BRD_LINE_N]&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;b&gt;$[mumbai_ward_offices/CNTRL_ROOM/displayName]&lt;/b&gt;&lt;/td&gt;&lt;td&gt;$[mumbai_ward_offices/CNTRL_ROOM]&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;b&gt;$[mumbai_ward_offices/LOCATION/displayName]&lt;/b&gt;&lt;/td&gt;&lt;td&gt;$[mumbai_ward_offices/LOCATION]&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;b&gt;$[mumbai_ward_offices/OBJECTID/displayName]&lt;/b&gt;&lt;/td&gt;&lt;td&gt;$[mumbai_ward_offices/OBJECTID]&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;b&gt;$[mumbai_ward_offices/WARD_NAME/displayName]&lt;/b&gt;&lt;/td&gt;&lt;td&gt;$[mumbai_ward_offices/WARD_NAME]&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+$[description]
+    </text>
+   </BalloonStyle>
+  </Style>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    R/N
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-28920247
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-28936000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Below Sangeetkar Sudhir Phadke Flyover Bridge, Jaywant Sawant Marg, Dahisar (W), Mumbai - 400068.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      1
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      R/N
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.857354,19.2373401,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    L
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-26505103
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-26505109
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Laxmanrao Yadav Market Building, S V Barve Marg, Kurla (W), Mumbai - 400070.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      2
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      L
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.8790407,19.0703012,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    M/E
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-25502270
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-25558789
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Madhukar Tukaram Marg, Deonar Colony, Govandi, Mumbai - 400043.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      3
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      M/E
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <gx:balloonVisibility>
+    1
+   </gx:balloonVisibility>
+   <Point>
+    <coordinates>
+     72.84452640000001,19.0850473,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    M/W
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-25225000
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-25284000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Prakash Thorat Marg, Near Natraj Cinema, Chembur, Mumbai - 400070.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      4
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      M/W
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.8992725,19.0611742,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    N
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-25010161
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-25013000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Jawahar Road, Ghatkopar (E), Mumbai - 400077.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      5
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      N
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.9064608,19.0838813,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    D
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-23861426
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-23864000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Jobanputra Compound, Nana Chowk, Grant Road (W), Mumbai 400007.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      6
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      D
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.81300969999999,18.9626689,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    E
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-23081471
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-23014000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      10, Shaikh Haffizuddin Marg, Byculla (W), Mumbai - 400008.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      7
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      E
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.8313035,18.9719627,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    B
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-23736622
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-23794000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      121, Ramchandra Bhatt Marg, Babulla Tank Cross Lane, Opp J J Hospital, Mumbai - 400009.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      8
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      B
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.82490799999999,18.946089,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    G/S
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-24305031
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-24224000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Dhanmill Naka, N M Joshi Marg, Mumbai - 400013
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      9
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      G/S
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.830528,19.008232,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    F/N
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-24024353
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-24084000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Plot No.96, Bhau Daji Road, Kings Circle, Matunga (E), Mumbai - 400019.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      10
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      F/N
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.85460500000001,19.029389,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    F/S
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-24134560
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-24103000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Junction of Dr. Ambedkar Marg and Jagannath Bhatankar Marg, Parel, Mumbai - 400012.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      11
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      F/S
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.83970669999999,19.0059318,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    G/N
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-24397800
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-24397888
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Harishchandra Yelve Marg, Behind Plaza Cinema, Dadar (W), Mumbai - 400028.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      12
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      G/N
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.85239850000001,19.1201222,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    H/E
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-26138900
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-26114000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Plot No 137, TPS IV, Road No 2, Prabhat Colony, Santacruz (E), Mumbai 400055.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      13
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      H/E
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.84452640000001,19.0850473,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    H/W
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-26422311
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-26444000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Saint Martins Road, Behind Bandra Police Station, Bandra (W), Mumbai - 400050.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      14
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      H/W
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.846672,19.162738,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    R/S
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-28056000
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-28054788
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Mahatma Gandhi Cross Road No 2, Near Sardar V Patel Swimming Pool, Kandivali (W), Mumbai - 400067.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      15
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      R/S
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.8453157,19.2039294,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    S
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-25947570
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-25954000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Lal Bahadur Shastri Marg, Mangatram Petrol Pump, Bhandup (W), Mumbai - 400078.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      16
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      S
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.857354,19.2373401,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    T
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-25645291
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-25694000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Lala Devidayal Marg, Near Panch Rasta, Mulund (W), Mumbai 400080.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      17
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      T
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.950793,19.1756072,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    A
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-22661353
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-22624000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      134 / E, Shahid Bhagat Singh Marg, Near Reserve Bank of, Mumbai - 400001.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      18
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      A
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.83647569999999,18.9337784,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    C
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-22014022
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-22014000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      76, Shrikant Palekar Marg, Chandanwadi, Mumbai - 400002.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      19
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      C
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.82490799999999,18.946089,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    K/E
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-26816730
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-26847000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Azad Road, Gundavali, Andheri (E), Mumbai - 400069.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      20
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      K/E
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.85239850000001,19.1201222,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    K/W
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-26239131
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Paliram Road, Near S.V. Road, Opp. Andheri Railway Station, Andheri (W), Mumbai, 400058
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      21
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      K/W
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.8445761,19.1194398,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    P/N
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-28823266
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-28826000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      Liberty Garden, Mamlatdar Wadi Marg, Malad (W), Mumbai - 400064.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      22
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      P/N
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.8423262,19.1877256,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    P/S
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-28737000
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-28727000
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      CTS No 746, Village Pahadi, S V Road, Goregaon (W), Mumbai - 400104.
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      23
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      P/S
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.846672,19.162738,0
+    </coordinates>
+   </Point>
+  </Placemark>
+  <Placemark>
+   <styleUrl>
+    #mumbai_ward_offices_style
+   </styleUrl>
+   <name>
+    R/C
+   </name>
+   <ExtendedData>
+    <SchemaData schemaUrl="#J_mumbai_ward_offices_SSSIS">
+     <SimpleData name="BRD_LINE_N">
+      022-28946000
+     </SimpleData>
+     <SimpleData name="CNTRL_ROOM">
+      022-28931188
+     </SimpleData>
+     <SimpleData name="LOCATION">
+      R/central ward chandaverkar road near Borivali Station Borivali (W)
+     </SimpleData>
+     <SimpleData name="OBJECTID">
+      24
+     </SimpleData>
+     <SimpleData name="WARD_NAME">
+      R/C
+     </SimpleData>
+    </SchemaData>
+   </ExtendedData>
+   <Point>
+    <coordinates>
+     72.85593729999999,19.2313009,0
+    </coordinates>
+   </Point>
+  </Placemark>
+ </Document>
+</kml>

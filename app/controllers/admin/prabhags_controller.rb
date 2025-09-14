@@ -14,16 +14,19 @@ class Admin::PrabhagsController < ApplicationController
   end
 
   def show
-    @geojson_data = JSON.parse(@prabhag.boundary_geojson) if @prabhag.boundary_geojson.present?
+    # Get the boundary data from the most recent pending boundary or the best available boundary
+    boundary = @prabhag.boundaries.where(status: 'pending').order(:created_at).last || @prabhag.boundary
+    @geojson_data = JSON.parse(boundary.geojson) if boundary&.geojson&.present?
   end
 
   def approve
-    @prabhag.approve!
+    @prabhag.approve!(approved_by: current_user)
     redirect_to admin_prabhag_path(@prabhag), notice: 'Prabhag boundary approved successfully!'
   end
 
   def reject
-    @prabhag.reject!
+    rejection_reason = params[:rejection_reason] || "Rejected by admin"
+    @prabhag.reject!(rejection_reason: rejection_reason)
     redirect_to admin_prabhag_path(@prabhag), notice: 'Prabhag boundary rejected. It has been made available for reassignment.'
   end
 
