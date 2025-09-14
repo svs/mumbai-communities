@@ -1,0 +1,5 @@
+# Git secrets allowed patterns - these are false positives
+# References to .kamal/secrets in gitignore and documentation
+.kamal/secrets
+# Kamal deployment configuration comments
+secrets come from .kamal/secrets
