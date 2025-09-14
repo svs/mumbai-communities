@@ -64,6 +64,9 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
   gem 'rails_live_reload'
+
+  # Load environment variables from .env file [https://github.com/bkeepers/dotenv]
+  gem 'dotenv-rails'
 end
 
 group :development do
