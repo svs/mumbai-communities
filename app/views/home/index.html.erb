@@ -59,31 +59,11 @@
           <span class="mr-3">🏘️</span> Join Your Ward Community
         </h2>
 
-        <div class="space-y-4" data-controller="home">
-          <button class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center"
-                  data-action="click->home#findMyWard">
-            <span class="mr-2">📍</span> Find My Ward (GPS)
-          </button>
-
-          <div class="relative">
-            <input type="text"
-                   placeholder="Search by area name (e.g., Bandra, Andheri)"
-                   class="w-full border border-gray-300 rounded-lg py-3 px-4 pl-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                   data-action="input->home#searchArea"
-                   data-home-target="searchInput">
-            <span class="absolute left-3 top-3 text-gray-400">🔍</span>
-          </div>
-
-          <%= link_to "🗺️ Browse All Communities", wards_path,
-                      class: "w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors inline-block" %>
-        </div>
-
-        <div class="mt-6 flex space-x-4 justify-center">
-          <%= link_to "Join My Ward", wards_path,
-                      class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg" %>
+        <div class="space-y-4">
           <%= link_to "Explore Communities", wards_path,
-                      class: "bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-3 px-8 rounded-lg" %>
+                      class: "w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors inline-block text-center" %>
         </div>
+
       </div>
     <% end %>
 
@@ -282,7 +262,8 @@
          data-controller="ward-boundary"
          data-ward-boundary-data-url-value="/wards.json"
          data-ward-boundary-show-labels-value="false"
-         data-ward-boundary-show-legend-value="true">
+         data-ward-boundary-show-legend-value="true"
+         data-ward-boundary-static-value="true">
       <div data-ward-boundary-target="container"
            class="h-96 w-full relative desaturated-map">
         <!-- Map will be loaded here -->

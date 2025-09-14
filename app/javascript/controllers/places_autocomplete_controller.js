@@ -89,6 +89,19 @@ export default class extends Controller {
     }
 
     this.hideLocationWarning()
+
+    // Emit custom event for other controllers to listen to
+    const event = new CustomEvent('places-autocomplete:place-selected', {
+      detail: {
+        place: place,
+        lat: lat,
+        lng: lng,
+        formatted_address: place.formatted_address
+      },
+      bubbles: true
+    })
+    this.element.dispatchEvent(event)
+
     return true
   }
 

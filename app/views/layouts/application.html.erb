@@ -73,8 +73,8 @@
 
     <%= javascript_importmap_tags %>
 
-    <%# Google Places API - only load on location setup page %>
-    <% if controller_name == 'location_setup' %>
+    <%# Google Places API - load on location setup page and home page %>
+    <% if controller_name == 'location_setup' || controller_name == 'home' %>
       <script async defer
               src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdaO8AJfaBvqAWeAwHSp4c282lVOEgHgk&libraries=places&callback=initPlacesAutocomplete">
       </script>
