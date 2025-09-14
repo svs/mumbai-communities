@@ -2,6 +2,7 @@ class Prabhag < ApplicationRecord
   belongs_to :assigned_to, class_name: "User", optional: true
   belongs_to :ward, foreign_key: "ward_code", primary_key: "ward_code"
   has_many :tickets, foreign_key: [ "prabhag_number", "ward_code" ], primary_key: [ "number", "ward_code" ]
+  has_many :boundaries, as: :boundable, dependent: :destroy
 
   validates :number, presence: true, uniqueness: { scope: :ward_code }
   validates :ward_code, presence: true
@@ -14,6 +15,7 @@ class Prabhag < ApplicationRecord
   scope :assigned, -> { where(status: "assigned") }
   scope :submitted, -> { where(status: "submitted") }
   scope :approved, -> { where(status: "approved") }
+  scope :rejected, -> { where(status: "rejected") }
   scope :for_ward, ->(ward_code) { where(ward_code: ward_code) }
 
   def can_be_assigned_to?(user)
@@ -24,16 +26,54 @@ class Prabhag < ApplicationRecord
     update!(assigned_to: user, status: "assigned")
   end
 
-  def submit_boundary!(geojson)
-    update!(boundary_geojson: geojson, status: "submitted")
+  def submit_boundary!(geojson, submitted_by: nil)
+    transaction do
+      # Create a new user-submitted boundary traced from MCGM PDF
+      boundaries.create!(
+        geojson: geojson,
+        source_type: 'user_submission',
+        year: 2025,
+        status: 'pending',
+        is_canonical: false,
+        submitted_by: submitted_by
+      )
+
+      # Update prabhag status
+      update!(status: "submitted")
+    end
   end
 
-  def approve!
-    update!(status: "approved")
+  def approve!(approved_by: nil)
+    transaction do
+      # Find the most recent pending boundary and approve it
+      pending_boundary = boundaries.where(status: 'pending').order(:created_at).last
+      if pending_boundary
+        pending_boundary.update!(
+          status: 'approved',
+          approved_by: approved_by,
+          approved_at: Time.current
+        )
+      end
+
+      # Update prabhag status
+      update!(status: "approved")
+    end
   end
 
-  def reject!
-    update!(status: "rejected", assigned_to: nil)
+  def reject!(rejection_reason: nil)
+    transaction do
+      # Find the most recent pending boundary and reject it
+      pending_boundary = boundaries.where(status: 'pending').order(:created_at).last
+      if pending_boundary
+        pending_boundary.update!(
+          status: 'rejected',
+          rejection_reason: rejection_reason
+        )
+      end
+
+      # Update prabhag status and unassign
+      update!(status: "rejected", assigned_to: nil)
+    end
   end
 
   # Get path to the converted PNG image for the boundary tracer
@@ -95,4 +135,48 @@ class Prabhag < ApplicationRecord
   end
 
   public :boundary_center
+
+  # Semantic boundary finders - get the best available boundary
+  def boundary
+    boundaries.best.first
+  end
+
+  # Get the approved boundary (approved or canonical)
+  def approved_boundary
+    boundaries.approved.recent.first
+  end
+
+  # Get the canonical boundary (official)
+  def canonical_boundary
+    boundaries.canonical.first
+  end
+
+  # Get the most recent user-submitted boundary
+  def latest_user_boundary
+    boundaries.user_submitted.recent.first
+  end
+
+  # Get all boundaries for this prabhag, ordered by best first
+  def all_boundaries
+    boundaries.best
+  end
+
+  # Check if prabhag has any boundary data
+  def has_boundary?
+    boundaries.exists?
+  end
+
+  # Check if prabhag needs mapping (no boundaries or only legacy boundaries)
+  def needs_mapping?
+    # No boundaries at all = needs mapping
+    return true unless has_boundary?
+
+    # Only has legacy boundaries (kml_import) = needs mapping
+    # Official boundaries (official_import with canonical/approved status) = doesn't need mapping
+    approved_boundary = self.approved_boundary
+    return true unless approved_boundary
+
+    # If the approved boundary is from legacy KML import, it needs new mapping
+    approved_boundary.source_type == 'kml_import'
+  end
 end

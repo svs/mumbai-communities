@@ -94,14 +94,70 @@
       </div>
     </div>
   </div>
+
+  <!-- Boundary Review Section -->
+  <% if @prabhag.boundaries.any? %>
+    <div class="bg-white border rounded-lg p-6 shadow-sm">
+      <h2 class="text-xl font-semibold mb-4">Boundary History</h2>
+      <div class="space-y-4">
+        <% @prabhag.boundaries.order(:created_at).reverse_each do |boundary| %>
+          <div class="border rounded-lg p-4 <%= boundary.status == 'approved' ? 'border-green-200 bg-green-50' : boundary.status == 'rejected' ? 'border-red-200 bg-red-50' : boundary.status == 'canonical' ? 'border-purple-200 bg-purple-50' : 'border-yellow-200 bg-yellow-50' %>">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <% case boundary.status %>
+                  <% when 'approved' %>
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">✅ Approved</span>
+                  <% when 'rejected' %>
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">❌ Rejected</span>
+                  <% when 'canonical' %>
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">⭐ Canonical</span>
+                  <% when 'pending' %>
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">⏳ Pending Review</span>
+                  <% end %>
+                  <span class="text-sm text-gray-600"><%= boundary.source_type.humanize %> • <%= boundary.year %></span>
+                </div>
+                <div class="text-sm text-gray-600 mt-1">
+                  Submitted <%= time_ago_in_words(boundary.created_at) %> ago
+                  <% if boundary.submitted_by %>
+                    by <%= boundary.submitted_by.name || boundary.submitted_by.email %>
+                  <% end %>
+                </div>
+                <% if boundary.approved_by && boundary.approved_at %>
+                  <div class="text-sm text-gray-600">
+                    Approved by <%= boundary.approved_by.name || boundary.approved_by.email %>
+                    <%= time_ago_in_words(boundary.approved_at) %> ago
+                  </div>
+                <% end %>
+                <% if boundary.rejection_reason.present? %>
+                  <div class="text-sm text-red-600 mt-1">
+                    <strong>Reason:</strong> <%= boundary.rejection_reason %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
   <!-- Map Preview -->
   <div class="bg-white border rounded-lg p-6 shadow-sm">
     <h2 class="text-xl font-semibold mb-4">Map Preview</h2>
-    <% if @prabhag.boundary_geojson.present? %>
+    <% boundary_to_show = @prabhag.boundary %>
+    <% if boundary_to_show&.geojson.present? %>
+      <div class="mb-3 text-sm text-gray-600">
+        Showing <%= boundary_to_show.status %> boundary
+        (<%= boundary_to_show.source_type.humanize %>, <%= boundary_to_show.year %>)
+        <% if boundary_to_show.submitted_by %>
+          submitted by <%= boundary_to_show.submitted_by.name || boundary_to_show.submitted_by.email %>
+        <% end %>
+      </div>
       <div id="map" class="border rounded h-96"></div>
       <script>
         function initMap() {
-          const geojson = <%= @prabhag.boundary_geojson.html_safe %>;
+          const geojson = <%= boundary_to_show.geojson.html_safe %>;
           const coordinates = geojson.geometry.coordinates[0];
           const path = coordinates.map(coord => ({ lat: coord[1], lng: coord[0] }));
 
@@ -122,10 +178,10 @@
           // Create the polygon
           const polygon = new google.maps.Polygon({
             paths: path,
-            strokeColor: '#FF0000',
+            strokeColor: '<%= boundary_to_show.status == 'canonical' ? '#8B5CF6' : boundary_to_show.status == 'approved' ? '#10B981' : boundary_to_show.status == 'rejected' ? '#EF4444' : '#F59E0B' %>',
             strokeOpacity: 0.8,
             strokeWeight: 3,
-            fillColor: '#FF0000',
+            fillColor: '<%= boundary_to_show.status == 'canonical' ? '#8B5CF6' : boundary_to_show.status == 'approved' ? '#10B981' : boundary_to_show.status == 'rejected' ? '#EF4444' : '#F59E0B' %>',
             fillOpacity: 0.2,
             editable: false,
             clickable: false
@@ -136,10 +192,65 @@
       </script>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdaO8AJfaBvqAWeAwHSp4c282lVOEgHgk&callback=initMap" async defer></script>
     <% else %>
-      <div class="border rounded h-96 bg-gray-50 flex items-center justify-center">
-        <div class="text-center text-gray-600">
-          <p>No boundary traced yet</p>
-          <p class="text-sm">Boundary will appear here once traced</p>
+      <div class="border rounded bg-gray-50">
+        <div class="h-96 flex items-center justify-center">
+          <div class="text-center">
+            <img src="<%= @prabhag.map_image_src %>"
+                 alt="Prabhag <%= @prabhag.number %> PDF Map"
+                 class="max-w-full max-h-full object-contain rounded shadow-sm"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+            <div class="text-gray-600" style="display: none;">
+              <p>No boundary data available</p>
+              <p class="text-sm">PDF map image not found</p>
+              <p class="text-sm mt-2">
+                <%= link_to "View original PDF", @prabhag.pdf_url, target: '_blank', class: "text-blue-600 hover:underline" %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instructions and CTA for tracing -->
+        <div class="border-t bg-amber-50 p-4">
+          <div class="flex items-start space-x-3">
+            <div class="flex-shrink-0">
+              <svg class="w-5 h-5 text-amber-600 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-sm font-medium text-amber-800 mb-2">
+                Boundary needs to be traced
+              </h3>
+              <div class="text-sm text-amber-700 space-y-2">
+                <p>This prabhag boundary hasn't been digitally traced yet. You can help by:</p>
+                <ul class="list-disc list-inside space-y-1 ml-2">
+                  <li>Using the boundary tracing tool to outline the area shown in the image above</li>
+                  <li>Following the boundary lines carefully from the official MCGM PDF</li>
+                  <li>Submitting your traced boundary for review and approval</li>
+                </ul>
+              </div>
+              <div class="mt-4 flex flex-col sm:flex-row gap-3">
+                <% if user_signed_in? %>
+                  <% if @prabhag.can_be_assigned_to?(current_user) %>
+                    <%= link_to "🎯 Start Tracing This Boundary", trace_prabhag_path(@prabhag),
+                                class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors" %>
+                  <% elsif @prabhag.assigned_to == current_user %>
+                    <%= link_to "Continue Tracing", trace_prabhag_path(@prabhag),
+                                class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors" %>
+                  <% else %>
+                    <span class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-500 bg-gray-100 cursor-not-allowed">
+                      Already assigned
+                    </span>
+                  <% end %>
+                <% else %>
+                  <%= link_to "Sign In to Help Trace", new_user_session_path,
+                              class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" %>
+                <% end %>
+                <%= link_to "View Original PDF", @prabhag.pdf_url, target: '_blank',
+                            class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors" %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     <% end %>
