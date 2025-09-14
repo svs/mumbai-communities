@@ -255,7 +255,10 @@
          data-boundary-tracer-prabhag-id-value="<%= @prabhag.id %>"
          data-boundary-tracer-api-key-value="<%= ENV['GOOGLE_MAPS_API_KEY'] || 'AIzaSyCdaO8AJfaBvqAWeAwHSp4c282lVOEgHgk' %>"
          data-boundary-tracer-center-value='{"lat": 19.1136, "lng": 72.8697}'
-         data-boundary-tracer-initial-zoom-value="15">
+         data-boundary-tracer-initial-zoom-value="15"
+         <% if @existing_boundary&.geojson %>
+         data-boundary-tracer-existing-boundary-value='<%= @existing_boundary.geojson.html_safe %>'
+         <% end %>>
       <div id="container">
         <div id="main-content">
           <div id="pdf-half">

@@ -10,6 +10,11 @@ class WardsController < ApplicationController
     @total_tickets = Ticket.count
     @open_tickets = Ticket.open.count
     @overdue_tickets = Ticket.overdue.count
+
+    respond_to do |format|
+      format.html # renders wards/index.html.erb
+      format.json # renders wards/index.json.jbuilder
+    end
   end
 
   def show
@@ -32,6 +37,8 @@ class WardsController < ApplicationController
   private
 
   def set_ward
-    @ward = Ward.find_by!(ward_code: params[:id])
+    # Find ward by name slug or ward_code
+    slug_name = params[:id].gsub('-', ' ').titleize
+    @ward = Ward.find_by(name: slug_name) || Ward.find_by!(ward_code: params[:id].upcase)
   end
 end

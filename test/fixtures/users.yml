@@ -9,3 +9,9 @@ user_two:
   encrypted_password: <%= User.new.send(:password_digest, 'password') rescue '$2a$12$abcdefghijklmnopqrstuvwxyz' %>
   name: Test User Two
   admin: true
+
+admin_user:
+  email: admin@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'password') rescue '$2a$12$abcdefghijklmnopqrstuvwxyz' %>
+  name: Test Admin User
+  admin: true

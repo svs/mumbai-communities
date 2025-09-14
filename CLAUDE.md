@@ -1,1 +1,3 @@
 - use tidewave to instead of rails runner.
+- As far as possible, we want to avoid a separate API endpoint and instead respond to format, JSON and HTML. As far as possible, we want to also send all the data that's required in the original template that is rendered and not make subsequent API calls, though this is something we decide on a case by case basis.
+- NEVER use mocks

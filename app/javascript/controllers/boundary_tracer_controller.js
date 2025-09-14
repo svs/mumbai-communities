@@ -7,7 +7,8 @@ export default class extends Controller {
     pdfUrl: String,
     apiKey: String,
     center: Object,
-    initialZoom: Number
+    initialZoom: Number,
+    existingBoundary: Object
   }
 
   static targets = [
@@ -84,6 +85,11 @@ export default class extends Controller {
 
     this.setupPolygon()
     this.setupMapListeners()
+
+    // Load existing boundary if available
+    if (this.hasExistingBoundaryValue) {
+      this.loadExistingBoundary()
+    }
   }
 
   setupPolygon() {
@@ -105,6 +111,92 @@ export default class extends Controller {
     this.map.addListener('click', (event) => {
       this.addPoint(event.latLng)
     })
+  }
+
+  loadExistingBoundary() {
+    try {
+      const boundaryData = this.existingBoundaryValue
+      console.log("Loading existing boundary:", boundaryData)
+
+      if (boundaryData && boundaryData.type === 'Polygon' && boundaryData.coordinates) {
+        const coordinates = boundaryData.coordinates[0] // Get outer ring
+
+        // Convert from GeoJSON format [lng, lat] to Google Maps format {lat, lng}
+        // Remove the last coordinate if it duplicates the first (closed polygon)
+        let googleMapsCoords = coordinates.map(coord => ({
+          lat: coord[1],
+          lng: coord[0]
+        }))
+
+        // Remove duplicate closing coordinate if present
+        if (googleMapsCoords.length > 1 &&
+            googleMapsCoords[0].lat === googleMapsCoords[googleMapsCoords.length - 1].lat &&
+            googleMapsCoords[0].lng === googleMapsCoords[googleMapsCoords.length - 1].lng) {
+          googleMapsCoords = googleMapsCoords.slice(0, -1)
+        }
+
+        // Load coordinates into the editing system
+        this.coordinates = googleMapsCoords
+
+        // Create editable markers for each point
+        googleMapsCoords.forEach((coord, index) => {
+          const marker = new google.maps.Marker({
+            position: new google.maps.LatLng(coord.lat, coord.lng),
+            map: this.map,
+            draggable: true,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 3,
+              fillColor: '#FF0000',
+              fillOpacity: 0.6,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 1
+            }
+          })
+
+          // Handle marker drag
+          marker.addListener('dragend', () => {
+            const markerIndex = this.markers.indexOf(marker)
+            this.coordinates[markerIndex] = {
+              lat: marker.getPosition().lat(),
+              lng: marker.getPosition().lng()
+            }
+            this.updatePolygon()
+          })
+
+          // Handle marker click to delete
+          marker.addListener('click', () => {
+            this.deletePoint(marker)
+          })
+
+          this.markers.push(marker)
+        })
+
+        // Update the polygon display
+        this.updatePolygon()
+        this.updatePointCount()
+
+        // Calculate bounds and zoom to fit the boundary
+        const bounds = new google.maps.LatLngBounds()
+        googleMapsCoords.forEach(coord => {
+          bounds.extend(new google.maps.LatLng(coord.lat, coord.lng))
+        })
+
+        // Fit the map to the boundary with some padding
+        this.map.fitBounds(bounds)
+
+        // Set a reasonable zoom level if the bounds are too zoomed in
+        google.maps.event.addListenerOnce(this.map, 'bounds_changed', () => {
+          if (this.map.getZoom() > 18) {
+            this.map.setZoom(16)
+          }
+        })
+
+        console.log(`Existing boundary loaded as editable with ${this.coordinates.length} points`)
+      }
+    } catch (error) {
+      console.error("Error loading existing boundary:", error)
+    }
   }
 
 

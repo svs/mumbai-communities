@@ -9,6 +9,16 @@ class Prabhag < ApplicationRecord
   validates :pdf_url, presence: true
   validates :status, inclusion: { in: %w[available assigned submitted approved rejected] }
 
+  # Override find to work with both number and id for consistent routing
+  def self.find(id)
+    # Try to find by number first (for URL params), then by id
+    find_by(number: id) || super(id)
+  end
+
+  def to_param
+    number.to_s
+  end
+
   before_create :set_default_status
 
   scope :available, -> { where(status: "available", assigned_to: nil) }

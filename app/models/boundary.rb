@@ -74,4 +74,32 @@ class Boundary < ApplicationRecord
   def prabhag?
     boundable_type == 'Prabhag'
   end
+
+  # Always return properly formatted GeoJSON Feature
+  def geojson_feature
+    parsed = JSON.parse(geojson)
+
+    # If it's already a Feature, return as-is
+    if parsed['type'] == 'Feature'
+      geojson
+    else
+      # Wrap raw geometry in a Feature
+      feature = {
+        type: 'Feature',
+        geometry: parsed,
+        properties: {
+          boundary_id: id,
+          status: status,
+          source_type: source_type,
+          year: year,
+          boundable_type: boundable_type,
+          boundable_id: boundable_id
+        }
+      }
+      feature.to_json
+    end
+  rescue JSON::ParserError => e
+    Rails.logger.error "Invalid GeoJSON in boundary #{id}: #{e.message}"
+    nil
+  end
 end

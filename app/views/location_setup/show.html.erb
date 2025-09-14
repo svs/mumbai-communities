@@ -1,0 +1,76 @@
+<!-- Location Setup Page -->
+<div class="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center px-4">
+  <div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-lg p-8 text-center">
+      <div class="text-6xl mb-6">📍</div>
+
+      <h1 class="text-4xl font-bold text-gray-800 mb-4">
+        Find Your Ward Community
+      </h1>
+
+      <p class="text-xl text-gray-600 mb-8">
+        Enter your Mumbai street address to connect with your local ward community and see what needs help in your area.
+      </p>
+
+      <%= form_with url: setup_location_path, method: :post, local: true, class: "space-y-6",
+                    data: { controller: "places-autocomplete" } do |f| %>
+        <div>
+          <%= f.text_field :street_address,
+                          placeholder: "Start typing your Mumbai address...",
+                          class: "w-full border border-gray-300 rounded-lg py-4 px-6 text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                          required: true,
+                          data: {
+                            "places-autocomplete-target": "input",
+                            "autocomplete": "off"
+                          } %>
+
+          <!-- Hidden fields for coordinates and formatted address -->
+          <%= f.hidden_field :latitude, data: { "places-autocomplete-target": "hiddenLat" } %>
+          <%= f.hidden_field :longitude, data: { "places-autocomplete-target": "hiddenLng" } %>
+          <%= f.hidden_field :formatted_address, data: { "places-autocomplete-target": "hiddenFormattedAddress" } %>
+        </div>
+
+        <div class="bg-blue-50 rounded-lg p-4 text-sm text-blue-800">
+          <p class="font-semibold mb-2">💡 How it works:</p>
+          <ul class="space-y-1 text-left">
+            <li>• Start typing your street name or area</li>
+            <li>• Select from the suggestions that appear</li>
+            <li>• We'll automatically find your ward and prabhag</li>
+            <li>• Only Mumbai addresses are accepted</li>
+          </ul>
+        </div>
+
+        <%= f.submit "Find My Ward Community",
+                     class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors" %>
+      <% end %>
+
+      <div class="mt-8 pt-8 border-t border-gray-200">
+        <p class="text-sm text-gray-500 mb-4">
+          Why do we need your location?
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="text-center">
+            <div class="text-2xl mb-2">🏘️</div>
+            <div class="font-semibold text-gray-800">Local Issues</div>
+            <div class="text-gray-600">See problems specific to your area</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl mb-2">🤝</div>
+            <div class="font-semibold text-gray-800">Community</div>
+            <div class="text-gray-600">Connect with nearby residents</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl mb-2">🎯</div>
+            <div class="font-semibold text-gray-800">Targeted Help</div>
+            <div class="text-gray-600">Contribute where you can make impact</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <%= link_to "Skip for now", root_path,
+                    class: "text-gray-500 hover:text-gray-700 text-sm underline" %>
+      </div>
+    </div>
+  </div>
+</div>

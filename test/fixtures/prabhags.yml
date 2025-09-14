@@ -1,6 +1,6 @@
+# Legacy fixtures for backwards compatibility
 prabhag_one:
   number: 172
-  name: Prabhag 172
   ward_code: A
   pdf_url: https://portal.mcgm.gov.in/example/172.pdf
   boundary_geojson: '{"type":"Polygon","coordinates":[[[72.84,19.14],[72.85,19.14],[72.85,19.15],[72.84,19.15],[72.84,19.14]]]}'
@@ -9,9 +9,37 @@ prabhag_one:
 
 prabhag_two:
   number: 173
-  name: Prabhag 173
   ward_code: B
   pdf_url: https://portal.mcgm.gov.in/example/173.pdf
   boundary_geojson: '{"type":"Polygon","coordinates":[[[72.86,19.16],[72.87,19.16],[72.87,19.17],[72.86,19.17],[72.86,19.16]]]}'
   status: assigned
+  assigned_to: user_two
+
+# New fixtures for better test coverage
+prabhag_available:
+  number: 180
+  ward_code: A
+  pdf_url: https://portal.mcgm.gov.in/example/180.pdf
+  status: available
+  assigned_to:
+
+prabhag_assigned:
+  number: 181
+  ward_code: A
+  pdf_url: https://portal.mcgm.gov.in/example/181.pdf
+  status: assigned
+  assigned_to: user_one
+
+prabhag_submitted:
+  number: 182
+  ward_code: B
+  pdf_url: https://portal.mcgm.gov.in/example/182.pdf
+  status: submitted
+  assigned_to: user_one
+
+prabhag_approved:
+  number: 183
+  ward_code: B
+  pdf_url: https://portal.mcgm.gov.in/example/183.pdf
+  status: approved
   assigned_to: user_two

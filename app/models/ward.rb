@@ -5,6 +5,11 @@ class Ward < ApplicationRecord
   
   validates :ward_code, presence: true, uniqueness: true
   validates :name, presence: true
+
+  def to_param
+    return ward_code.downcase if name.blank?
+    name.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')
+  end
   
   scope :geocoded, -> { where(is_geocoded: true) }
   scope :not_geocoded, -> { where(is_geocoded: false) }

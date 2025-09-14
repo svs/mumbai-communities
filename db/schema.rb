@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_14_080827) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_14_135052) do
   create_table "boundaries", force: :cascade do |t|
     t.string "boundable_type", null: false
     t.integer "boundable_id", null: false
@@ -81,8 +81,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_080827) do
     t.boolean "admin", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "street_address"
+    t.string "ward_code"
+    t.integer "prabhag_id"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.datetime "location_confirmed_at"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["prabhag_id"], name: "index_users_on_prabhag_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["ward_code"], name: "index_users_on_ward_code"
   end
 
   create_table "wards", force: :cascade do |t|
@@ -97,6 +105,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_080827) do
     t.string "contact_officer_phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "short_name"
     t.index ["ward_code"], name: "index_wards_on_ward_code", unique: true
   end
 

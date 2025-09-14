@@ -1,94 +1,339 @@
 <div class="w-full">
-  <div class="flex justify-between items-center mb-8">
-    <h1 class="font-bold text-3xl">Prabhag <%= @prabhag.number %></h1>
-    <%= link_to "← Back to Prabhags", prabhags_path, class: "text-blue-500 hover:text-blue-700" %>
-  </div>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Prabhag Information -->
-    <div class="space-y-6">
-      <div class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">Prabhag Information</h2>
-        <dl class="space-y-2">
-          <div class="flex justify-between">
-            <dt class="font-medium text-gray-600">Number:</dt>
-            <dd class="text-gray-900"><%= @prabhag.number %></dd>
-          </div>
-          <div class="flex justify-between">
-            <dt class="font-medium text-gray-600">Ward:</dt>
-            <dd class="text-gray-900"><%= @prabhag.ward_code %></dd>
-          </div>
-          <div class="flex justify-between">
-            <dt class="font-medium text-gray-600">Status:</dt>
-            <dd>
-              <% case @prabhag.status %>
-              <% when 'available' %>
-              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">Available</span>
-              <% when 'assigned' %>
-              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">In Progress</span>
-              <% when 'submitted' %>
-              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Under Review</span>
-              <% when 'approved' %>
-              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
-              <% when 'rejected' %>
-              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>
+  <!-- Breadcrumb Navigation -->
+  <nav class="flex items-center space-x-2 text-sm mb-3">
+    <%= link_to "Home", root_path, class: "text-blue-600 hover:text-blue-800" %>
+    <span class="text-gray-400">/</span>
+    <%= link_to "Wards", wards_path, class: "text-blue-600 hover:text-blue-800" %>
+    <% if @ward %>
+      <span class="text-gray-400">/</span>
+      <%= link_to @ward.name, ward_path(@ward), class: "text-blue-600 hover:text-blue-800" %>
+      <span class="text-gray-400">/</span>
+      <span class="text-gray-700">Prabhag <%= @prabhag.number %></span>
+    <% else %>
+      <span class="text-gray-400">/</span>
+      <%= link_to "Prabhags", prabhags_path, class: "text-blue-600 hover:text-blue-800" %>
+      <span class="text-gray-400">/</span>
+      <span class="text-gray-700">Prabhag <%= @prabhag.number %></span>
+    <% end %>
+  </nav>
+
+  <!-- Compact Information-Dense Header with Map -->
+  <div class="p-4 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <!-- Left Side: Dense Prabhag Information (3/4 width) -->
+      <div class="lg:col-span-3">
+        <!-- Title Row -->
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center space-x-4">
+            <h1 class="text-2xl font-bold text-gray-900">Prabhag <%= @prabhag.number %></h1>
+            <% case @prabhag.status %>
+            <% when 'available' %>
+              <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700">Unmapped</span>
+            <% when 'assigned' %>
+              <span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-700">Mapping in Progress</span>
+            <% when 'submitted' %>
+              <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700">Under Review</span>
+            <% when 'approved' %>
+              <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-700">Active Community</span>
             <% end %>
-          </dd>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="flex space-x-2">
+            <% if user_signed_in? %>
+              <% if @prabhag.can_be_assigned_to?(current_user) %>
+                <%= link_to "Map This Area", assign_prabhag_path(@prabhag),
+                              class: "px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors",
+                              data: { turbo_method: :post, confirm: "Assign this prabhag to yourself?" } %>
+              <% elsif @prabhag.assigned_to == current_user && @prabhag.status == 'assigned' %>
+                <%= link_to "Continue Mapping", trace_prabhag_path(@prabhag),
+                              class: "px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-sm font-medium transition-colors" %>
+              <% end %>
+            <% end %>
+          </div>
         </div>
-        <% if @prabhag.assigned_to %>
-          <div class="flex justify-between">
-            <dt class="font-medium text-gray-600">Assigned to:</dt>
-            <dd class="text-gray-900"><%= @prabhag.assigned_to.name || @prabhag.assigned_to.email %></dd>
+
+        <!-- Dense Information Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <!-- Column 1: Geographic Info -->
+          <div class="space-y-1">
+            <h3 class="font-semibold text-gray-900 text-xs uppercase tracking-wide">Location</h3>
+            <% if @ward %>
+              <div class="text-gray-700"><strong>Ward:</strong> <%= link_to @ward.name, ward_path(@ward), class: "text-blue-600 hover:text-blue-800" %></div>
+              <div class="text-gray-600">Code: <%= @ward.ward_code %></div>
+              <div class="text-gray-600">Population: <%= number_with_delimiter(@ward.population_estimate || 0) %></div>
+              <div class="text-gray-600">Area: <%= @ward.total_area&.round(2) || '~0.3' %> km²</div>
+            <% else %>
+              <div class="text-gray-700"><strong>Ward Code:</strong> <%= @prabhag.ward_code %></div>
+              <div class="text-gray-600">Population: ~2,400</div>
+              <div class="text-gray-600">Area: ~0.3 km²</div>
+            <% end %>
+          </div>
+
+          <!-- Column 2: Representatives & Contacts -->
+          <div class="space-y-1">
+            <h3 class="font-semibold text-gray-900 text-xs uppercase tracking-wide">Representatives</h3>
+            <% if @ward&.contact_officer_name %>
+              <div class="text-gray-700"><strong>Ward Officer:</strong> <%= @ward.contact_officer_name %></div>
+            <% end %>
+            <% if @ward&.contact_officer_phone %>
+              <div class="text-gray-600">Phone: <%= @ward.contact_officer_phone %></div>
+            <% end %>
+            <% if @ward&.contact_officer_email %>
+              <div class="text-gray-600">Email: <%= @ward.contact_officer_email %></div>
+            <% end %>
+            <% if @prabhag.assigned_to %>
+              <div class="text-gray-600">Mapper: <%= @prabhag.assigned_to.name || @prabhag.assigned_to.email.split('@').first %></div>
+            <% end %>
+          </div>
+
+          <!-- Column 3: Official Links & Status -->
+          <div class="space-y-1">
+            <h3 class="font-semibold text-gray-900 text-xs uppercase tracking-wide">Official Info</h3>
+            <% if @ward %>
+              <%= link_to "MCGM Ward Page", "https://portal.mcgm.gov.in/ward/#{@ward.ward_code}", target: '_blank',
+                          class: "text-blue-600 hover:text-blue-800 block" %>
+            <% end %>
+            <% if @prabhag.status == 'approved' %>
+              <div class="text-green-600"><i class="fas fa-check-circle mr-1"></i>Community Active</div>
+              <div class="text-gray-600">Issues: <%= @community_stats&.dig(:active_issues) || 0 %> open</div>
+              <div class="text-gray-600">Members: <%= @community_stats&.dig(:active_neighbors) || 0 %></div>
+            <% else %>
+              <div class="text-gray-600">Status: Boundary needed</div>
+              <div class="text-gray-600">Community: Not active</div>
+            <% end %>
+            <%= link_to "Election Results", "#", class: "text-blue-600 hover:text-blue-800 text-xs" %>
+            <%= link_to "Demographics", "#", class: "text-blue-600 hover:text-blue-800 text-xs" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Map inside Header (1/4 width) -->
+      <div class="lg:col-span-1">
+        <% if @prabhag.boundary&.geojson.present? %>
+          <div class="mb-2 text-xs text-gray-600">
+            <%= @prabhag.boundary.status.humanize %> boundary
+            <% if @prabhag.boundary.submitted_by %>
+              by <%= @prabhag.boundary.submitted_by.name || @prabhag.boundary.submitted_by.email.split('@').first %>
+            <% end %>
+          </div>
+          <div class="w-full h-64 bg-white rounded border border-gray-200 overflow-hidden"
+               data-controller="ward-boundary"
+               data-ward-boundary-data-url-value="<%= prabhag_path(@prabhag, format: :json) %>"
+               data-ward-boundary-show-labels-value="true"
+               data-ward-boundary-show-legend-value="false"
+               data-ward-boundary-clickable-value="false"
+               data-ward-boundary-zoom-value="16"
+               data-ward-boundary-static-value="true">
+            <div data-ward-boundary-target="container" class="w-full h-full desaturated-map"></div>
+          </div>
+        <% else %>
+          <div class="w-full h-64 bg-gray-50 flex items-center justify-center">
+            <div class="text-center text-gray-500">
+              <i class="fas fa-map text-2xl mb-1 text-gray-400"></i>
+              <p class="text-xs font-medium">No map yet</p>
+            </div>
           </div>
         <% end %>
-      </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- Community Features for Active Prabhags -->
+  <% if @prabhag.status == 'approved' %>
+    <!-- Quick Actions -->
+    <div class="mb-10">
+      <h2 class="text-xl font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">Community Actions</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <button class="flex flex-col items-center p-4 hover:bg-blue-50 transition-colors text-center group">
+          <i class="fas fa-exclamation-triangle text-2xl mb-2 text-red-500 group-hover:scale-110 transition-transform"></i>
+          <span class="text-sm font-medium text-gray-900">Report Issue</span>
+        </button>
+        <button class="flex flex-col items-center p-4 hover:bg-gray-50 transition-colors text-center opacity-60 cursor-not-allowed">
+          <i class="fas fa-comments text-2xl mb-2 text-gray-400"></i>
+          <span class="text-sm font-medium text-gray-700">Discuss</span>
+        </button>
+        <button class="flex flex-col items-center p-4 hover:bg-gray-50 transition-colors text-center opacity-60 cursor-not-allowed">
+          <i class="fas fa-calendar-days text-2xl mb-2 text-gray-400"></i>
+          <span class="text-sm font-medium text-gray-700">Events</span>
+        </button>
+        <button class="flex flex-col items-center p-4 hover:bg-gray-50 transition-colors text-center opacity-60 cursor-not-allowed">
+          <i class="fas fa-camera text-2xl mb-2 text-gray-400"></i>
+          <span class="text-sm font-medium text-gray-700">Gallery</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Community Data Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+      <!-- Issues Section -->
+      <div>
+        <div class="flex justify-between items-center mb-6 pb-3 border-b border-gray-200">
+          <h2 class="text-xl font-medium text-gray-900">Recent Issues</h2>
+          <button class="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 transition-colors">Report New</button>
+        </div>
+
+        <div class="space-y-4">
+          <% if @recent_tickets&.any? %>
+            <% @recent_tickets.limit(3).each do |ticket| %>
+              <div class="pb-4 border-b border-gray-100 last:border-b-0">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="font-medium text-gray-900">
+                    <span class="<%= ticket.status == 'open' ? 'text-red-500' : ticket.status == 'in_progress' ? 'text-yellow-500' : ticket.completed? ? 'text-green-500' : 'text-blue-500' %> mr-2">●</span>
+                    <%= ticket.title %>
+                  </h3>
+                  <span class="text-xs <%= ticket.status == 'open' ? 'text-red-700' : ticket.status == 'in_progress' ? 'text-yellow-700' : ticket.completed? ? 'text-green-700' : 'text-blue-700' %> font-medium">
+                    <%= ticket.status.humanize %>
+                  </span>
+                </div>
+                <p class="text-gray-600 text-sm mb-2">
+                  <%= truncate(ticket.description, length: 80) %>
+                </p>
+                <div class="text-xs text-gray-500">
+                  <%= time_ago_in_words(ticket.created_at) %> ago by <%= ticket.created_by.name || ticket.created_by.email.split('@').first %>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="text-center py-8 text-gray-500">
+              <i class="fas fa-building text-3xl mb-3 text-gray-400"></i>
+              <p class="font-medium">No issues reported yet</p>
+              <p class="text-sm text-gray-400 mt-1">Be the first to report a hyperlocal issue</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Community Stats & Activity -->
+      <div class="space-y-8">
+        <!-- Stats -->
+        <div>
+          <h3 class="text-xl font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">Community Stats</h3>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-700">Active Issues</span>
+              <span class="text-lg font-medium text-gray-900"><%= @community_stats[:active_issues] || 0 %></span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-700">Active Neighbors</span>
+              <span class="text-lg font-medium text-gray-900"><%= @community_stats[:active_neighbors] || 0 %></span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-700">Resolution Rate</span>
+              <span class="text-lg font-medium text-green-600"><%= @community_stats[:resolution_rate] || 0 %>%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div>
+          <h3 class="text-xl font-medium text-gray-900 mb-6 pb-3 border-b border-gray-200">Recent Activity</h3>
+          <div class="space-y-3">
+            <% if @recent_activity&.any? %>
+              <% @recent_activity&.first(3)&.each do |activity| %>
+                <div class="flex items-start space-x-3">
+                  <span class="<%= activity[:type] == 'issue' ? 'text-red-500' : 'text-blue-500' %> text-lg mt-0.5"><%= activity[:icon].html_safe %></span>
+                  <div class="flex-1">
+                    <span class="text-gray-900 text-sm"><%= activity[:text] %></span>
+                    <p class="text-gray-500 text-xs mt-0.5"><%= activity[:time] %></p>
+                  </div>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="text-center py-6 text-gray-500">
+                <i class="fas fa-mobile-alt text-2xl mb-2 text-gray-400"></i>
+                <p class="text-sm">No recent activity</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+    <!-- Prabhag Information -->
+    <div>
+      <h2 class="text-xl font-medium mb-6 pb-3 border-b border-gray-200">Prabhag Information</h2>
+      <dl class="space-y-4">
+        <div class="flex justify-between py-2">
+          <dt class="text-gray-600">Number:</dt>
+          <dd class="text-gray-900 font-medium"><%= @prabhag.number %></dd>
+        </div>
+        <div class="flex justify-between py-2">
+          <dt class="text-gray-600">Ward:</dt>
+          <dd class="text-gray-900 font-medium"><%= @prabhag.ward_code %></dd>
+        </div>
+        <div class="flex justify-between py-2">
+          <dt class="text-gray-600">Status:</dt>
+          <dd>
+            <% case @prabhag.status %>
+            <% when 'available' %>
+            <span class="px-3 py-1 text-sm font-medium text-gray-700">Available</span>
+            <% when 'assigned' %>
+            <span class="px-3 py-1 text-sm font-medium text-yellow-700">In Progress</span>
+            <% when 'submitted' %>
+            <span class="px-3 py-1 text-sm font-medium text-blue-700">Under Review</span>
+            <% when 'approved' %>
+            <span class="px-3 py-1 text-sm font-medium text-green-700">Completed</span>
+            <% when 'rejected' %>
+            <span class="px-3 py-1 text-sm font-medium text-red-700">Rejected</span>
+          <% end %>
+        </dd>
+      </div>
+      <% if @prabhag.assigned_to %>
+        <div class="flex justify-between py-2">
+          <dt class="text-gray-600">Assigned to:</dt>
+          <dd class="text-gray-900 font-medium"><%= @prabhag.assigned_to.name || @prabhag.assigned_to.email %></dd>
+        </div>
+      <% end %>
+    </dl>
     </div>
     <!-- Actions -->
-    <div class="bg-white border rounded-lg p-6 shadow-sm">
-      <h2 class="text-xl font-semibold mb-4">Actions</h2>
-      <div class="space-y-3">
-        <%= link_to "View PDF", @prabhag.pdf_url, target: '_blank',
-                      class: "block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center" %>
+    <div>
+      <h2 class="text-xl font-medium mb-6 pb-3 border-b border-gray-200">Actions</h2>
+      <div class="space-y-4">
         <% if user_signed_in? %>
           <% if @prabhag.can_be_assigned_to?(current_user) %>
             <%= link_to "Assign to Me", assign_prabhag_path(@prabhag),
-                          class: "block w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-center",
-                          data: { 
+                          class: "block w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 text-center",
+                          data: {
                             turbo_method: :post,
-                            confirm: "Assign this prabhag to yourself?" 
+                            confirm: "Assign this prabhag to yourself?"
                           } %>
           <% elsif @prabhag.assigned_to == current_user %>
             <% if @prabhag.status == 'assigned' %>
               <%= link_to "Start Tracing", trace_prabhag_path(@prabhag),
-                            class: "block w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-center" %>
+                            class: "block w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 text-center" %>
             <% elsif @prabhag.status == 'submitted' %>
               <% if user_signed_in? && current_user.admin? %>
-                <div class="space-y-3">
-                  <div class="block w-full bg-orange-100 text-orange-800 font-bold py-2 px-4 rounded text-center">
+                <div class="space-y-4">
+                  <div class="block w-full bg-orange-50 text-orange-800 font-medium py-3 px-6 text-center">
                     Submitted for Review
                   </div>
-                  <div class="grid grid-cols-2 gap-3">
+                  <div class="grid grid-cols-2 gap-4">
                     <%= button_to "✅ Approve", approve_admin_prabhag_path(@prabhag),
-                                 class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded",
+                                 class: "bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4",
                                  data: { confirm: "Approve this boundary? This will mark it as completed." } %>
                     <%= button_to "❌ Reject", reject_admin_prabhag_path(@prabhag),
-                                 class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
+                                 class: "bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-4",
                                  data: { confirm: "Reject this boundary? This will make it available for reassignment." } %>
                   </div>
                 </div>
               <% else %>
-                <div class="block w-full bg-orange-100 text-orange-800 font-bold py-2 px-4 rounded text-center">
+                <div class="block w-full bg-orange-50 text-orange-800 font-medium py-3 px-6 text-center">
                   Submitted for Review
                 </div>
               <% end %>
             <% end %>
           <% else %>
-            <div class="block w-full bg-gray-100 text-gray-600 font-bold py-2 px-4 rounded text-center">
+            <div class="block w-full bg-gray-50 text-gray-700 font-medium py-3 px-6 text-center">
               <%= @prabhag.status == 'available' ? 'Available for Assignment' : 'Not Available' %>
             </div>
           <% end %>
         <% else %>
-          <div class="text-center text-gray-600">
-            <%= link_to "Sign in", new_user_session_path, class: "text-blue-600 hover:text-blue-800" %> to assign this prabhag
+          <div class="text-center text-gray-600 py-4">
+            <%= link_to "Sign in", new_user_session_path, class: "text-blue-600 hover:text-blue-800 font-medium" %> to assign this prabhag
           </div>
         <% end %>
       </div>
@@ -97,40 +342,40 @@
 
   <!-- Boundary Review Section -->
   <% if @prabhag.boundaries.any? %>
-    <div class="bg-white border rounded-lg p-6 shadow-sm">
-      <h2 class="text-xl font-semibold mb-4">Boundary History</h2>
-      <div class="space-y-4">
+    <div class="mt-12">
+      <h2 class="text-xl font-medium mb-6 pb-3 border-b border-gray-200">Boundary History</h2>
+      <div class="space-y-6">
         <% @prabhag.boundaries.order(:created_at).reverse_each do |boundary| %>
-          <div class="border rounded-lg p-4 <%= boundary.status == 'approved' ? 'border-green-200 bg-green-50' : boundary.status == 'rejected' ? 'border-red-200 bg-red-50' : boundary.status == 'canonical' ? 'border-purple-200 bg-purple-50' : 'border-yellow-200 bg-yellow-50' %>">
-            <div class="flex justify-between items-start mb-3">
+          <div class="pb-6 border-b border-gray-200 last:border-b-0">
+            <div class="flex justify-between items-start mb-4">
               <div>
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-3 mb-2">
                   <% case boundary.status %>
                   <% when 'approved' %>
-                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">✅ Approved</span>
+                    <span class="text-sm font-medium text-green-700">✅ Approved</span>
                   <% when 'rejected' %>
-                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">❌ Rejected</span>
+                    <span class="text-sm font-medium text-red-700">❌ Rejected</span>
                   <% when 'canonical' %>
-                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">⭐ Canonical</span>
+                    <span class="text-sm font-medium text-purple-700">⭐ Canonical</span>
                   <% when 'pending' %>
-                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">⏳ Pending Review</span>
+                    <span class="text-sm font-medium text-yellow-700">⏳ Pending Review</span>
                   <% end %>
                   <span class="text-sm text-gray-600"><%= boundary.source_type.humanize %> • <%= boundary.year %></span>
                 </div>
-                <div class="text-sm text-gray-600 mt-1">
+                <div class="text-gray-600 mb-2">
                   Submitted <%= time_ago_in_words(boundary.created_at) %> ago
                   <% if boundary.submitted_by %>
                     by <%= boundary.submitted_by.name || boundary.submitted_by.email %>
                   <% end %>
                 </div>
                 <% if boundary.approved_by && boundary.approved_at %>
-                  <div class="text-sm text-gray-600">
+                  <div class="text-gray-600">
                     Approved by <%= boundary.approved_by.name || boundary.approved_by.email %>
                     <%= time_ago_in_words(boundary.approved_at) %> ago
                   </div>
                 <% end %>
                 <% if boundary.rejection_reason.present? %>
-                  <div class="text-sm text-red-600 mt-1">
+                  <div class="text-red-600 mt-2">
                     <strong>Reason:</strong> <%= boundary.rejection_reason %>
                   </div>
                 <% end %>
@@ -142,118 +387,4 @@
     </div>
   <% end %>
 
-  <!-- Map Preview -->
-  <div class="bg-white border rounded-lg p-6 shadow-sm">
-    <h2 class="text-xl font-semibold mb-4">Map Preview</h2>
-    <% boundary_to_show = @prabhag.boundary %>
-    <% if boundary_to_show&.geojson.present? %>
-      <div class="mb-3 text-sm text-gray-600">
-        Showing <%= boundary_to_show.status %> boundary
-        (<%= boundary_to_show.source_type.humanize %>, <%= boundary_to_show.year %>)
-        <% if boundary_to_show.submitted_by %>
-          submitted by <%= boundary_to_show.submitted_by.name || boundary_to_show.submitted_by.email %>
-        <% end %>
-      </div>
-      <div id="map" class="border rounded h-96"></div>
-      <script>
-        function initMap() {
-          const geojson = <%= boundary_to_show.geojson.html_safe %>;
-          const coordinates = geojson.geometry.coordinates[0];
-          const path = coordinates.map(coord => ({ lat: coord[1], lng: coord[0] }));
-
-          // Calculate center
-          const bounds = new google.maps.LatLngBounds();
-          path.forEach(point => bounds.extend(point));
-          const center = bounds.getCenter();
-
-          const map = new google.maps.Map(document.getElementById('map'), {
-            center: center,
-            zoom: 15,
-            mapTypeId: 'roadmap'
-          });
-
-          // Fit bounds to polygon
-          map.fitBounds(bounds, 50);
-
-          // Create the polygon
-          const polygon = new google.maps.Polygon({
-            paths: path,
-            strokeColor: '<%= boundary_to_show.status == 'canonical' ? '#8B5CF6' : boundary_to_show.status == 'approved' ? '#10B981' : boundary_to_show.status == 'rejected' ? '#EF4444' : '#F59E0B' %>',
-            strokeOpacity: 0.8,
-            strokeWeight: 3,
-            fillColor: '<%= boundary_to_show.status == 'canonical' ? '#8B5CF6' : boundary_to_show.status == 'approved' ? '#10B981' : boundary_to_show.status == 'rejected' ? '#EF4444' : '#F59E0B' %>',
-            fillOpacity: 0.2,
-            editable: false,
-            clickable: false
-          });
-
-          polygon.setMap(map);
-        }
-      </script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdaO8AJfaBvqAWeAwHSp4c282lVOEgHgk&callback=initMap" async defer></script>
-    <% else %>
-      <div class="border rounded bg-gray-50">
-        <div class="h-96 flex items-center justify-center">
-          <div class="text-center">
-            <img src="<%= @prabhag.map_image_src %>"
-                 alt="Prabhag <%= @prabhag.number %> PDF Map"
-                 class="max-w-full max-h-full object-contain rounded shadow-sm"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-            <div class="text-gray-600" style="display: none;">
-              <p>No boundary data available</p>
-              <p class="text-sm">PDF map image not found</p>
-              <p class="text-sm mt-2">
-                <%= link_to "View original PDF", @prabhag.pdf_url, target: '_blank', class: "text-blue-600 hover:underline" %>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Instructions and CTA for tracing -->
-        <div class="border-t bg-amber-50 p-4">
-          <div class="flex items-start space-x-3">
-            <div class="flex-shrink-0">
-              <svg class="w-5 h-5 text-amber-600 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <h3 class="text-sm font-medium text-amber-800 mb-2">
-                Boundary needs to be traced
-              </h3>
-              <div class="text-sm text-amber-700 space-y-2">
-                <p>This prabhag boundary hasn't been digitally traced yet. You can help by:</p>
-                <ul class="list-disc list-inside space-y-1 ml-2">
-                  <li>Using the boundary tracing tool to outline the area shown in the image above</li>
-                  <li>Following the boundary lines carefully from the official MCGM PDF</li>
-                  <li>Submitting your traced boundary for review and approval</li>
-                </ul>
-              </div>
-              <div class="mt-4 flex flex-col sm:flex-row gap-3">
-                <% if user_signed_in? %>
-                  <% if @prabhag.can_be_assigned_to?(current_user) %>
-                    <%= link_to "🎯 Start Tracing This Boundary", trace_prabhag_path(@prabhag),
-                                class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors" %>
-                  <% elsif @prabhag.assigned_to == current_user %>
-                    <%= link_to "Continue Tracing", trace_prabhag_path(@prabhag),
-                                class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors" %>
-                  <% else %>
-                    <span class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-500 bg-gray-100 cursor-not-allowed">
-                      Already assigned
-                    </span>
-                  <% end %>
-                <% else %>
-                  <%= link_to "Sign In to Help Trace", new_user_session_path,
-                              class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" %>
-                <% end %>
-                <%= link_to "View Original PDF", @prabhag.pdf_url, target: '_blank',
-                            class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors" %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
 </div>

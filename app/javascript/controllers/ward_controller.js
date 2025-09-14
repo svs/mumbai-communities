@@ -63,21 +63,7 @@ export default class extends Controller {
     // Add ward boundary if available
     if (this.wardBoundaryValue && Object.keys(this.wardBoundaryValue).length > 0) {
       try {
-        // Parse the JSON string - handle both raw Polygon and complete GeoJSON Feature
-        const parsedData = JSON.parse(this.wardBoundaryValue.geojson)
-        let wardGeoJSON
-
-        if (parsedData.type === 'Feature') {
-          // Already a complete GeoJSON Feature
-          wardGeoJSON = parsedData
-        } else {
-          // Raw geometry (like Polygon) - wrap it in a Feature
-          wardGeoJSON = {
-            type: 'Feature',
-            geometry: parsedData,
-            properties: {}
-          }
-        }
+        const wardGeoJSON = JSON.parse(this.wardBoundaryValue.geojson)
 
         const wardLayer = L.geoJSON(wardGeoJSON, {
           style: {

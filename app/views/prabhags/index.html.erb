@@ -27,6 +27,19 @@
       <div class="text-gray-600">Available</div>
     </div>
   </div>
+
+  <!-- Ward Overview Map -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8"
+       data-controller="ward-boundary"
+       data-ward-boundary-data-url-value="/wards.json"
+       data-ward-boundary-show-labels-value="true"
+       data-ward-boundary-show-legend-value="true"
+       data-ward-boundary-static-value="true">
+    <div data-ward-boundary-target="container" class="h-80 w-full desaturated-map">
+      <!-- Ward overview map will be loaded here -->
+    </div>
+  </div>
+
   <!-- In Progress Prabhags -->
   <% if @assigned_prabhags > 0 %>
     <div class="mb-8">

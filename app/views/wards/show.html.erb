@@ -41,6 +41,20 @@
     </div>
   </div>
 
+  <!-- Ward Overview Map -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8"
+       data-controller="ward-boundary"
+       data-ward-boundary-data-url-value="/wards/<%= @ward.ward_code %>.json"
+       data-ward-boundary-show-labels-value="false"
+       data-ward-boundary-show-legend-value="false"
+       data-ward-boundary-clickable-value="true"
+       data-ward-boundary-zoom-value="14"
+       data-ward-boundary-static-value="true">
+    <div data-ward-boundary-target="container" class="h-64 w-full desaturated-map">
+      <!-- Ward overview map will be loaded here -->
+    </div>
+  </div>
+
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
     <!-- Main Content -->
     <div class="lg:col-span-2 space-y-8">
@@ -137,60 +151,6 @@
         <% end %>
       </div>
 
-      <!-- Ward Map -->
-      <div>
-        <h2 class="text-xl font-semibold text-gray-900 mb-4 border-l-4 border-gray-400 pl-4">Ward Map</h2>
-
-        <% if @ward_boundary || @prabhag_boundaries.any? %>
-          <div class="border border-gray-300 rounded overflow-hidden">
-            <div data-controller="ward"
-                 data-ward-ward-boundary-value="<%= @ward_boundary ? { geojson: @ward_boundary.geojson, source_type: @ward_boundary.source_type, status: @ward_boundary.status, year: @ward_boundary.year }.to_json : '{}' %>"
-                 data-ward-prabhag-boundaries-value="<%= @prabhag_boundaries.map { |p|
-                   boundary = p.approved_boundary
-                   {
-                     number: p.number,
-                     id: p.id,
-                     geojson: boundary.geojson,
-                     source_type: boundary.source_type,
-                     status: boundary.status,
-                     year: boundary.year
-                   }
-                 }.to_json %>"
-                 data-ward-ward-code-value="<%= @ward.ward_code %>"
-                 class="h-96 w-full"></div>
-
-            <div class="p-4 bg-gray-50 border-t border-gray-200">
-              <div class="flex justify-between items-center text-sm">
-                <div class="space-x-6">
-                  <% if @ward_boundary %>
-                    <span class="flex items-center">
-                      <div class="w-4 h-4 border-2 border-blue-600 bg-blue-100 rounded mr-2"></div>
-                      Ward Boundary
-                    </span>
-                  <% end %>
-                  <% if @prabhag_boundaries.any? %>
-                    <span class="flex items-center">
-                      <div class="w-4 h-4 border-2 border-green-600 bg-green-100 rounded mr-2"></div>
-                      Prabhag Boundaries (<%= @prabhag_boundaries.count %>)
-                    </span>
-                  <% end %>
-                </div>
-                <div class="text-gray-600">
-                  <% if @ward_boundary %>
-                    Data from <%= @ward_boundary.year || 'Historical' %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% else %>
-          <div class="border border-gray-300 rounded p-8 text-center text-gray-500">
-            <p class="text-lg font-medium text-gray-700 mb-2">No boundary data available</p>
-            <p>Boundary mapping for this ward is in progress</p>
-            <p class="text-sm mt-2">Help complete the mapping tasks above</p>
-          </div>
-        <% end %>
-      </div>
     </div>
 
     <!-- Sidebar -->

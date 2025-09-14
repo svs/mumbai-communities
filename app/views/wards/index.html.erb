@@ -1,31 +1,38 @@
 <div class="max-w-7xl mx-auto">
-  <div class="text-center mb-12">
-    <h1 class="font-bold text-5xl mb-6 text-gray-800">MCGM.in</h1>
-    <p class="text-xl mb-4 text-gray-600">Mumbai Municipal Corporation - Citizen Engagement Platform</p>
-    <p class="text-lg text-gray-500">Select your ward to see civic tasks and issues</p>
-  </div>
+
+  <!-- Location Setup Prompt -->
+  <%= location_setup_banner %>
+
+  <!-- User Location Summary -->
+  <% if user_signed_in? && current_user.has_location? %>
+    <div class="mb-6">
+      <%= user_location_summary %>
+    </div>
+  <% end %>
 
   <!-- Platform Statistics -->
-  <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-12">
-    <div class="bg-blue-100 p-6 rounded-lg text-center">
-      <div class="text-3xl font-bold text-blue-800"><%= @total_wards %></div>
-      <div class="text-blue-600">Mumbai Wards</div>
-    </div>
-    <div class="bg-purple-100 p-6 rounded-lg text-center">
-      <div class="text-3xl font-bold text-purple-800"><%= @ward_boundaries_count %></div>
-      <div class="text-purple-600">Ward Boundaries</div>
-    </div>
-    <div class="bg-green-100 p-6 rounded-lg text-center">
-      <div class="text-3xl font-bold text-green-800"><%= @prabhag_boundaries_count %></div>
-      <div class="text-green-600">Prabhag Boundaries</div>
-    </div>
-    <div class="bg-yellow-100 p-6 rounded-lg text-center">
-      <div class="text-3xl font-bold text-yellow-800"><%= @open_tickets %></div>
-      <div class="text-yellow-600">Open Tasks</div>
-    </div>
-    <div class="bg-red-100 p-6 rounded-lg text-center">
-      <div class="text-3xl font-bold text-red-800"><%= @overdue_tickets %></div>
-      <div class="text-red-600">Overdue Tasks</div>
+  <div class="bg-gray-50 rounded-lg p-4 mb-6">
+    <div class="grid grid-cols-3 md:grid-cols-5 gap-4 text-center">
+      <div>
+        <div class="text-lg font-bold text-gray-900"><%= @total_wards %></div>
+        <div class="text-xs text-gray-500">Wards</div>
+      </div>
+      <div>
+        <div class="text-lg font-bold text-purple-700"><%= @ward_boundaries_count %></div>
+        <div class="text-xs text-gray-500">Ward Boundaries</div>
+      </div>
+      <div>
+        <div class="text-lg font-bold text-green-700"><%= @prabhag_boundaries_count %></div>
+        <div class="text-xs text-gray-500">Prabhag Boundaries</div>
+      </div>
+      <div>
+        <div class="text-lg font-bold text-yellow-700"><%= @open_tickets %></div>
+        <div class="text-xs text-gray-500">Open Tasks</div>
+      </div>
+      <div>
+        <div class="text-lg font-bold text-red-700"><%= @overdue_tickets %></div>
+        <div class="text-xs text-gray-500">Overdue</div>
+      </div>
     </div>
   </div>
 
@@ -71,83 +78,95 @@
     </div>
   <% end %>
 
-  <!-- Ward Grid -->
-  <div>
-    <h2 class="text-3xl font-semibold mb-8 text-center text-gray-800">Mumbai Wards</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-      <% @wards.each do |ward| %>
-        <div class="bg-white border rounded-lg p-6 hover:shadow-lg transition-shadow">
-          <%= link_to ward_path(ward.ward_code), class: "block" do %>
-            <div class="text-center">
-              <h3 class="text-2xl font-bold text-gray-800 mb-2">Ward <%= ward.ward_code %></h3>
+  <!-- Large Map with Sidebar Layout -->
+  <div class="ward-map-layout -mt-4 -mx-4 flex">
+    <!-- Sidebar -->
+    <div class="w-80 bg-white border-r border-gray-200 flex flex-col" data-controller="ward-list">
+      <!-- Header -->
+      <div class="p-4 border-b border-gray-200">
+        <h2 class="text-xl font-bold text-gray-800 mb-2">Mumbai Wards</h2>
+        <div class="relative">
+          <input type="text"
+                 placeholder="Filter wards..."
+                 class="w-full bg-gray-50 text-gray-800 px-3 py-2 rounded text-sm placeholder-gray-500 border border-gray-300 focus:border-gray-400 focus:outline-none">
+          <i class="fas fa-search absolute right-3 top-2.5 text-gray-400 text-sm"></i>
+        </div>
+      </div>
 
-              <!-- Boundary Status Indicators -->
-              <div class="mb-4 space-y-2">
-                <!-- Ward Boundary Status -->
-                <div class="flex justify-center">
-                  <% if ward.has_ward_boundary? %>
-                    <span class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
-                      <div class="w-2 h-2 bg-purple-600 rounded-full mr-1"></div>
-                      Ward Mapped
-                    </span>
-                  <% else %>
-                    <span class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-600">
-                      <div class="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
-                      Ward Unmapped
-                    </span>
-                  <% end %>
+      <!-- Ward List -->
+      <div class="flex-1 overflow-y-auto sidebar-scroll">
+        <% @wards.each do |ward| %>
+          <% boundary_percentage = ward.boundary_mapping_percentage %>
+          <% activity_status = boundary_percentage == 100 ? 'active' : boundary_percentage > 0 ? 'growing' : 'inactive' %>
+
+          <%= link_to ward_path(ward.ward_code),
+              class: "block hover:bg-gray-50 transition-colors ward-sidebar-item",
+              data: { ward_code: ward.ward_code } do %>
+            <div class="px-4 py-3 border-b border-gray-100">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center">
+                  <i class="fas fa-map-marker-alt text-gray-400 mr-2 text-sm"></i>
+                  <span class="font-medium text-gray-800">Ward <%= ward.ward_code %></span>
                 </div>
-
-                <!-- Prabhag Boundary Status -->
-                <div class="flex justify-center">
-                  <% boundary_percentage = ward.boundary_mapping_percentage %>
-                  <% if boundary_percentage == 100 %>
-                    <span class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                      <div class="w-2 h-2 bg-green-600 rounded-full mr-1"></div>
-                      All Prabhags Mapped
-                    </span>
-                  <% elsif boundary_percentage > 0 %>
-                    <span class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                      <div class="w-2 h-2 bg-yellow-600 rounded-full mr-1"></div>
-                      <%= boundary_percentage %>% Prabhags
-                    </span>
-                  <% else %>
-                    <span class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-600">
-                      <div class="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
-                      No Prabhags Mapped
-                    </span>
-                  <% end %>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 rounded-full mr-2 <%= activity_status == 'active' ? 'bg-green-500' : activity_status == 'growing' ? 'bg-yellow-500' : 'bg-gray-400' %>"></div>
+                  <span class="text-xs text-gray-600 capitalize"><%= activity_status %></span>
                 </div>
+              </div>
 
-                <!-- Legacy Mapping Status (for comparison) -->
-                <% if ward.completion_percentage > 0 %>
-                  <div class="flex justify-center">
-                    <span class="inline-flex items-center px-2 py-1 text-xs rounded-full bg-blue-50 text-blue-600 border border-blue-200">
-                      <%= ward.completion_percentage %>% Legacy Data
-                    </span>
+              <div class="text-xs text-gray-600 space-y-1">
+                <div class="flex justify-between">
+                  <span>Prabhags:</span>
+                  <span><%= ward.prabhags_with_boundaries_count %>/<%= ward.prabhags.count %></span>
+                </div>
+                <% if ward.open_tickets > 0 %>
+                  <div class="flex justify-between">
+                    <span>Tasks:</span>
+                    <span class="<%= ward.overdue_tickets > 0 ? 'text-red-600' : 'text-blue-600' %>"><%= ward.open_tickets %></span>
                   </div>
                 <% end %>
               </div>
 
-              <!-- Ward Stats -->
-              <div class="text-sm text-gray-600 space-y-1">
-                <div><%= ward.prabhags.count %> Prabhags</div>
-                <div><%= ward.prabhags_with_boundaries_count %>/<%= ward.prabhags.count %> Boundary Mapped</div>
-                <div><%= ward.open_tickets %> Open Tasks</div>
-                <% if ward.overdue_tickets > 0 %>
-                  <div class="text-red-600"><%= ward.overdue_tickets %> Overdue</div>
-                <% end %>
-              </div>
-
-              <!-- Progress Bar for Boundary Mapping -->
-              <div class="w-full bg-gray-200 rounded-full h-2 mt-4">
-                <div class="bg-green-500 h-2 rounded-full transition-all duration-300"
+              <!-- Mini Progress Bar -->
+              <div class="w-full bg-gray-200 rounded-full h-1 mt-2">
+                <div class="<%= activity_status == 'active' ? 'bg-green-500' : activity_status == 'growing' ? 'bg-yellow-500' : 'bg-gray-400' %> h-1 rounded-full transition-all duration-300"
                      style="width: <%= boundary_percentage %>%"></div>
               </div>
+              <div class="text-xs text-gray-500 mt-1 text-right"><%= boundary_percentage %>%</div>
             </div>
           <% end %>
+        <% end %>
+      </div>
+
+      <!-- Legend at bottom -->
+      <div class="p-4 border-t border-gray-200">
+        <div class="text-xs text-gray-600 space-y-1">
+          <div class="flex items-center">
+            <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+            <span>Active - All prabhags mapped</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
+            <span>Growing - Some prabhags mapped</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>
+            <span>Inactive - No prabhags mapped</span>
+          </div>
         </div>
-      <% end %>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="flex-1 relative"
+         data-controller="ward-boundary"
+         data-ward-boundary-data-url-value="/wards.json"
+         data-ward-boundary-show-labels-value="true"
+         data-ward-boundary-show-legend-value="true"
+         data-ward-boundary-static-value="true">
+      <div data-ward-boundary-target="container" class="w-full h-full desaturated-map">
+        <!-- Map will be loaded here -->
+      </div>
     </div>
   </div>
 

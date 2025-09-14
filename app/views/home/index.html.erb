@@ -1,75 +1,323 @@
-<div class="max-w-4xl mx-auto text-center">
-  <h1 class="font-bold text-5xl mb-6 text-gray-800">MCGM.in</h1>
-  <p class="text-xl mb-8 text-gray-600">Mumbai Municipal Corporation - Citizen Engagement Platform</p>
-  
-  <div class="mb-12">
+<!-- Hero Section -->
+<div class="bg-gradient-to-b from-blue-50 to-white py-16">
+  <div class="max-w-6xl mx-auto text-center px-4">
     <% if user_signed_in? %>
-      <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
-        <p class="text-lg mb-4 text-green-800">Welcome back, <%= current_user.name || current_user.email %>!</p>
-        <div class="space-x-4">
-          <%= link_to "View Ward Boundaries", prabhags_path, 
-                      class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg inline-block" %>
+      <!-- Logged in user hero -->
+      <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 max-w-4xl mx-auto">
+        <h1 class="font-bold text-4xl mb-4 text-gray-800">
+          Welcome back, <%= current_user.name&.split&.first || current_user.email&.split('@')&.first || 'Citizen' %>! 👋
+        </h1>
+        <p class="text-xl mb-6 text-gray-600">
+          Ready to continue making a difference in Mumbai's communities?
+        </p>
+
+        <% if @user_assignments&.any? || @user_tickets&.any? %>
+          <div class="bg-blue-50 rounded-lg p-4 mb-6">
+            <p class="text-blue-800 font-semibold mb-2">🎯 Your Active Contributions</p>
+            <p class="text-blue-600 text-sm">
+              You have <%= (@user_assignments&.count || 0) + (@user_tickets&.count || 0) %> active tasks across Mumbai's wards
+            </p>
+          </div>
+        <% end %>
+
+        <!-- Quick Actions for logged in users -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <% if @user_assignments&.any? %>
+            <%= link_to prabhag_path(@user_assignments.first),
+                        class: "bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors" do %>
+              <div class="text-sm opacity-90">Continue Mapping</div>
+              <div class="font-bold">Prabhag <%= @user_assignments.first.number %></div>
+            <% end %>
+          <% end %>
+
+          <%= link_to wards_path,
+                      class: "bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors" do %>
+            <div class="text-sm opacity-90">Explore</div>
+            <div class="font-bold">All Communities</div>
+          <% end %>
+
+          <%= link_to wards_path,
+                      class: "bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors" do %>
+            <div class="text-sm opacity-90">Report</div>
+            <div class="font-bold">New Issue</div>
+          <% end %>
         </div>
       </div>
-      
-      <% if current_user.current_assignments.any? %>
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
-          <h3 class="text-xl font-semibold text-yellow-800 mb-4">Your Current Assignments</h3>
-          <div class="space-y-3">
-            <% current_user.current_assignments.each do |prabhag| %>
-              <div class="flex justify-between items-center bg-white p-3 rounded">
-                <span class="text-yellow-700 font-medium">Prabhag <%= prabhag.number %> (Ward <%= prabhag.ward_code %>)</span>
-                <div class="space-x-2">
-                  <%= link_to "View", prabhag_path(prabhag), 
-                              class: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm" %>
-                  <% if prabhag.status == 'assigned' %>
-                    <%= link_to "Trace", trace_prabhag_path(prabhag), 
-                                class: "bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm" %>
-                  <% else %>
-                    <span class="text-orange-600 px-3 py-1 bg-orange-100 rounded text-sm">Submitted for Review</span>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
     <% else %>
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-800">Join the Community</h2>
-        <p class="text-blue-600 mb-6">Sign in to start contributing to Mumbai's digital ward mapping project</p>
-        <div class="space-y-4">
-          <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, 
-                      method: :post, 
-                      class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg inline-block w-full sm:w-auto" %>
-          <div class="text-sm">
-            <%= link_to "Sign In", new_user_session_path, 
-                        class: "text-blue-600 hover:text-blue-800 underline" %>
-            |
-            <%= link_to "Sign Up", new_user_registration_path, 
-                        class: "text-blue-600 hover:text-blue-800 underline" %>
+      <!-- Non-logged in user hero -->
+      <h1 class="font-bold text-6xl mb-6 text-gray-800">
+        CONNECT WITH YOUR<br>
+        <span class="text-blue-600">WARD COMMUNITY</span>
+      </h1>
+      <p class="text-2xl mb-8 text-gray-600 max-w-4xl mx-auto">
+        Report issues, organize events, discuss solutions with neighbors and representatives
+      </p>
+
+      <!-- Ward Discovery Section -->
+      <div class="bg-white rounded-2xl shadow-lg p-8 max-w-2xl mx-auto">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center justify-center">
+          <span class="mr-3">🏘️</span> Join Your Ward Community
+        </h2>
+
+        <div class="space-y-4" data-controller="home">
+          <button class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center"
+                  data-action="click->home#findMyWard">
+            <span class="mr-2">📍</span> Find My Ward (GPS)
+          </button>
+
+          <div class="relative">
+            <input type="text"
+                   placeholder="Search by area name (e.g., Bandra, Andheri)"
+                   class="w-full border border-gray-300 rounded-lg py-3 px-4 pl-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                   data-action="input->home#searchArea"
+                   data-home-target="searchInput">
+            <span class="absolute left-3 top-3 text-gray-400">🔍</span>
           </div>
+
+          <%= link_to "🗺️ Browse All Communities", wards_path,
+                      class: "w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors inline-block" %>
+        </div>
+
+        <div class="mt-6 flex space-x-4 justify-center">
+          <%= link_to "Join My Ward", wards_path,
+                      class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg" %>
+          <%= link_to "Explore Communities", wards_path,
+                      class: "bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-3 px-8 rounded-lg" %>
         </div>
       </div>
     <% end %>
-  </div>
-  
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
-    <div class="bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-800">Help Map Mumbai's Wards</h2>
-      <p class="text-gray-600 mb-4">Citizens can trace ward boundaries from official MCGM PDFs to create digital maps for better civic engagement.</p>
-      <%= link_to "Explore Ward Boundaries", prabhags_path, 
-                  class: "bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded" %>
-    </div>
-    
-    <div class="bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-800">How It Works</h2>
-      <ul class="text-gray-600 space-y-2 text-left">
-        <li>• Sign up and get assigned a ward boundary</li>
-        <li>• Trace boundaries using official MCGM PDFs</li>
-        <li>• Submit your work for community review</li>
-        <li>• Help create accurate digital ward maps</li>
-      </ul>
+
+    <!-- Progress Indicators (for all users) -->
+    <div class="flex justify-center items-center space-x-8 mt-8 flex-wrap gap-4">
+      <div class="flex items-center">
+        <span class="text-green-600 text-2xl mr-2">✅</span>
+        <span class="text-gray-700"><%= @active_communities %> Active Ward Communities</span>
+      </div>
+      <div class="flex items-center">
+        <span class="text-blue-600 text-2xl mr-2">🔧</span>
+        <span class="text-gray-700"><%= @total_issues_resolved %> Issues Resolved</span>
+      </div>
+      <div class="flex items-center">
+        <span class="text-purple-600 text-2xl mr-2">📅</span>
+        <span class="text-gray-700"><%= @events_this_month %> Events This Month</span>
+      </div>
     </div>
   </div>
+</div>
+
+<!-- Main Content Area -->
+<div class="max-w-7xl mx-auto px-4 py-16">
+  <!-- Location Setup Prompt -->
+  <%= location_setup_banner %>
+
+  <!-- User Location Summary -->
+  <% if user_signed_in? && current_user.has_location? %>
+    <div class="mb-8">
+      <%= user_location_summary %>
+    </div>
+  <% end %>
+
+  <!-- User's Current Activity (if logged in) -->
+  <% if user_signed_in? %>
+    <% if @user_assignments&.any? || @user_tickets&.any? %>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-8 mb-16">
+        <h3 class="text-2xl font-semibold text-yellow-800 mb-6">Your Active Contributions</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <% (@user_assignments || []).limit(2).each do |assignment| %>
+            <div class="bg-white p-4 rounded-lg border">
+              <h4 class="font-semibold text-gray-800">Boundary Mapping</h4>
+              <p class="text-sm text-gray-600 mb-2">Prabhag <%= assignment.number %> (Ward <%= assignment.ward_code %>)</p>
+              <div class="flex justify-between items-center">
+                <span class="text-xs px-2 py-1 rounded bg-yellow-100 text-yellow-800">In Progress</span>
+                <%= link_to "Continue", prabhag_path(assignment),
+                            class: "text-blue-600 hover:text-blue-800 text-sm" %>
+              </div>
+            </div>
+          <% end %>
+
+          <% (@user_tickets || []).limit(2).each do |ticket| %>
+            <div class="bg-white p-4 rounded-lg border">
+              <h4 class="font-semibold text-gray-800"><%= ticket.title %></h4>
+              <p class="text-sm text-gray-600 mb-2">Ward <%= ticket.ward_code %></p>
+              <div class="flex justify-between items-center">
+                <span class="text-xs px-2 py-1 rounded <%= ticket.respond_to?(:overdue?) && ticket.overdue? ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800' %>">
+                  <%= ticket.respond_to?(:overdue?) && ticket.overdue? ? 'Overdue' : 'Active' %>
+                </span>
+                <%= link_to "View", ticket_path(ticket),
+                            class: "text-blue-600 hover:text-blue-800 text-sm" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+    <!-- Community Impact -->
+    <div class="bg-white p-8 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
+        <span class="mr-3">📊</span> Community Impact
+      </h2>
+      <div class="space-y-4">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Active Wards</span>
+          <span class="font-semibold text-green-600"><%= @active_communities %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Issues Resolved</span>
+          <span class="font-semibold text-blue-600"><%= @total_issues_resolved %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Resolution Rate</span>
+          <span class="font-semibold text-purple-600">
+            <%= @total_issues_resolved > 0 ? "#{((@total_issues_resolved.to_f / (@total_issues_resolved + Ticket.where(status: ['open', 'assigned', 'in_progress']).count)) * 100).round}%" : '0%' %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Citizens Engaged</span>
+          <span class="font-semibold text-orange-600"><%= @total_citizens %></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="bg-white p-8 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
+        <span class="mr-3">⚡</span>
+        <% if user_signed_in? %>
+          Your Recent Activity
+        <% else %>
+          Recent Activity
+        <% end %>
+      </h2>
+      <div class="space-y-4">
+        <% if user_signed_in? && (@user_tickets&.any? || @user_assignments&.any?) %>
+          <!-- Logged in user's personal activity -->
+          <% (@user_tickets || []).limit(3).each do |ticket| %>
+            <div class="border-l-4 border-green-400 pl-3 py-2">
+              <p class="text-sm font-medium text-gray-800">Your task: <%= ticket.title %></p>
+              <p class="text-xs text-gray-500">Ward <%= ticket.ward_code %> • <%= time_ago_in_words(ticket.created_at) %> ago</p>
+            </div>
+          <% end %>
+
+          <% (@user_assignments || []).limit(2).each do |assignment| %>
+            <div class="border-l-4 border-purple-400 pl-3 py-2">
+              <p class="text-sm font-medium text-gray-800">Your mapping: Prabhag <%= assignment.number %></p>
+              <p class="text-xs text-gray-500">Ward <%= assignment.ward_code %> • In progress</p>
+            </div>
+          <% end %>
+
+          <% if (@user_tickets&.empty? || !@user_tickets) && (@user_assignments&.empty? || !@user_assignments) %>
+            <div class="text-center py-4 bg-blue-50 rounded-lg">
+              <p class="text-blue-800 font-medium">Ready to get started?</p>
+              <p class="text-sm text-blue-600 mt-2">Join a ward community to start contributing!</p>
+            </div>
+          <% end %>
+        <% elsif @recent_tickets.any? %>
+          <!-- Global recent activity for non-logged in users -->
+          <% @recent_tickets.each do |ticket| %>
+            <div class="border-l-4 border-blue-400 pl-3 py-2">
+              <p class="text-sm font-medium text-gray-800"><%= ticket.title %></p>
+              <p class="text-xs text-gray-500">Ward <%= ticket.ward_code %> • <%= time_ago_in_words(ticket.created_at) %> ago</p>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center py-4">
+            <p class="text-gray-500">No recent activity</p>
+            <p class="text-sm text-gray-400 mt-2">Be the first to report an issue!</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="bg-white p-8 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
+        <span class="mr-3">💡</span> How It Works
+      </h2>
+      <div class="space-y-4">
+        <div class="flex items-start space-x-3">
+          <span class="flex-shrink-0 w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold">1</span>
+          <p class="text-sm text-gray-600">Find your ward</p>
+        </div>
+        <div class="flex items-start space-x-3">
+          <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+          <p class="text-sm text-gray-600">Report issues</p>
+        </div>
+        <div class="flex items-start space-x-3">
+          <span class="flex-shrink-0 w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+          <p class="text-sm text-gray-600">Join events</p>
+        </div>
+        <div class="flex items-start space-x-3">
+          <span class="flex-shrink-0 w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-sm font-bold">4</span>
+          <p class="text-sm text-gray-600">Build change</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Map Section -->
+  <div class="bg-gray-50 rounded-2xl p-8 mb-16">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-semibold mb-4 text-gray-800">Mumbai Ward Communities</h2>
+      <div class="flex justify-center space-x-6 text-sm">
+        <div class="flex items-center">
+          <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+          <span class="text-gray-600">🟢 Active</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-4 h-4 bg-yellow-500 rounded-full mr-2"></div>
+          <span class="text-gray-600">🟡 Growing</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-4 h-4 bg-gray-400 rounded-full mr-2"></div>
+          <span class="text-gray-600">⚪ Inactive</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Ward Map -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+         data-controller="ward-boundary"
+         data-ward-boundary-data-url-value="/wards.json"
+         data-ward-boundary-show-labels-value="false"
+         data-ward-boundary-show-legend-value="true">
+      <div data-ward-boundary-target="container"
+           class="h-96 w-full relative desaturated-map">
+        <!-- Map will be loaded here -->
+      </div>
+    </div>
+
+    <div class="text-center mt-6 text-gray-600">
+      <p class="mb-4">Help unlock inactive wards! Some communities need boundary mapping to get started.</p>
+      <div class="space-x-4">
+        <%= link_to "See Which Wards Need Help", wards_path,
+                    class: "text-blue-600 hover:text-blue-800 underline" %>
+        <span class="text-gray-400">|</span>
+        <%= link_to "Learn About Mapping", prabhags_path,
+                    class: "text-blue-600 hover:text-blue-800 underline" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authentication Call-to-Action for non-logged in users -->
+  <% unless user_signed_in? %>
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-center text-white">
+      <h2 class="text-3xl font-bold mb-4">Ready to Make a Difference?</h2>
+      <p class="text-xl mb-8 text-blue-100">Join thousands of Mumbai citizens building stronger communities</p>
+      <div class="space-x-4">
+        <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path,
+                    method: :post,
+                    class: "bg-white text-blue-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg inline-block" %>
+        <div class="mt-4 text-sm text-blue-200">
+          <%= link_to "Sign In", new_user_session_path,
+                      class: "text-blue-200 hover:text-white underline" %>
+          |
+          <%= link_to "Sign Up", new_user_registration_path,
+                      class: "text-blue-200 hover:text-white underline" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

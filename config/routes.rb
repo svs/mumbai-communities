@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   get "home/index"
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+
+  # Location setup
+  get 'setup_location', to: 'location_setup#show'
+  post 'setup_location', to: 'location_setup#create'
   
   # Ward-centric structure
   resources :wards, only: [:index, :show] do
@@ -57,5 +61,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "wards#index"
+  root "home#index"
 end
