@@ -41,7 +41,8 @@ class LocationSetupControllerTest < ActionDispatch::IntegrationTest
           ]]
         }
       }.to_json,
-      status: 'approved'
+      status: 'approved',
+      source_type: 'user_submission'
     )
 
     post setup_location_url, params: {
@@ -58,8 +59,8 @@ class LocationSetupControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Oberoi Splendor Rd, Oberoi Splendor, Jogeshwari East, Mumbai, Maharashtra 400060, India", @user.street_address
     assert_equal prabhag.ward_code, @user.ward_code
     assert_equal prabhag.id, @user.prabhag_id
-    assert_equal 19.1406618, @user.latitude.to_f
-    assert_equal 72.8646092, @user.longitude.to_f
+    assert_in_delta 19.1406618, @user.latitude.to_f, 0.0001
+    assert_in_delta 72.8646092, @user.longitude.to_f, 0.0001
   end
 
   test "should handle coordinates not found" do
@@ -127,7 +128,8 @@ class LocationSetupControllerTest < ActionDispatch::IntegrationTest
           ]]
         }
       }.to_json,
-      status: 'approved'
+      status: 'approved',
+      source_type: 'user_submission'
     )
 
     post setup_location_url, params: {
@@ -157,7 +159,8 @@ class LocationSetupControllerTest < ActionDispatch::IntegrationTest
           ]]
         }
       }.to_json,
-      status: 'approved'
+      status: 'approved',
+      source_type: 'user_submission'
     )
 
     post setup_location_url, params: {

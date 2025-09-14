@@ -75,7 +75,7 @@ class PrabhagsController < ApplicationController
       # Handle nested route: /wards/:ward_id/prabhags/:id
       slug_name = params[:ward_id].gsub('-', ' ').titleize
       ward = Ward.find_by(name: slug_name) || Ward.find_by!(ward_code: params[:ward_id].upcase)
-      @prabhag = ward.prabhags.find_by!(number: params[:id])
+      @prabhag = ward.prabhags.find(params[:id])
       @ward = ward
     else
       # Handle direct route: /prabhags/:id (find handles both number and id)
