@@ -307,9 +307,10 @@
       <h2 class="text-3xl font-bold mb-4">Ready to Make a Difference?</h2>
       <p class="text-xl mb-8 text-blue-100">Join thousands of Mumbai citizens building stronger communities</p>
       <div class="space-x-4">
-        <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path,
-                    method: :post,
-                    class: "bg-white text-blue-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg inline-block" %>
+        <%= button_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path,
+                      method: :post,
+                      data: { turbo: false },
+                      class: "bg-white text-blue-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg border-0" %>
         <div class="mt-4 text-sm text-blue-200">
           <%= link_to "Sign In", new_user_session_path,
                       class: "text-blue-200 hover:text-white underline" %>
