@@ -44,7 +44,7 @@ export default class extends Controller {
     console.log("Initializing map...")
 
     const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKeyValue}&callback=initMapCallback`
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKeyValue}&libraries=places&callback=initMapCallback`
     script.async = true
     script.defer = true
 
@@ -74,7 +74,13 @@ export default class extends Controller {
         mapTypeId: 'roadmap',
         disableDefaultUI: false,
         scrollwheel: true,
-        draggable: true
+        draggable: true,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.TOP_CENTER
+        },
+        streetViewControl: false,
+        fullscreenControl: false
       })
 
       console.log("Map created successfully")
@@ -85,6 +91,7 @@ export default class extends Controller {
 
     this.setupPolygon()
     this.setupMapListeners()
+    this.initializePlacesAutocomplete()
 
     // Load existing boundary if available
     if (this.hasExistingBoundaryValue) {
@@ -502,5 +509,52 @@ export default class extends Controller {
   panPDFRight() {
     this.pdfPanX += 100
     this.updatePDFTransform()
+  }
+
+  initializePlacesAutocomplete() {
+    const searchInput = document.getElementById('map-search-input')
+    if (!searchInput) {
+      console.log("Search input not found")
+      return
+    }
+
+    this.autocomplete = new window.google.maps.places.Autocomplete(searchInput, {
+      types: ['establishment', 'geocode'],
+      componentRestrictions: { country: 'in' },
+      bounds: new window.google.maps.LatLngBounds(
+        new window.google.maps.LatLng(18.88, 72.78),
+        new window.google.maps.LatLng(19.30, 72.98)
+      ),
+      strictBounds: false,
+      fields: ['address_components', 'formatted_address', 'geometry', 'name']
+    })
+
+    this.autocomplete.addListener('place_changed', () => {
+      const place = this.autocomplete.getPlace()
+      if (!place.geometry) {
+        console.error("No geometry found for selected place")
+        return
+      }
+
+      const lat = place.geometry.location.lat()
+      const lng = place.geometry.location.lng()
+
+      console.log("Selected place:", place.formatted_address, "Coordinates:", lat, lng)
+
+      this.map.setCenter({ lat, lng })
+      this.map.setZoom(17)
+
+      new window.google.maps.Marker({
+        position: { lat, lng },
+        map: this.map,
+        title: place.name || place.formatted_address,
+        icon: {
+          url: 'data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="%23ff6b6b" stroke="%23ffffff" stroke-width="2"/></svg>',
+          scaledSize: new window.google.maps.Size(20, 20)
+        }
+      })
+    })
+
+    console.log("Google Places Autocomplete initialized")
   }
 }

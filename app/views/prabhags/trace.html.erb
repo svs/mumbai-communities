@@ -1,28 +1,19 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <title>Trace Boundary - Prabhag <%= @prabhag.number %></title>
-    <style>
+<% content_for :title, "Trace Boundary - Prabhag #{@prabhag.number}" %>
+
+<style>
       body {
           margin: 0;
           padding: 0;
           font-family: Arial, sans-serif;
       }
 
-      #container {
-          display: flex;
-          width: 100vw;
-          height: 100vh;
-          flex-direction: column;
-          padding-top: 50px; /* Account for fixed back button */
+      #main-content, #main-content * {
+          box-sizing: border-box;
       }
 
       #main-content {
           display: flex;
-          flex: 1;
+          height: 90vh;
           overflow: hidden;
       }
 
@@ -31,6 +22,26 @@
           display: flex;
           flex-direction: column;
           border-right: 2px solid #ddd;
+      }
+
+      .section-toolbar {
+          background: #f8f9fa;
+          border-bottom: 1px solid #ddd;
+          padding: 10px 15px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          height: 60px;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          overflow: hidden;
+      }
+
+      .toolbar-group {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          flex-shrink: 0;
       }
 
       #pdf-content {
@@ -43,24 +54,16 @@
           overflow: hidden;
       }
 
-      #pdf-image {
-          max-width: 95%;
-          max-height: 95%;
-          object-fit: contain;
-          border: 1px solid #ccc;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-          transition: transform 0.1s ease;
+      #pdf-embed {
+          width: 100%;
+          height: 100%;
+          border: none;
+          overflow: auto;
+          -webkit-overflow-scrolling: touch;
       }
 
-      #pdf-toolbar {
-          background: #e8f4f8;
-          border-top: 1px solid #ddd;
-          padding: 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 10px;
-          min-height: 50px;
+      #pdf-content:hover #pdf-embed {
+          pointer-events: auto;
       }
 
       #map-half {
@@ -104,7 +107,7 @@
       }
 
         .pdf-control-btn {
-            width: 32px;
+            min-width: 32px;
             height: 32px;
             background: white;
             border: 1px solid #ccc;
@@ -119,12 +122,15 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: all 0.2s;
             margin: 0;
+            text-decoration: none;
+            padding: 0 8px;
         }
 
         .pdf-control-btn:hover {
             background: #f0f0f0;
             color: #000;
             box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            text-decoration: none;
         }
 
       .pdf-control-btn:active {
@@ -247,10 +253,45 @@
           color: white;
           text-decoration: none;
       }
+
+      .flash-messages {
+          position: fixed;
+          top: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 1001;
+          width: auto;
+          max-width: 80%;
+      }
+
+      .flash {
+          padding: 10px 15px;
+          margin-bottom: 10px;
+          border-radius: 4px;
+          font-size: 14px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .flash.notice {
+          background-color: #d4edda;
+          color: #155724;
+          border: 1px solid #c3e6cb;
+      }
+
+      .flash.alert {
+          background-color: #f8d7da;
+          color: #721c24;
+          border: 1px solid #f5c6cb;
+      }
     </style>
-  </head>
-  <body>
     <%= link_to "← Back", @prabhag, class: "back-btn" %>
+
+    <div class="flash-messages">
+      <% flash.each do |type, message| %>
+        <div class="flash <%= type %>"><%= message %></div>
+      <% end %>
+    </div>
+
     <div data-controller="boundary-tracer"
          data-boundary-tracer-prabhag-id-value="<%= @prabhag.id %>"
          data-boundary-tracer-api-key-value="<%= ENV['GOOGLE_MAPS_API_KEY'] || 'AIzaSyCdaO8AJfaBvqAWeAwHSp4c282lVOEgHgk' %>"
@@ -258,63 +299,53 @@
          data-boundary-tracer-initial-zoom-value="15"
          <% if @existing_boundary&.geojson %>
          data-boundary-tracer-existing-boundary-value='<%= @existing_boundary.geojson.html_safe %>'
-         <% end %>>
-      <div id="container">
-        <div id="main-content">
+         <% end %>
+         id="main-content">
           <div id="pdf-half">
-            <div id="pdf-content">
-              <div class="side-label">Reference Map - Prabhag <%= @prabhag.number %></div>
-              <img id="pdf-image" data-boundary-tracer-target="pdfImage" src="<%= @prabhag.map_image_src %>" alt="Prabhag <%= @prabhag.number %> Map">
+            <div class="section-toolbar">
+              <label><strong>PDF Reference - Prabhag <%= @prabhag.number %></strong></label>
+              <a href="<%= @prabhag.pdf_url %>" target="_blank" class="pdf-control-btn" title="Open PDF in New Tab">🔗</a>
+              <button class="pdf-control-btn" onclick="document.getElementById('pdf-embed').src = document.getElementById('pdf-embed').src" title="Reload PDF">↻</button>
             </div>
-            <div id="pdf-toolbar" data-boundary-tracer-target="pdfControls">
-              <div class="pdf-control-group">
-                <label>Zoom:</label>
-                <button class="pdf-control-btn" data-action="click->boundary-tracer#zoomPDFOut" title="Zoom Out">−</button>
-                <button class="pdf-control-btn" data-action="click->boundary-tracer#resetPDFZoom" title="Reset">⌂</button>
-                <button class="pdf-control-btn" data-action="click->boundary-tracer#zoomPDFIn" title="Zoom In">+</button>
-              </div>
-              <div class="pdf-control-group">
-                <label>Pan:</label>
-                <button class="pdf-control-btn" data-action="click->boundary-tracer#panPDFUp" title="Pan Up">↑</button>
-                <button class="pdf-control-btn" data-action="click->boundary-tracer#panPDFDown" title="Pan Down">↓</button>
-                <button class="pdf-control-btn" data-action="click->boundary-tracer#panPDFLeft" title="Pan Left">←</button>
-                <button class="pdf-control-btn" data-action="click->boundary-tracer#panPDFRight" title="Pan Right">→</button>
-              </div>
+            <div id="pdf-content">
+              <iframe id="pdf-embed"
+                      src="<%= @prabhag.pdf_url %>#navpanes=0"
+                      title="Prabhag <%= @prabhag.number %> PDF"
+                      onclick="this.focus()"
+                      onload="this.focus()"
+                      style="width: 100%; height: 100%; border: none;">
+                <p>Your browser doesn't support PDF embedding.
+                   <a href="<%= @prabhag.pdf_url %>" target="_blank">Click here to open the PDF</a>
+                </p>
+              </iframe>
             </div>
           </div>
           <div id="map-half">
-            <div id="map-content">
-              <div class="side-label">Draw Boundary</div>
-              <div id="map" data-boundary-tracer-target="map"></div>
-            </div>
-            <div id="map-toolbar" data-boundary-tracer-target="mapControls">
-              <div class="toolbar-section">
-                <strong>Prabhag <%= @prabhag.number %> Boundary Tracing</strong>
+            <div class="section-toolbar">
+              <div class="toolbar-group">
+                <input type="text"
+                       id="map-search-input"
+                       placeholder="🔍 Search landmarks..."
+                       style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; width: 180px; font-size: 13px;">
               </div>
-              <div class="toolbar-section" style="display: none;">
-                <div class="toggle-group">
-                  <button data-action="click->boundary-tracer#setDrawMode" class="toggle-btn active">✏️ Draw</button>
-                  <button data-action="click->boundary-tracer#setPanMode" class="toggle-btn">👋 Pan</button>
-                </div>
-              </div>
-              <div class="toolbar-section">
+
+              <div class="toolbar-group">
                 <button data-action="click->boundary-tracer#undoLastPoint" class="danger" style="font-size: 12px;">↶ Undo</button>
                 <button data-action="click->boundary-tracer#clearBoundary" class="danger" style="font-size: 12px;">🗑️ Clear</button>
                 <button data-action="click->boundary-tracer#closePolygon" class="success" style="font-size: 12px;">🔗 Close</button>
-              </div>
-              <div class="toolbar-section">
                 <span style="font-size: 12px; color: #666;">
                   Points: <strong><span data-boundary-tracer-target="pointCount">0</span></strong>
                 </span>
               </div>
-              <div class="toolbar-section">
+
+              <div class="toolbar-group">
                 <%= form_with url: submit_prabhag_path(@prabhag), local: true,
-                                          style: "margin: 0;",
+                                          style: "margin: 0; display: inline;",
                                           data: { boundary_tracer_target: "submitForm" } do |form| %>
                   <%= form.hidden_field :boundary_geojson, data: { boundary_tracer_target: "geojsonInput" } %>
                   <%= form.submit "✅ Submit Boundary",
                                              class: "success",
-                                             style: "margin: 0; font-size: 14px; padding: 8px 16px;",
+                                             style: "margin: 0; font-size: 14px; padding: 8px 16px; font-weight: bold;",
                                              data: {
                                                confirm: "Submit this boundary for review?",
                                                action: "click->boundary-tracer#generateGeoJSON"
@@ -322,10 +353,10 @@
                 <% end %>
               </div>
             </div>
+            <div id="map-content">
+              <div id="map" data-boundary-tracer-target="map"></div>
+            </div>
           </div>
         </div>
-      </div>
     </div>
     <!-- Google Maps API is loaded by the Stimulus controller -->
-  </body>
-</html>
