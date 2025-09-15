@@ -54,14 +54,24 @@ export default class extends Controller {
         keyboard: false
       } : {}
 
+      if (!this.containerTarget) {
+        console.error("Container target not found")
+        return
+      }
+
       this.mapInstance = window.L.map(this.containerTarget, mapOptions).setView([19.0760, 72.8777], this.zoomValue)
+
+      if (!this.mapInstance) {
+        console.error("Failed to create map instance")
+        return
+      }
 
       // Move zoom control to bottom left
       this.mapInstance.zoomControl.setPosition('bottomleft')
 
       // Add OpenStreetMap tiles
       window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 16,
+        maxZoom: 20,
         attribution: '© OpenStreetMap contributors'
       }).addTo(this.mapInstance)
 
@@ -75,6 +85,11 @@ export default class extends Controller {
 
   async loadWardBoundaries() {
     try {
+      if (!this.mapInstance) {
+        console.error("Map instance not initialized yet")
+        return
+      }
+
       const response = await fetch(this.dataUrlValue || '/wards.json')
       const data = await response.json()
 
@@ -175,6 +190,13 @@ export default class extends Controller {
               }
             })
 
+            // Add click handler for ward selection
+            layer.on('click', (e) => {
+              if (props.ward_code) {
+                this.selectWard(props.ward_code)
+              }
+            })
+
             // Create popup using embedded information
             if (props.popup_title) {
               layer.bindPopup(`
@@ -182,6 +204,7 @@ export default class extends Controller {
                   <h3 class="font-bold">${props.popup_title}</h3>
                   ${props.popup_subtitle ? `<p class="text-sm text-gray-600">${props.popup_subtitle}</p>` : ''}
                   ${props.popup_details ? `<p class="text-xs text-gray-500 mt-1">${props.popup_details}</p>` : ''}
+                  ${props.ward_code ? `<a href="/wards/${props.ward_code}" class="inline-block mt-2 text-blue-600 hover:text-blue-800 text-sm font-medium">Visit Ward →</a>` : ''}
                 </div>
               `)
             }
@@ -206,9 +229,17 @@ export default class extends Controller {
               }
             })
 
+            console.log(`Found ${validLayers.length} valid layers for fitBounds`)
+
             if (validLayers.length > 0) {
               const group = new window.L.featureGroup(validLayers)
-              this.mapInstance.fitBounds(group.getBounds(), { padding: [20, 20], maxZoom: this.zoomValue })
+              const bounds = group.getBounds()
+              console.log("Fitting bounds:", bounds)
+              // For small boundaries, allow higher zoom levels
+              const maxZoom = this.zoomValue || 18
+              this.mapInstance.fitBounds(bounds, { padding: [20, 20], maxZoom: maxZoom })
+            } else {
+              console.warn("No valid layers found for fitBounds")
             }
           } catch (e) {
             console.warn("Could not fit bounds:", e)
@@ -284,6 +315,24 @@ export default class extends Controller {
         }
       }
     }
+  }
+
+  // Method to select a ward (triggered by map click)
+  selectWard(wardCode) {
+    console.log(`Ward ${wardCode} selected from map`)
+
+    // Find the ward list controller and trigger scroll to ward
+    const wardListController = this.application.getControllerForElementAndIdentifier(
+      document.querySelector('[data-controller*="ward-list"]'),
+      'ward-list'
+    )
+
+    if (wardListController && typeof wardListController.scrollToWard === 'function') {
+      wardListController.scrollToWard(wardCode)
+    }
+
+    // Dispatch a custom event for other components to listen to
+    this.dispatch('wardSelected', { detail: { wardCode } })
   }
 
 }

@@ -60,22 +60,24 @@
       <div class="space-y-3">
         <%= link_to "View PDF", @prabhag.pdf_url, target: '_blank',
                       class: "block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center" %>
-        <% if @prabhag.status == 'submitted' %>
-          <div class="grid grid-cols-2 gap-3">
-            <%= button_to "✅ Approve", approve_admin_prabhag_path(@prabhag),
-                           class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded",
-                           data: { confirm: "Approve this boundary? This will mark it as completed." } %>
-            <%= button_to "❌ Reject", reject_admin_prabhag_path(@prabhag),
-                           class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
-                           data: { confirm: "Reject this boundary? This will make it available for reassignment." } %>
+
+        <% pending_boundaries = @prabhag.boundaries.where(status: 'pending') %>
+        <% if pending_boundaries.any? %>
+          <div class="bg-yellow-100 text-yellow-800 font-bold py-2 px-4 rounded text-center">
+            ⏳ <%= pending_boundaries.count %> Pending Review
           </div>
-        <% elsif @prabhag.status == 'approved' %>
+          <%= link_to boundaries_admin_prabhag_path(@prabhag),
+                      class: "block w-full bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded text-center" do %>
+            <i class="fas fa-clipboard-check mr-2"></i>
+            Review Boundaries
+          <% end %>
+        <% elsif @prabhag.boundaries.where(status: 'approved').any? %>
           <div class="bg-green-100 text-green-800 font-bold py-2 px-4 rounded text-center">
-            ✅ Approved
+            ✅ Has Approved Boundary
           </div>
-        <% elsif @prabhag.status == 'rejected' %>
+        <% elsif @prabhag.boundaries.where(status: 'rejected').any? && !@prabhag.boundaries.where(status: ['approved', 'canonical']).any? %>
           <div class="bg-red-100 text-red-800 font-bold py-2 px-4 rounded text-center">
-            ❌ Rejected
+            ❌ Previous Submissions Rejected
           </div>
         <% else %>
           <div class="bg-gray-100 text-gray-600 font-bold py-2 px-4 rounded text-center">
@@ -123,6 +125,25 @@
                   <div class="text-sm text-red-600 mt-1">
                     <strong>Reason:</strong> <%= boundary.rejection_reason %>
                   </div>
+                <% end %>
+              </div>
+
+              <div class="flex space-x-2">
+                <!-- View boundary details link -->
+                <%= link_to "View Details", admin_boundary_path(boundary),
+                            class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs",
+                            title: "View boundary details" %>
+
+                <!-- Action buttons for pending boundaries -->
+                <% if boundary.status == 'pending' %>
+                  <%= button_to "✅", approve_admin_boundary_path(boundary),
+                                class: "bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs",
+                                title: "Approve this boundary",
+                                data: { confirm: "Approve this boundary submission?" } %>
+                  <%= button_to "❌", reject_admin_boundary_path(boundary),
+                                class: "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs",
+                                title: "Reject this boundary",
+                                data: { confirm: "Reject this boundary submission?" } %>
                 <% end %>
               </div>
             </div>

@@ -1,21 +1,181 @@
+---
 ward_one:
+  id: 1
+  ward_code: TEST1
+  name: Ward One
+  is_geocoded: false
+  short_name: T1
+ward_a:
+  id: 10
+  ward_code: TEST_A
+  name: Ward A Test
+  is_geocoded: false
+  short_name: TA
+ward_two:
+  id: 2
+  ward_code: TEST2
+  name: Ward Two
+  is_geocoded: false
+  short_name: T2
+ward_A:
+  id: 11
   ward_code: A
   name: Ward A
-  boundary_geojson: '{"type":"Polygon","coordinates":[[[72.8,19.1],[72.81,19.1],[72.81,19.11],[72.8,19.11],[72.8,19.1]]]}'
-  is_geocoded: true
-  total_area: 25.5
-  population_estimate: 50000
-  contact_officer_name: Officer A
-  contact_officer_email: officer.a@mcgm.gov.in
-  contact_officer_phone: +91-22-1234567
-
-ward_two:
+  is_geocoded: false
+  short_name: A
+ward_B:
+  id: 12
   ward_code: B
   name: Ward B
-  boundary_geojson: '{"type":"Polygon","coordinates":[[[72.82,19.12],[72.83,19.12],[72.83,19.13],[72.82,19.13],[72.82,19.12]]]}'
-  is_geocoded: true
-  total_area: 30.2
-  population_estimate: 75000
-  contact_officer_name: Officer B
-  contact_officer_email: officer.b@mcgm.gov.in
-  contact_officer_phone: +91-22-7654321
+  is_geocoded: false
+  short_name: B
+ward_C:
+  id: 13
+  ward_code: C
+  name: Ward C
+  is_geocoded: false
+  short_name: C
+ward_D:
+  id: 14
+  ward_code: D
+  name: Ward D
+  is_geocoded: false
+  short_name: D
+ward_E:
+  id: 15
+  ward_code: E
+  name: Ward E
+  is_geocoded: false
+  short_name: E
+ward_F NORTH:
+  id: 16
+  ward_code: F NORTH
+  name: Ward F NORTH
+  is_geocoded: false
+  short_name: F/N
+ward_F SOUTH:
+  id: 17
+  ward_code: F SOUTH
+  name: Ward F SOUTH
+  is_geocoded: false
+  short_name: F/S
+ward_G NORTH:
+  id: 18
+  ward_code: G NORTH
+  name: Ward G NORTH
+  is_geocoded: false
+  short_name: G/N
+ward_K NORTH:
+  id: 19
+  ward_code: K NORTH
+  name: Ward K NORTH
+  is_geocoded: false
+  short_name: K NORTH
+ward_R/CENTRAL:
+  id: 20
+  ward_code: R/CENTRAL
+  name: Ward R/CENTRAL
+  is_geocoded: false
+  short_name: R/CENTRAL
+ward_G SOUTH:
+  id: 21
+  ward_code: G SOUTH
+  name: Ward G SOUTH
+  is_geocoded: false
+  short_name: G/S
+ward_H EAST:
+  id: 22
+  ward_code: H EAST
+  name: Ward H EAST
+  is_geocoded: false
+  short_name: H/E
+ward_H WEST:
+  id: 23
+  ward_code: H WEST
+  name: Ward H WEST
+  is_geocoded: false
+  short_name: H/W
+ward_K EAST:
+  id: 24
+  ward_code: K EAST
+  name: Ward K EAST
+  is_geocoded: false
+  short_name: K/E
+ward_K WEST:
+  id: 25
+  ward_code: K WEST
+  name: Ward K WEST
+  is_geocoded: false
+  short_name: K/W
+ward_L:
+  id: 26
+  ward_code: L
+  name: Ward L
+  is_geocoded: false
+  short_name: L
+ward_M EAST:
+  id: 27
+  ward_code: M EAST
+  name: Ward M EAST
+  is_geocoded: false
+  short_name: M/E
+ward_M WEST:
+  id: 28
+  ward_code: M WEST
+  name: Ward M WEST
+  is_geocoded: false
+  short_name: M/W
+ward_N:
+  id: 29
+  ward_code: "N"
+  name: Ward N
+  is_geocoded: false
+  short_name: "N"
+ward_P EAST:
+  id: 30
+  ward_code: P EAST
+  name: Ward P EAST
+  is_geocoded: false
+  short_name: P EAST
+ward_P NORTH:
+  id: 31
+  ward_code: P NORTH
+  name: Ward P NORTH
+  is_geocoded: false
+  short_name: P/N
+ward_P SOUTH:
+  id: 32
+  ward_code: P SOUTH
+  name: Ward P SOUTH
+  is_geocoded: false
+  short_name: P/S
+ward_R SOUTH:
+  id: 33
+  ward_code: R SOUTH
+  name: Ward R SOUTH
+  is_geocoded: false
+  short_name: R/S
+ward_R/Central:
+  id: 34
+  ward_code: R/Central
+  name: Ward R/Central
+  is_geocoded: false
+  short_name: R/C
+ward_R/North:
+  id: 35
+  ward_code: R/North
+  name: Ward R/North
+  is_geocoded: false
+  short_name: R/North
+ward_S:
+  id: 36
+  ward_code: S
+  name: Ward S
+  is_geocoded: false
+  short_name: S
+ward_T:
+  id: 37
+  ward_code: T
+  name: Ward T
+  is_geocoded: false
+  short_name: T

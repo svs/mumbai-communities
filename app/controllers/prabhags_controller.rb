@@ -50,8 +50,8 @@ class PrabhagsController < ApplicationController
   def trace
     redirect_to @prabhag, alert: "Access denied." unless @prabhag.assigned_to == current_user
 
-    # Load existing boundary for verification if it exists
-    @existing_boundary = @prabhag.boundaries.best.first
+    # Load existing boundary to help with tracing if one exists
+    @existing_boundary = @prabhag.boundaries.best
   end
 
   def submit

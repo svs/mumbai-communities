@@ -171,7 +171,8 @@ class BoundaryTest < ActiveSupport::TestCase
       boundable: wards(:ward_two),
       geojson: '{"type":"Polygon","coordinates":[[[7,8],[9,10],[11,12],[7,8]]]}',
       source_type: 'official_import',
-      status: 'canonical'
+      status: 'approved',
+      is_canonical: true
     )
 
     pending_boundary = Boundary.create!(
@@ -237,16 +238,20 @@ class BoundaryTest < ActiveSupport::TestCase
       boundable: wards(:ward_one),
       geojson: '{"type":"Polygon","coordinates":[[[1,2],[3,4],[5,6],[1,2]]]}',
       source_type: 'official_import',
-      status: 'canonical',
+      status: 'approved',
       is_canonical: true
     )
 
-    best_ordered = Boundary.where(boundable: wards(:ward_one)).best
+    # Test the best scope returns the canonical boundary
+    best_boundary = Boundary.where(boundable: wards(:ward_one)).best
+    assert_equal canonical, best_boundary
 
-    assert_equal canonical, best_ordered[0]
-    assert_equal approved, best_ordered[1]
-    assert_equal pending, best_ordered[2]
-    assert_equal rejected, best_ordered[3]
+    # Test all boundaries ordering
+    all_ordered = wards(:ward_one).all_boundaries.to_a
+    assert_equal canonical, all_ordered[0]
+    assert_equal approved, all_ordered[1]
+    assert_equal pending, all_ordered[2]
+    assert_equal rejected, all_ordered[3]
   end
 
   test "user_submitted scope should only include user submissions" do
@@ -295,23 +300,164 @@ class BoundaryTest < ActiveSupport::TestCase
   end
 
   test "recent scope should order by created_at desc" do
+    ward = wards(:ward_one)
+
     old_boundary = Boundary.create!(
-      boundable: wards(:ward_one),
+      boundable: ward,
       geojson: '{"type":"Polygon","coordinates":[[[1,2],[3,4],[5,6],[1,2]]]}',
       source_type: 'user_submission',
       created_at: 2.days.ago
     )
 
     new_boundary = Boundary.create!(
-      boundable: wards(:ward_one),
+      boundable: ward,
       geojson: '{"type":"Polygon","coordinates":[[[1,2],[3,4],[5,6],[1,2]]]}',
       source_type: 'user_submission',
       created_at: 1.day.ago
     )
 
-    recent_boundaries = Boundary.recent
+    # Test the recent scope only for this specific ward's boundaries
+    recent_boundaries = ward.boundaries.recent
 
     assert_equal new_boundary, recent_boundaries.first
     assert_equal old_boundary, recent_boundaries.second
+  end
+
+  # Boundary Approval Workflow Tests
+
+  test "should optionally belong to edited_by user" do
+    @boundary.edited_by = nil
+    assert @boundary.valid?
+
+    admin = users(:admin_2)
+    @boundary.edited_by = admin
+    assert @boundary.valid?
+  end
+
+  test "should validate that edited_by is an admin when present" do
+    regular_user = users(:user_one)
+    admin_user = users(:admin_2)
+
+    @boundary.edited_by = regular_user
+    assert_not @boundary.valid?
+    assert_includes @boundary.errors[:edited_by], "must be an admin user"
+
+    @boundary.edited_by = admin_user
+    assert @boundary.valid?
+  end
+
+  test "should allow nil edited_by" do
+    @boundary.edited_by = nil
+    assert @boundary.valid?
+    assert_no_match /edited_by/, @boundary.errors.full_messages.join(' ')
+  end
+
+  test "should track admin edits with edited_by field" do
+    admin = users(:admin_2)
+    new_geojson = '{"type":"Polygon","coordinates":[[[10,20],[30,40],[50,60],[10,20]]]}'
+    @boundary.save!
+
+    assert_nil @boundary.edited_by
+
+    @boundary.edit_by_admin!(admin, new_geojson)
+
+    assert_equal admin, @boundary.edited_by
+    assert_equal new_geojson, @boundary.geojson
+  end
+
+  test "should not validate edited_by when nil" do
+    @boundary.edited_by = nil
+    assert @boundary.valid?
+    # This test is the same as "should allow nil edited_by" - validating the behavior
+  end
+
+  test "should reject non-admin users as edited_by" do
+    regular_user = users(:user_one)
+    @boundary.edited_by = regular_user
+
+    assert_not @boundary.valid?
+    assert_includes @boundary.errors[:edited_by], "must be an admin user"
+  end
+
+  test "should accept admin users as edited_by" do
+    admin = users(:admin_2)
+    @boundary.edited_by = admin
+
+    assert @boundary.valid?
+    assert_empty @boundary.errors[:edited_by]
+  end
+
+  test "edit_by_admin! should update boundary with admin tracking" do
+    admin = users(:admin_2)
+    regular_user = users(:user_one)
+    new_geojson = '{"type":"Polygon","coordinates":[[[100,200],[300,400],[500,600],[100,200]]]}'
+    @boundary.save!
+
+    # Should work with admin user
+    @boundary.edit_by_admin!(admin, new_geojson)
+    assert_equal admin, @boundary.edited_by
+    assert_equal new_geojson, @boundary.geojson
+
+    # Should raise error with non-admin user
+    assert_raises(ArgumentError) do
+      @boundary.edit_by_admin!(regular_user, new_geojson)
+    end
+  end
+
+  test "should return boundaries for admin review" do
+    ward = wards(:ward_one)
+
+    # Create boundaries in different states
+    pending_user_boundary = Boundary.create!(
+      boundable: ward,
+      geojson: '{"type":"Polygon","coordinates":[[[1,2],[3,4],[5,6],[1,2]]]}',
+      source_type: 'user_submission',
+      status: 'pending'
+    )
+
+    approved_boundary = Boundary.create!(
+      boundable: ward,
+      geojson: '{"type":"Polygon","coordinates":[[[7,8],[9,10],[11,12],[7,8]]]}',
+      source_type: 'user_submission',
+      status: 'approved'
+    )
+
+    official_boundary = Boundary.create!(
+      boundable: ward,
+      geojson: '{"type":"Polygon","coordinates":[[[13,14],[15,16],[17,18],[13,14]]]}',
+      source_type: 'official_import',
+      status: 'pending'
+    )
+
+    review_boundaries = Boundary.for_admin_review
+
+    assert_includes review_boundaries, pending_user_boundary
+    assert_not_includes review_boundaries, approved_boundary
+    assert_not_includes review_boundaries, official_boundary
+  end
+
+  test "should scope boundaries pending admin review" do
+    # This test is the same as the previous one - testing the for_admin_review scope
+    prabhag = prabhags(:prabhag_one)
+
+    pending_user_boundary = Boundary.create!(
+      boundable: prabhag,
+      geojson: '{"type":"Polygon","coordinates":[[[1,2],[3,4],[5,6],[1,2]]]}',
+      source_type: 'user_submission',
+      status: 'pending'
+    )
+
+    rejected_boundary = Boundary.create!(
+      boundable: prabhag,
+      geojson: '{"type":"Polygon","coordinates":[[[7,8],[9,10],[11,12],[7,8]]]}',
+      source_type: 'user_submission',
+      status: 'rejected'
+    )
+
+    # Test the scope specifically
+    review_boundaries = prabhag.boundaries.for_admin_review
+
+    assert_includes review_boundaries, pending_user_boundary
+    assert_not_includes review_boundaries, rejected_boundary
   end
 end

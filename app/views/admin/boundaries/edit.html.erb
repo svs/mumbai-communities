@@ -1,0 +1,365 @@
+<% content_for :title, "Edit Boundary - #{@boundary.boundable.name}" %>
+
+<style>
+      body {
+          margin: 0;
+          padding: 0;
+          font-family: Arial, sans-serif;
+      }
+
+      #main-content, #main-content * {
+          box-sizing: border-box;
+      }
+
+      #main-content {
+          display: flex;
+          height: 90vh;
+          overflow: hidden;
+      }
+
+      #pdf-half {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          border-right: 2px solid #ddd;
+      }
+
+      .section-toolbar {
+          background: #f8f9fa;
+          border-bottom: 1px solid #ddd;
+          padding: 10px 15px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          height: 60px;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          overflow: hidden;
+      }
+
+      .toolbar-group {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          flex-shrink: 0;
+      }
+
+      #pdf-content {
+          flex: 1;
+          background: #f5f5f5;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+      }
+
+      #pdf-embed {
+          width: 100%;
+          height: 100%;
+          border: none;
+          overflow: auto;
+          -webkit-overflow-scrolling: touch;
+      }
+
+      #pdf-content:hover #pdf-embed {
+          pointer-events: auto;
+      }
+
+      #map-half {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+      }
+
+      #map-content {
+          flex: 1;
+          position: relative;
+      }
+
+      #map {
+          width: 100%;
+          height: 100%;
+      }
+
+      #map-toolbar {
+          background: white;
+          border-top: 2px solid #ddd;
+          padding: 15px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 15px;
+          min-height: 60px;
+      }
+
+      .side-label {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          background: rgba(255,255,255,0.9);
+          padding: 5px 10px;
+          border-radius: 4px;
+          font-weight: bold;
+          font-size: 12px;
+          z-index: 100;
+      }
+
+        .pdf-control-btn {
+            min-width: 32px;
+            height: 32px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            margin: 0;
+            text-decoration: none;
+            padding: 0 8px;
+        }
+
+        .pdf-control-btn:hover {
+            background: #f0f0f0;
+            color: #000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            text-decoration: none;
+        }
+
+      .pdf-control-btn:active {
+          transform: scale(0.95);
+      }
+
+      .pdf-control-group {
+          display: flex;
+          gap: 2px;
+          align-items: center;
+      }
+
+        .pdf-control-group label {
+            font-size: 11px;
+            margin: 0 5px 0 0;
+            font-weight: bold;
+            color: #333;
+        }
+
+      .toolbar-section {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+      }
+
+      .control-group {
+          margin: 0;
+      }
+
+      label {
+          display: block;
+          margin-bottom: 5px;
+          font-weight: bold;
+          font-size: 12px;
+      }
+
+      input[type="range"] {
+          width: 100%;
+      }
+
+      button {
+          background: #4285f4;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          margin: 5px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 14px;
+      }
+
+      button:hover {
+          background: #357ae8;
+      }
+
+      button.danger {
+          background: #dc3545;
+      }
+
+      button.danger:hover {
+          background: #c82333;
+      }
+
+      button.success {
+          background: #28a745;
+      }
+
+      button.success:hover {
+          background: #218838;
+      }
+
+      .info {
+          font-size: 12px;
+          color: #666;
+          margin-top: 5px;
+      }
+
+      #coordinates {
+          margin-top: 10px;
+          padding: 10px;
+          background: #f8f9fa;
+          border-radius: 4px;
+          max-height: 200px;
+          overflow-y: auto;
+          font-family: monospace;
+          font-size: 11px;
+      }
+
+      .toggle-group {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 10px;
+      }
+
+      .toggle-btn {
+          flex: 1;
+          padding: 5px;
+          font-size: 12px;
+      }
+
+      .toggle-btn.active {
+          background: #28a745;
+      }
+
+      .back-btn {
+          position: fixed;
+          top: 10px;
+          right: 10px;
+          z-index: 1000;
+          background: #6c757d;
+          color: white;
+          text-decoration: none;
+          padding: 10px 20px;
+          border-radius: 6px;
+          font-size: 14px;
+      }
+
+      .back-btn:hover {
+          background: #5a6268;
+          color: white;
+          text-decoration: none;
+      }
+
+      .flash-messages {
+          position: fixed;
+          top: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 1001;
+          width: auto;
+          max-width: 80%;
+      }
+
+      .flash {
+          padding: 10px 15px;
+          margin-bottom: 10px;
+          border-radius: 4px;
+          font-size: 14px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .flash.notice {
+          background-color: #d4edda;
+          color: #155724;
+          border: 1px solid #c3e6cb;
+      }
+
+      .flash.alert {
+          background-color: #f8d7da;
+          color: #721c24;
+          border: 1px solid #f5c6cb;
+      }
+    </style>
+    <%= link_to "← Back", @boundary.boundable, class: "back-btn" %>
+
+    <div class="flash-messages">
+      <% flash.each do |type, message| %>
+        <div class="flash <%= type %>"><%= message %></div>
+      <% end %>
+    </div>
+
+    <div data-controller="boundary-tracer"
+         data-boundary-tracer-prabhag-id-value="<%= @boundary.boundable.id %>"
+         data-boundary-tracer-api-key-value="<%= ENV['GOOGLE_MAPS_API_KEY'] %>"
+         data-boundary-tracer-center-value='{"lat": 19.1136, "lng": 72.8697}'
+         data-boundary-tracer-initial-zoom-value="15"
+         <% if @boundary.geojson.present? %>
+         data-boundary-tracer-existing-boundary-value='<%= JSON.parse(@boundary.geojson)["geometry"].to_json.html_safe %>'
+         <% end %>
+         id="main-content">
+          <div id="pdf-half">
+            <div class="section-toolbar">
+              <label><strong>PDF Reference - Prabhag <%= @boundary.boundable.number %></strong></label>
+              <a href="<%= @boundary.boundable.pdf_url %>" target="_blank" class="pdf-control-btn" title="Open PDF in New Tab">🔗</a>
+              <button class="pdf-control-btn" onclick="document.getElementById('pdf-embed').src = document.getElementById('pdf-embed').src" title="Reload PDF">↻</button>
+            </div>
+            <div id="pdf-content">
+              <iframe id="pdf-embed"
+                      data-boundary-tracer-target="pdfImage"
+                      src="<%= @boundary.boundable.pdf_url %>#navpanes=0"
+                      title="Prabhag <%= @boundary.boundable.number %> PDF"
+                      onclick="this.focus()"
+                      onload="this.focus()"
+                      style="width: 100%; height: 100%; border: none;">
+                <p>Your browser doesn't support PDF embedding.
+                   <a href="<%= @boundary.boundable.pdf_url %>" target="_blank">Click here to open the PDF</a>
+                </p>
+              </iframe>
+            </div>
+          </div>
+          <div id="map-half">
+            <div class="section-toolbar">
+
+              <div class="toolbar-group">
+                <button data-action="click->boundary-tracer#undoLastPoint" class="danger" style="font-size: 12px;">↶ Undo</button>
+                <button data-action="click->boundary-tracer#clearBoundary" class="danger" style="font-size: 12px;">🗑️ Clear</button>
+                <button data-action="click->boundary-tracer#closePolygon" class="success" style="font-size: 12px;">🔗 Close</button>
+                <span style="font-size: 12px; color: #666;">
+                  Points: <strong><span data-boundary-tracer-target="pointCount">0</span></strong>
+                </span>
+              </div>
+
+              <div class="toolbar-group">
+                <%= form_with model: [@boundary.boundable, @boundary], url: admin_prabhag_boundary_path(@boundary.boundable, @boundary), method: :patch, local: true,
+                                          style: "margin: 0; display: inline;",
+                                          data: { boundary_tracer_target: "submitForm" } do |form| %>
+                  <%= form.hidden_field :geojson, data: { boundary_tracer_target: "geojsonInput" } %>
+                  <%= form.submit "💾 Update Boundary",
+                                             class: "success",
+                                             style: "margin: 0; font-size: 14px; padding: 8px 16px; font-weight: bold; margin-right: 10px;",
+                                             data: {
+                                               confirm: "Update this boundary?",
+                                               action: "click->boundary-tracer#generateGeoJSON"
+                                             } %>
+                <% end %>
+                <%= button_to approve_admin_prabhag_boundary_path(@boundary.boundable, @boundary),
+                    method: :post,
+                    class: "success",
+                    style: "margin: 0; font-size: 14px; padding: 8px 16px; font-weight: bold; background: #28a745;",
+                    confirm: "Approve this boundary?",
+                    data: { turbo_method: :post } do %>
+                  ✅ Approve
+                <% end %>
+              </div>
+            </div>
+            <div id="map-content">
+              <div id="map" data-boundary-tracer-target="map"></div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- Google Maps API is loaded by the Stimulus controller -->

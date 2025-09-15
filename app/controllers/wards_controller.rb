@@ -37,8 +37,7 @@ class WardsController < ApplicationController
   private
 
   def set_ward
-    # Find ward by name slug or ward_code
-    slug_name = params[:id].gsub('-', ' ').titleize
-    @ward = Ward.find_by(name: slug_name) || Ward.find_by!(ward_code: params[:id].upcase)
+    # Find ward by slug (using to_param method) or ward_code
+    @ward = Ward.all.find { |w| w.to_param == params[:id] } || Ward.find_by!(ward_code: params[:id].upcase)
   end
 end

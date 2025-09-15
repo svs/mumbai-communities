@@ -30,10 +30,10 @@ export default class extends Controller {
   }
 
   hoverWard(wardCode) {
-    // Find the ward boundary controller and trigger hover
+    // Find the leaflet map controller and trigger hover
     const mapController = this.application.getControllerForElementAndIdentifier(
-      document.querySelector('[data-controller*="ward-boundary"]'),
-      'ward-boundary'
+      document.querySelector('[data-controller*="leaflet-map"]'),
+      'leaflet-map'
     )
 
     if (mapController && typeof mapController.hoverWard === 'function') {
@@ -42,14 +42,50 @@ export default class extends Controller {
   }
 
   unhoverWard(wardCode) {
-    // Find the ward boundary controller and trigger unhover
+    // Find the leaflet map controller and trigger unhover
     const mapController = this.application.getControllerForElementAndIdentifier(
-      document.querySelector('[data-controller*="ward-boundary"]'),
-      'ward-boundary'
+      document.querySelector('[data-controller*="leaflet-map"]'),
+      'leaflet-map'
     )
 
     if (mapController && typeof mapController.unhoverWard === 'function') {
       mapController.unhoverWard(wardCode)
     }
+  }
+
+  scrollToWard(wardCode) {
+    console.log(`Scrolling to ward ${wardCode} in sidebar`)
+
+    // Find the ward item in the sidebar
+    const wardItem = document.querySelector(`[data-ward-code="${wardCode}"]`)
+    if (!wardItem) {
+      console.warn(`Ward item with code ${wardCode} not found`)
+      return
+    }
+
+    // Highlight the selected ward item temporarily
+    this.highlightWardItem(wardItem)
+
+    // Use scrollIntoView with center block positioning for reliable centering
+    wardItem.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'nearest'
+    })
+  }
+
+  highlightWardItem(wardItem) {
+    // Remove any existing highlights
+    document.querySelectorAll('.ward-sidebar-item.highlighted').forEach(item => {
+      item.classList.remove('highlighted')
+    })
+
+    // Add highlight class to the selected item
+    wardItem.classList.add('highlighted')
+
+    // Remove highlight after 2 seconds
+    setTimeout(() => {
+      wardItem.classList.remove('highlighted')
+    }, 2000)
   }
 }

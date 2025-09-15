@@ -4,7 +4,7 @@ class SimpleAdminWorkflowTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   def setup
-    @admin = users(:user_two)  # admin user
+    @admin = users(:admin_2)   # admin user with admin: true
     @user = users(:user_one)   # regular user
     @prabhag = prabhags(:prabhag_one)
     @geojson_data = '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[72.8777,19.0760],[72.8778,19.0760],[72.8778,19.0761],[72.8777,19.0761],[72.8777,19.0760]]]},"properties":{}}'
@@ -27,7 +27,7 @@ class SimpleAdminWorkflowTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     # Admin can approve the boundary
-    post approve_admin_prabhag_path(@prabhag)
+    post approve_admin_boundary_path(boundary)
     assert_response :redirect
 
     # Check that boundary and prabhag were updated
@@ -52,7 +52,7 @@ class SimpleAdminWorkflowTest < ActionDispatch::IntegrationTest
 
     # Admin can reject the boundary
     sign_in @admin
-    post reject_admin_prabhag_path(@prabhag), params: { rejection_reason: "Please improve" }
+    post reject_admin_boundary_path(boundary), params: { rejection_reason: "Please improve" }
     assert_response :redirect
 
     # Check that boundary and prabhag were updated

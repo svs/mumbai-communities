@@ -53,38 +53,6 @@ class Prabhag < ApplicationRecord
     end
   end
 
-  def approve!(approved_by: nil)
-    transaction do
-      # Find the most recent pending boundary and approve it
-      pending_boundary = boundaries.where(status: 'pending').order(:created_at).last
-      if pending_boundary
-        pending_boundary.update!(
-          status: 'approved',
-          approved_by: approved_by,
-          approved_at: Time.current
-        )
-      end
-
-      # Update prabhag status
-      update!(status: "approved")
-    end
-  end
-
-  def reject!(rejection_reason: nil)
-    transaction do
-      # Find the most recent pending boundary and reject it
-      pending_boundary = boundaries.where(status: 'pending').order(:created_at).last
-      if pending_boundary
-        pending_boundary.update!(
-          status: 'rejected',
-          rejection_reason: rejection_reason
-        )
-      end
-
-      # Update prabhag status and unassign
-      update!(status: "rejected", assigned_to: nil)
-    end
-  end
 
   # Get path to the converted PNG image for the boundary tracer
   def map_image_src
@@ -148,7 +116,7 @@ class Prabhag < ApplicationRecord
 
   # Semantic boundary finders - get the best available boundary
   def boundary
-    boundaries.best.first
+    Boundary.where(id: boundaries.select(:id)).best
   end
 
   # Get the approved boundary (approved or canonical)
@@ -168,7 +136,18 @@ class Prabhag < ApplicationRecord
 
   # Get all boundaries for this prabhag, ordered by best first
   def all_boundaries
-    boundaries.best
+    boundaries.order(
+      is_canonical: :desc
+    ).order(
+      Arel.sql("CASE
+        WHEN status = 'approved' THEN 1
+        WHEN status = 'pending' THEN 2
+        WHEN status = 'rejected' THEN 3
+        ELSE 4
+      END")
+    ).order(
+      created_at: :desc
+    )
   end
 
   # Check if prabhag has any boundary data

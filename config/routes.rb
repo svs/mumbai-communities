@@ -39,6 +39,17 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :prabhags, only: [:index, :show] do
       member do
+        get 'boundaries', to: 'prabhags#boundary_review'
+      end
+      resources :boundaries, only: [:show, :edit, :update] do
+        member do
+          post :approve
+          post :reject
+        end
+      end
+    end
+    resources :boundaries do
+      member do
         post :approve
         post :reject
       end

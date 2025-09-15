@@ -43,3 +43,15 @@ button, .btn {
   font-weight: 500;
   letter-spacing: 0.01em;
 }
+
+/* Ward List Highlight Animation */
+.ward-sidebar-item.highlighted {
+  background-color: #dbeafe !important;
+  border-left: 4px solid #3b82f6;
+  transition: all 0.3s ease;
+  transform: translateX(4px);
+}
+
+.ward-sidebar-item {
+  transition: all 0.3s ease;
+}

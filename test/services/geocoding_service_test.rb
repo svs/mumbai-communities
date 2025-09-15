@@ -72,6 +72,7 @@ class GeocodingServiceTest < ActiveSupport::TestCase
           ]]
         }
       }.to_json,
+      source_type: 'user_submission',
       status: 'pending'
     )
 

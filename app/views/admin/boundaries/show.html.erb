@@ -1,0 +1,212 @@
+<div class="w-full">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="font-bold text-3xl">Admin: Boundary Details</h1>
+    <div class="flex space-x-4">
+      <%= link_to "Edit Boundary", edit_admin_boundary_path(@boundary), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+      <% if @boundary.prabhag? %>
+        <%= link_to "← Back to Prabhag", admin_prabhag_path(@boundary.boundable), class: "text-blue-500 hover:text-blue-700" %>
+      <% else %>
+        <%= link_to "← Back to Boundaries", admin_boundaries_path, class: "text-blue-500 hover:text-blue-700" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Boundary Information -->
+    <div class="space-y-6">
+      <div class="bg-white border rounded-lg p-6 shadow-sm">
+        <h2 class="text-xl font-semibold mb-4">Boundary Information</h2>
+        <dl class="space-y-3">
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Type:</dt>
+            <dd class="text-gray-900"><%= @boundary.boundable_type %></dd>
+          </div>
+          <% if @boundary.prabhag? %>
+            <div class="flex justify-between">
+              <dt class="font-medium text-gray-600">Prabhag:</dt>
+              <dd class="text-gray-900">
+                <%= link_to "Prabhag #{@boundary.boundable.number}", admin_prabhag_path(@boundary.boundable),
+                    class: "text-blue-500 hover:text-blue-700" %>
+              </dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="font-medium text-gray-600">Ward:</dt>
+              <dd class="text-gray-900"><%= @boundary.boundable.ward_code %></dd>
+            </div>
+          <% end %>
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Status:</dt>
+            <dd>
+              <% case @boundary.status %>
+              <% when 'approved' %>
+                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">✅ Approved</span>
+              <% when 'rejected' %>
+                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">❌ Rejected</span>
+              <% when 'canonical' %>
+                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">⭐ Canonical</span>
+              <% when 'pending' %>
+                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">⏳ Pending Review</span>
+              <% end %>
+            </dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Source:</dt>
+            <dd class="text-gray-900"><%= @boundary.source_type.humanize %></dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Year:</dt>
+            <dd class="text-gray-900"><%= @boundary.year %></dd>
+          </div>
+          <% if @boundary.is_canonical? %>
+            <div class="flex justify-between">
+              <dt class="font-medium text-gray-600">Canonical:</dt>
+              <dd class="text-gray-900">Yes</dd>
+            </div>
+          <% end %>
+          <% if @geojson_data && @geojson_data.dig("geometry", "coordinates", 0) %>
+            <div class="flex justify-between">
+              <dt class="font-medium text-gray-600">Boundary Points:</dt>
+              <dd class="text-gray-900"><%= @geojson_data["geometry"]["coordinates"][0].length %></dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+
+      <!-- Submission Details -->
+      <div class="bg-white border rounded-lg p-6 shadow-sm">
+        <h2 class="text-xl font-semibold mb-4">Submission Details</h2>
+        <dl class="space-y-3">
+          <div class="flex justify-between">
+            <dt class="font-medium text-gray-600">Created:</dt>
+            <dd class="text-gray-900"><%= @boundary.created_at.strftime("%B %d, %Y at %I:%M %p") %></dd>
+          </div>
+          <% if @boundary.submitted_by %>
+            <div class="flex justify-between">
+              <dt class="font-medium text-gray-600">Submitted by:</dt>
+              <dd class="text-gray-900"><%= @boundary.submitted_by.name || @boundary.submitted_by.email %></dd>
+            </div>
+          <% end %>
+          <% if @boundary.approved_by && @boundary.approved_at %>
+            <div class="flex justify-between">
+              <dt class="font-medium text-gray-600">Approved by:</dt>
+              <dd class="text-gray-900"><%= @boundary.approved_by.name || @boundary.approved_by.email %></dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="font-medium text-gray-600">Approved at:</dt>
+              <dd class="text-gray-900"><%= @boundary.approved_at.strftime("%B %d, %Y at %I:%M %p") %></dd>
+            </div>
+          <% end %>
+          <% if @boundary.edited_by %>
+            <div class="flex justify-between">
+              <dt class="font-medium text-gray-600">Last edited by:</dt>
+              <dd class="text-gray-900"><%= @boundary.edited_by.name || @boundary.edited_by.email %></dd>
+            </div>
+          <% end %>
+          <% if @boundary.rejection_reason.present? %>
+            <div>
+              <dt class="font-medium text-gray-600 mb-1">Rejection Reason:</dt>
+              <dd class="text-red-600 text-sm bg-red-50 p-2 rounded"><%= @boundary.rejection_reason %></dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+
+    <!-- Admin Actions -->
+    <div class="space-y-6">
+      <div class="bg-white border rounded-lg p-6 shadow-sm">
+        <h2 class="text-xl font-semibold mb-4">Admin Actions</h2>
+        <div class="space-y-3">
+          <% if @boundary.status == 'pending' %>
+            <%= button_to "✅ Approve Boundary", approve_admin_boundary_path(@boundary),
+                          class: "block w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-center",
+                          data: { confirm: "Approve this boundary submission?" } %>
+            <%= button_to "❌ Reject Boundary", reject_admin_boundary_path(@boundary),
+                          class: "block w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center",
+                          data: { confirm: "Reject this boundary submission?" } %>
+          <% else %>
+            <div class="text-center p-4 bg-gray-100 rounded">
+              <p class="text-gray-600">Boundary has been <%= @boundary.status %></p>
+              <% if @boundary.status == 'approved' %>
+                <p class="text-sm text-gray-500 mt-1">No further action needed</p>
+              <% end %>
+            </div>
+          <% end %>
+
+          <%= link_to "Edit Boundary", edit_admin_boundary_path(@boundary),
+                      class: "block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center" %>
+
+          <%= button_to "Delete Boundary", admin_boundary_path(@boundary),
+                        method: :delete,
+                        class: "block w-full bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded text-center",
+                        data: { confirm: "Are you sure you want to delete this boundary? This action cannot be undone." } %>
+        </div>
+      </div>
+
+      <!-- Metadata -->
+      <% if @boundary.metadata.present? %>
+        <div class="bg-white border rounded-lg p-6 shadow-sm">
+          <h2 class="text-xl font-semibold mb-4">Metadata</h2>
+          <div class="text-sm">
+            <% @boundary.metadata.each do |key, value| %>
+              <div class="flex justify-between py-1">
+                <span class="font-medium text-gray-600"><%= key.humanize %>:</span>
+                <span class="text-gray-900"><%= value %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Map Preview -->
+  <div class="bg-white border rounded-lg p-6 shadow-sm mt-8">
+    <h2 class="text-xl font-semibold mb-4">Boundary Map</h2>
+    <% if @boundary.geojson.present? %>
+      <div id="map" class="border rounded h-96"></div>
+      <script>
+        function initMap() {
+          const geojson = <%= @boundary.geojson.html_safe %>;
+          const coordinates = geojson.geometry ? geojson.geometry.coordinates[0] : geojson.coordinates[0];
+          const path = coordinates.map(coord => ({ lat: coord[1], lng: coord[0] }));
+
+          // Calculate center
+          const bounds = new google.maps.LatLngBounds();
+          path.forEach(point => bounds.extend(point));
+          const center = bounds.getCenter();
+
+          const map = new google.maps.Map(document.getElementById('map'), {
+            center: center,
+            zoom: 15,
+            mapTypeId: 'roadmap'
+          });
+
+          // Fit bounds to polygon
+          map.fitBounds(bounds, 50);
+
+          // Create the polygon
+          const polygon = new google.maps.Polygon({
+            paths: path,
+            strokeColor: '<%= @boundary.status == 'canonical' ? '#8B5CF6' : @boundary.status == 'approved' ? '#10B981' : @boundary.status == 'rejected' ? '#EF4444' : '#F59E0B' %>',
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: '<%= @boundary.status == 'canonical' ? '#8B5CF6' : @boundary.status == 'approved' ? '#10B981' : @boundary.status == 'rejected' ? '#EF4444' : '#F59E0B' %>',
+            fillOpacity: 0.3,
+            editable: false,
+            clickable: false
+          });
+
+          polygon.setMap(map);
+        }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&callback=initMap" async defer></script>
+    <% else %>
+      <div class="border rounded h-96 bg-gray-50 flex items-center justify-center">
+        <div class="text-center text-gray-600">
+          <p>No boundary data available</p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

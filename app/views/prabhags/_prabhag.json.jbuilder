@@ -3,7 +3,13 @@
 
 boundary = boundary || prabhag.approved_boundary
 if boundary&.geojson.present?
-  feature = JSON.parse(boundary.geojson_feature)
+  geojson_feature_data = boundary.geojson_feature
+
+  if geojson_feature_data.present?
+    feature = JSON.parse(geojson_feature_data)
+
+    # Ensure feature has properties hash
+    feature['properties'] ||= {}
 
   # Determine colors based on boundary type and status (consistent with ward show page)
   colors = case boundary.source_type
@@ -72,7 +78,8 @@ if boundary&.geojson.present?
     'popup_details' => popup_details
   })
 
-  json.child! do
-    json.merge! feature
+    json.child! do
+      json.merge! feature
+    end
   end
 end
