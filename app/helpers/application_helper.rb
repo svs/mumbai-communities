@@ -30,4 +30,27 @@ module ApplicationHelper
       link_to("Change", setup_location_path, class: "text-green-600 hover:text-green-800 underline text-xs")
     end
   end
+
+  def git_commit_hash
+    # Try multiple sources for git commit hash
+
+    # 1. Environment variable (set during Docker build)
+    return ENV['GIT_COMMIT_SHA'].first(7) if ENV['GIT_COMMIT_SHA'].present?
+
+    # 2. REVISION file (created during deployment)
+    revision_file = Rails.root.join('REVISION')
+    if File.exist?(revision_file)
+      return File.read(revision_file).strip.first(7)
+    end
+
+    # 3. Git command (development)
+    begin
+      return `git rev-parse --short HEAD`.strip if File.exist?(Rails.root.join('.git'))
+    rescue
+      # Git command failed
+    end
+
+    # 4. Fallback
+    return 'dev'
+  end
 end

@@ -42,6 +42,9 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+# Capture git commit hash for runtime
+RUN git rev-parse HEAD > REVISION 2>/dev/null || echo "unknown" > REVISION
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
