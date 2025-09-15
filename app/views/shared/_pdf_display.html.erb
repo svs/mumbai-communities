@@ -1,0 +1,25 @@
+<%# Simple PDF display partial %>
+<%# Usage: render 'shared/pdf_display', pdf_url: url, title: "Title" %>
+
+<div class="h-full bg-gray-100 rounded border border-gray-200 overflow-hidden">
+  <% if local_assigns[:pdf_url].present? %>
+    <iframe src="<%= pdf_url %>#navpanes=0"
+            title="<%= local_assigns[:title] || 'PDF Document' %>"
+            class="w-full h-full border-none"
+            style="min-height: 300px;">
+      <p class="p-4 text-gray-500">
+        Your browser doesn't support PDF embedding.
+        <a href="<%= pdf_url %>" target="_blank" class="text-blue-600 hover:text-blue-800">
+          Click here to open the PDF
+        </a>
+      </p>
+    </iframe>
+  <% else %>
+    <div class="flex items-center justify-center h-full text-gray-500">
+      <div class="text-center">
+        <i class="fas fa-file-pdf text-4xl mb-2 text-gray-400"></i>
+        <p>PDF not available</p>
+      </div>
+    </div>
+  <% end %>
+</div>

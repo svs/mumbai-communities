@@ -1,0 +1,426 @@
+<!-- About Page - Mumbai Ward Civic Engagement Platform -->
+<div class="about-page">
+  <!-- Hero Section -->
+  <section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h1 class="display-4 fw-bold mb-4">Mumbai Ward Civic Engagement Platform</h1>
+          <p class="lead mb-4">
+            Empowering Mumbai citizens to actively participate in local governance through community mapping, 
+            issue reporting, and collaborative problem-solving at the ward level.
+          </p>
+          <div class="d-flex gap-3">
+            <%= link_to "Get Started", new_user_registration_path, class: "btn btn-light btn-lg px-4" %>
+            <%= link_to "Explore Wards", wards_path, class: "btn btn-outline-light btn-lg px-4" %>
+          </div>
+        </div>
+        <div class="col-lg-4 text-center">
+          <div class="stats-card bg-white text-primary rounded p-4">
+            <h3 class="fw-bold">227</h3>
+            <p class="mb-0">Electoral Wards</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Mission Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center mb-5">
+          <h2 class="display-5 fw-bold mb-4">Our Mission</h2>
+          <p class="lead">
+            Building stronger neighborhoods through technology-enabled civic engagement
+          </p>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 text-center">
+          <div class="mission-icon mb-3">
+            <i class="bi bi-geo-alt-fill text-primary" style="font-size: 3rem;"></i>
+          </div>
+          <h4>Community Mapping</h4>
+          <p>Crowdsourced boundary tracing and local area documentation to unlock ward-specific features and services.</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <div class="mission-icon mb-3">
+            <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 3rem;"></i>
+          </div>
+          <h4>Issue Reporting</h4>
+          <p>Comprehensive 10-category system for reporting civic issues with photo documentation and progress tracking.</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <div class="mission-icon mb-3">
+            <i class="bi bi-people-fill text-success" style="font-size: 3rem;"></i>
+          </div>
+          <h4>Community Building</h4>
+          <p>Facilitating discussions, organizing events, and fostering collaboration among ward residents.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- How It Works -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="display-5 fw-bold text-center mb-5">How It Works</h2>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="text-center">
+            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">1</div>
+            <h5>Find Your Ward</h5>
+            <p>Use GPS detection, area search, or interactive map to discover your ward community.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="text-center">
+            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">2</div>
+            <h5>Unlock Community Features</h5>
+            <p>Help map your ward boundaries to enable issue reporting, discussions, and events.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="text-center">
+            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">3</div>
+            <h5>Report, Discuss, Organize</h5>
+            <p>Report civic issues, join neighborhood discussions, and organize community events.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="text-center">
+            <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">4</div>
+            <h5>Track Progress & Build Community</h5>
+            <p>Monitor issue resolution and celebrate community successes together.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Features Overview -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="display-5 fw-bold text-center mb-5">Platform Features</h2>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="feature-card h-100 p-4 border rounded">
+            <div class="d-flex align-items-center mb-3">
+              <i class="bi bi-map-fill text-primary me-3" style="font-size: 2rem;"></i>
+              <h4 class="mb-0">Interactive Ward Maps</h4>
+            </div>
+            <p>Detailed ward boundaries with community-contributed information, issue hotspots, and local landmarks. Support for boundary tracing and verification.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="feature-card h-100 p-4 border rounded">
+            <div class="d-flex align-items-center mb-3">
+              <i class="bi bi-camera-fill text-info me-3" style="font-size: 2rem;"></i>
+              <h4 class="mb-0">Visual Documentation</h4>
+            </div>
+            <p>Photo galleries for issues, events, and ward improvements. Before/after comparisons and community-driven visual storytelling.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="feature-card h-100 p-4 border rounded">
+            <div class="d-flex align-items-center mb-3">
+              <i class="bi bi-chat-dots-fill text-success me-3" style="font-size: 2rem;"></i>
+              <h4 class="mb-0">Community Discussions</h4>
+            </div>
+            <p>Threaded conversations with nested replies, moderation tools, and multilingual support. Build consensus on local issues.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="feature-card h-100 p-4 border rounded">
+            <div class="d-flex align-items-center mb-3">
+              <i class="bi bi-calendar-event-fill text-warning me-3" style="font-size: 2rem;"></i>
+              <h4 class="mb-0">Event Organization</h4>
+            </div>
+            <p>RSVP management, volunteer coordination, and event promotion for community meetings, clean-up drives, and local initiatives.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="feature-card h-100 p-4 border rounded">
+            <div class="d-flex align-items-center mb-3">
+              <i class="bi bi-search text-secondary me-3" style="font-size: 2rem;"></i>
+              <h4 class="mb-0">Smart Search & Discovery</h4>
+            </div>
+            <p>Find issues, discussions, and events by location, category, or keywords. Personalized recommendations based on your ward and interests.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="feature-card h-100 p-4 border rounded">
+            <div class="d-flex align-items-center mb-3">
+              <i class="bi bi-bell-fill text-danger me-3" style="font-size: 2rem;"></i>
+              <h4 class="mb-0">Smart Notifications</h4>
+            </div>
+            <p>Stay informed about issues in your area, replies to your posts, upcoming events, and community milestones with customizable alerts.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Community Impact -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h2 class="display-5 fw-bold mb-4">Making a Real Impact</h2>
+          <p class="lead mb-4">
+            Our platform transforms individual concerns into collective community action, 
+            creating measurable improvements in Mumbai's neighborhoods.
+          </p>
+          <div class="row g-3">
+            <div class="col-6">
+              <div class="impact-stat text-center p-3 bg-white rounded">
+                <h3 class="text-primary fw-bold">500+</h3>
+                <p class="mb-0">Issues Resolved</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="impact-stat text-center p-3 bg-white rounded">
+                <h3 class="text-success fw-bold">10,000+</h3>
+                <p class="mb-0">Active Citizens</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="impact-stat text-center p-3 bg-white rounded">
+                <h3 class="text-warning fw-bold">200+</h3>
+                <p class="mb-0">Community Events</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="impact-stat text-center p-3 bg-white rounded">
+                <h3 class="text-info fw-bold">50+</h3>
+                <p class="mb-0">Ward Improvements</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="testimonial-card p-4 bg-white rounded shadow-sm">
+            <blockquote class="blockquote mb-3">
+              <p>"This platform helped our community organize and get the potholes on our street fixed within two weeks. 
+                The visual documentation made it impossible for authorities to ignore."</p>
+            </blockquote>
+            <div class="d-flex align-items-center">
+              <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">RS</div>
+              <div>
+                <h6 class="mb-0">Rajesh Sharma</h6>
+                <small class="text-muted">Resident, Ward 72</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Technology & Innovation -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="display-5 fw-bold text-center mb-5">Built with Modern Technology</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="tech-card text-center p-4">
+            <i class="bi bi-phone text-primary mb-3" style="font-size: 3rem;"></i>
+            <h5>Mobile-First Design</h5>
+            <p>Optimized for smartphones with camera integration, GPS support, and offline capabilities for field reporting.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tech-card text-center p-4">
+            <i class="bi bi-translate text-success mb-3" style="font-size: 3rem;"></i>
+            <h5>Multilingual Support</h5>
+            <p>Available in English, Hindi, Marathi, and Gujarati to serve Mumbai's diverse population.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tech-card text-center p-4">
+            <i class="bi bi-robot text-warning mb-3" style="font-size: 3rem;"></i>
+            <h5>AI-Powered Features</h5>
+            <p>Content moderation, automatic translation, and intelligent recommendations for enhanced user experience.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Getting Started -->
+  <section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+      <h2 class="display-5 fw-bold mb-4">Ready to Make a Difference?</h2>
+      <p class="lead mb-5">Join thousands of Mumbai citizens who are actively improving their neighborhoods</p>
+      <div class="row justify-content-center g-3">
+        <div class="col-md-4">
+          <%= link_to "Find Your Ward", root_path, class: "btn btn-light btn-lg w-100 py-3" %>
+        </div>
+        <div class="col-md-4">
+          <%= link_to "Sign Up Free", new_user_registration_path, class: "btn btn-outline-light btn-lg w-100 py-3" %>
+        </div>
+        <div class="col-md-4">
+          <%= link_to "Start Mapping", mapping_path, class: "btn btn-outline-light btn-lg w-100 py-3" %>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- FAQ -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="display-5 fw-bold text-center mb-5">Frequently Asked Questions</h2>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  What is a ward and prabhag?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Mumbai is divided into 227 electoral wards for municipal governance. Each ward is further 
+                  subdivided into prabhags (typically 3-4 per ward) for more granular representation and 
+                  hyperlocal community engagement.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Do I need to map boundaries to participate?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  No! You can join existing active ward communities immediately. Mapping is only required 
+                  to unlock community features in unmapped wards. Many wards are already active and welcoming new members.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  How does the trust system work?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Earn reputation points through quality contributions like reporting issues, organizing events, 
+                  and helping neighbors. Higher trust levels unlock moderation privileges and community leadership roles.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Is my personal information safe?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Yes. We use industry-standard security practices, offer privacy controls, and comply with 
+                  data protection regulations. You can participate anonymously for sensitive issues if needed.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Contact & Support -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h2 class="display-5 fw-bold mb-4">Need Help or Have Questions?</h2>
+          <p class="lead mb-5">We're here to support your civic engagement journey</p>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="support-card p-4 bg-white rounded shadow-sm">
+                <i class="bi bi-envelope-fill text-primary mb-3" style="font-size: 2rem;"></i>
+                <h5>Email Support</h5>
+                <p>support@mumbaiwards.org</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="support-card p-4 bg-white rounded shadow-sm">
+                <i class="bi bi-telephone-fill text-success mb-3" style="font-size: 2rem;"></i>
+                <h5>Phone Support</h5>
+                <p>+91 22 1234 5678</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="support-card p-4 bg-white rounded shadow-sm">
+                <i class="bi bi-chat-dots-fill text-warning mb-3" style="font-size: 2rem;"></i>
+                <h5>Live Chat</h5>
+                <p>Available 9 AM - 6 PM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<style>
+  .about-page {
+    /* Hero section styling */
+  }
+
+  .hero-section {
+    background: linear-gradient(135deg, var(--bs-primary), var(--bs-primary-dark));
+  }
+
+  .stats-card {
+    border-left: 4px solid var(--bs-primary);
+  }
+
+  .step-number {
+    background: var(--bs-primary) !important;
+  }
+
+  .feature-card {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+
+  .impact-stat {
+    border-top: 3px solid var(--bs-primary);
+  }
+
+  .tech-card {
+    transition: all 0.3s ease;
+  }
+
+  .tech-card:hover {
+    background-color: var(--bs-light);
+    transform: scale(1.05);
+  }
+
+  .testimonial-card {
+    border-left: 4px solid var(--bs-primary);
+  }
+
+  .support-card {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .support-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1) !important;
+  }
+
+  @media (max-width: 768px) {
+    .hero-section .display-4 {
+      font-size: 2rem;
+    }
+
+    .step-number {
+      width: 50px !important;
+      height: 50px !important;
+      font-size: 1.2rem !important;
+    }
+  }
+</style>

@@ -41,6 +41,10 @@
           <!-- Quick Actions -->
           <div class="flex space-x-2">
             <% if user_signed_in? %>
+              <% if current_user.admin? %>
+                <%= link_to "Admin Panel", admin_prabhag_path(@prabhag),
+                              class: "px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium transition-colors" %>
+              <% end %>
               <% if @prabhag.can_be_assigned_to?(current_user) %>
                 <%= link_to "Map This Area", assign_prabhag_path(@prabhag),
                               class: "px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors",
@@ -118,14 +122,14 @@
             <% end %>
           </div>
           <div class="w-full h-64 bg-white rounded border border-gray-200 overflow-hidden"
-               data-controller="ward-boundary"
-               data-ward-boundary-data-url-value="<%= prabhag_path(@prabhag, format: :json) %>"
-               data-ward-boundary-show-labels-value="true"
-               data-ward-boundary-show-legend-value="false"
-               data-ward-boundary-clickable-value="false"
-               data-ward-boundary-zoom-value="16"
-               data-ward-boundary-static-value="true">
-            <div data-ward-boundary-target="container" class="w-full h-full desaturated-map"></div>
+               data-controller="leaflet-map"
+               data-leaflet-map-data-url-value="<%= prabhag_path(@prabhag, format: :json) %>"
+               data-leaflet-map-show-labels-value="true"
+               data-leaflet-map-show-legend-value="false"
+               data-leaflet-map-clickable-value="false"
+               data-leaflet-map-zoom-value="16"
+               data-leaflet-map-static-value="true">
+            <div data-leaflet-map-target="container" class="w-full h-full desaturated-map"></div>
           </div>
         <% else %>
           <div class="w-full h-64 bg-gray-50 flex items-center justify-center">

@@ -1,0 +1,182 @@
+<% content_for :title, "Review Boundaries - #{@prabhag.name}" %>
+
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <nav class="text-sm text-gray-500 mb-4">
+        <%= link_to "Admin Panel", admin_prabhags_path, class: "hover:text-gray-700" %> /
+        <%= link_to "Prabhags", admin_prabhags_path, class: "hover:text-gray-700" %> /
+        <%= link_to @prabhag.name, admin_prabhag_path(@prabhag), class: "hover:text-gray-700" %> /
+        <span class="text-gray-900">Boundary Review</span>
+      </nav>
+
+      <div class="bg-white rounded-lg shadow-sm border p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">
+              <i class="fas fa-map-marked-alt text-blue-600 mr-2"></i>
+              Review Boundaries - <%= @prabhag.name %>
+            </h1>
+            <p class="text-gray-600 mt-1">Ward <%= @prabhag.ward_code %> • <%= @boundaries_for_review.count %> boundaries pending review</p>
+          </div>
+          <div class="flex space-x-3">
+            <%= link_to admin_prabhag_path(@prabhag), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" do %>
+              <i class="fas fa-arrow-left mr-2"></i>
+              Back to Prabhag
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boundaries for Review -->
+    <% if @boundaries_for_review.any? %>
+      <div class="space-y-6">
+        <% @boundaries_for_review.each_with_index do |boundary, index| %>
+          <div class="bg-white rounded-lg shadow-sm border overflow-hidden" data-boundary-id="<%= boundary.id %>">
+            <!-- Boundary Header -->
+            <div class="px-6 py-4 border-b bg-gray-50">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                      <span class="text-blue-600 font-semibold text-sm"><%= index + 1 %></span>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-medium text-gray-900">
+                      Boundary Submission #<%= boundary.id %>
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                      Submitted by <%= boundary.submitted_by&.name || 'Unknown User' %> •
+                      <%= time_ago_in_words(boundary.created_at) %> ago
+                      <% if boundary.edited_by %>
+                        • Edited by <%= boundary.edited_by.name %>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    <i class="fas fa-clock mr-1"></i>
+                    Pending Review
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Two-column layout: PDF + Map -->
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+              <!-- Left: PDF Reference -->
+              <div class="p-6 border-r">
+                <h4 class="text-sm font-medium text-gray-900 mb-3">
+                  <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                  PDF Reference
+                </h4>
+
+                <div style="height: 300px;">
+                  <%= render 'shared/pdf_display',
+                      pdf_url: @prabhag.pdf_url,
+                      title: "Prabhag #{@prabhag.number} PDF" %>
+                </div>
+
+                <div class="mt-3">
+                  <%= link_to @prabhag.pdf_url, target: "_blank",
+                      class: "inline-flex items-center text-sm text-blue-600 hover:text-blue-800" do %>
+                    <i class="fas fa-external-link-alt mr-1"></i>
+                    Open Original PDF
+                  <% end %>
+                </div>
+              </div>
+
+              <!-- Right: Map with Boundary -->
+              <div class="p-6">
+                <h4 class="text-sm font-medium text-gray-900 mb-3">
+                  <i class="fas fa-map text-green-500 mr-2"></i>
+                  Submitted Boundary
+                </h4>
+
+                <div class="w-full h-64 bg-white rounded border border-gray-200 overflow-hidden"
+                     data-controller="leaflet-map"
+                     data-leaflet-map-data-url-value="<%= admin_boundary_path(boundary, format: :json) %>"
+                     data-leaflet-map-show-labels-value="true"
+                     data-leaflet-map-show-legend-value="false"
+                     data-leaflet-map-clickable-value="false"
+                     data-leaflet-map-zoom-value="20"
+                     data-leaflet-map-static-value="true">
+                  <div data-leaflet-map-target="container" class="w-full h-full desaturated-map"></div>
+                </div>
+
+                <div class="mt-3 text-xs text-gray-500">
+                  <i class="fas fa-info-circle mr-1"></i>
+                  Non-interactive preview • Click "Review in Detail" to edit
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="px-6 py-4 bg-gray-50 border-t">
+              <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-500">
+                  <i class="fas fa-clock mr-1"></i>
+                  Submitted <%= boundary.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+                </div>
+                <div class="flex space-x-3">
+                  <%= link_to edit_admin_prabhag_boundary_path(@prabhag, boundary),
+                      class: "inline-flex items-center px-4 py-2 border border-blue-300 rounded-md shadow-sm text-sm font-medium text-blue-700 bg-white hover:bg-blue-50" do %>
+                    <i class="fas fa-edit mr-2"></i>
+                    Review in Detail
+                  <% end %>
+
+                  <%= button_to approve_admin_prabhag_boundary_path(@prabhag, boundary),
+                      method: :post,
+                      class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700",
+                      confirm: "Are you sure you want to approve this boundary submission?",
+                      data: { turbo_method: :post } do %>
+                    <i class="fas fa-check mr-2"></i>
+                    Quick Approve
+                  <% end %>
+
+                  <%= button_to reject_admin_prabhag_boundary_path(@prabhag, boundary),
+                      method: :post,
+                      class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700",
+                      confirm: "Are you sure you want to reject this boundary submission?",
+                      data: { turbo_method: :post } do %>
+                    <i class="fas fa-times mr-2"></i>
+                    Reject
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <!-- Empty State -->
+      <div class="bg-white rounded-lg shadow-sm border p-12 text-center">
+        <div class="max-w-md mx-auto">
+          <i class="fas fa-clipboard-check text-gray-400 text-6xl mb-4"></i>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">No boundaries to review</h3>
+          <p class="text-gray-500 mb-6">
+            All boundary submissions for <%= @prabhag.name %> have been processed.
+            New submissions will appear here for your review.
+          </p>
+          <%= link_to admin_prabhags_path,
+              class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" do %>
+            <i class="fas fa-list mr-2"></i>
+            Back to All Prabhags
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  // Initialize maps when page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    // Maps will be initialized by the leaflet-map Stimulus controller
+    console.log('Boundary review page loaded with <%= @boundaries_for_review.count %> boundaries');
+  });
+</script>

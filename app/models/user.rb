@@ -70,4 +70,8 @@ class User < ApplicationRecord
   def needs_location_setup?
     !has_location? || !location_confirmed?
   end
+
+  def admin?
+    admin
+  end
 end

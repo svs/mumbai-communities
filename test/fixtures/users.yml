@@ -1,17 +1,74 @@
+---
 user_one:
+  id: 1
   email: user1@example.com
-  encrypted_password: <%= User.new.send(:password_digest, 'password') rescue '$2a$12$abcdefghijklmnopqrstuvwxyz' %>
+  encrypted_password: "$2a$12$aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   name: Test User One
   admin: false
-
-user_two:
-  email: user2@example.com
-  encrypted_password: <%= User.new.send(:password_digest, 'password') rescue '$2a$12$abcdefghijklmnopqrstuvwxyz' %>
-  name: Test User Two
-  admin: true
-
-admin_user:
+  street_address: Test Address 1, Mumbai, Maharashtra, India
+  ward_code: A
+  prabhag_id: 68
+  latitude: !ruby/object:BigDecimal 18:0.18917849e2
+  longitude: !ruby/object:BigDecimal 18:0.72824589e2
+  location_confirmed_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2025-09-14 17:17:08.059764000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2025-09-14 17:17:08.059764000 Z
+admin_2:
+  id: 2
   email: admin@example.com
-  encrypted_password: <%= User.new.send(:password_digest, 'password') rescue '$2a$12$abcdefghijklmnopqrstuvwxyz' %>
-  name: Test Admin User
+  encrypted_password: "$2a$12$aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  name: MCGM Admin
   admin: true
+  street_address: Captain Prakash Pethe Marg, Machimar Nagar, Cuffe Parade, Mumbai,
+    Maharashtra, India
+  ward_code: A
+  prabhag_id: 69
+  latitude: !ruby/object:BigDecimal 18:0.18917849e2
+  longitude: !ruby/object:BigDecimal 18:0.72824589e2
+  location_confirmed_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2025-09-14 17:17:08.059764000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2025-09-14 17:17:08.059764000 Z
+svs_3:
+  id: 3
+  email: svs@example.com
+  encrypted_password: "$2a$12$aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  provider: google_oauth2
+  uid: '115927348091722650529'
+  name: Siddharth Sharma
+  admin: false
+user_two:
+  id: 4
+  email: user2@example.com
+  encrypted_password: "$2a$12$aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  name: Test User Two
+  admin: false
+  street_address: Test Address 2, Mumbai, Maharashtra, India
+  ward_code: B
+  prabhag_id: 71
+  latitude: !ruby/object:BigDecimal 18:0.18917849e2
+  longitude: !ruby/object:BigDecimal 18:0.72824589e2
+  location_confirmed_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2025-09-14 17:17:08.059764000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2025-09-14 17:17:08.059764000 Z
+admin_user:
+  id: 5
+  email: admin_user@example.com
+  encrypted_password: "$2a$12$aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  name: Admin User
+  admin: true
+  street_address: Admin Address, Mumbai, Maharashtra, India
+  ward_code: A
+  prabhag_id: 68
+  latitude: !ruby/object:BigDecimal 18:0.18917849e2
+  longitude: !ruby/object:BigDecimal 18:0.72824589e2
+  location_confirmed_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2025-09-14 17:17:08.059764000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2025-09-14 17:17:08.059764000 Z

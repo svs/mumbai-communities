@@ -26,21 +26,6 @@ class Ward < ApplicationRecord
     (legacy_prabhags.count.to_f / prabhags.count * 100).round(1)
   end
   
-  def total_tickets
-    tickets.count
-  end
-  
-  def open_tickets
-    tickets.where(status: ['open', 'assigned', 'in_progress']).count
-  end
-  
-  def completed_tickets
-    tickets.where(status: ['approved', 'closed']).count
-  end
-  
-  def overdue_tickets
-    tickets.where('due_date < ? AND status NOT IN (?)', Time.current, ['approved', 'closed']).count
-  end
   
   # Check if ward has all prabhags mapped
   def fully_mapped?
@@ -93,7 +78,7 @@ class Ward < ApplicationRecord
 
   # Semantic boundary finders - get the best available boundary
   def boundary
-    boundaries.best.first
+    boundaries.best
   end
 
   # Get the approved boundary (approved or canonical)
@@ -113,11 +98,32 @@ class Ward < ApplicationRecord
 
   # Get all boundaries for this ward, ordered by best first
   def all_boundaries
-    boundaries.best
+    boundaries.order(
+      is_canonical: :desc
+    ).order(
+      Arel.sql("CASE
+        WHEN status = 'approved' THEN 1
+        WHEN status = 'pending' THEN 2
+        WHEN status = 'rejected' THEN 3
+        ELSE 4
+      END")
+    ).order(
+      created_at: :desc
+    )
   end
 
   # Check if ward has any boundary data
   def has_boundary?
     boundaries.exists?
+  end
+
+  # Get open tickets count for this ward
+  def open_tickets
+    tickets.open.count
+  end
+
+  # Get overdue tickets count for this ward
+  def overdue_tickets
+    tickets.overdue.count
   end
 end

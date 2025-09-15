@@ -1,7 +1,5 @@
-class Admin::PrabhagsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :ensure_admin!
-  before_action :set_prabhag, only: [:show, :approve, :reject]
+class Admin::PrabhagsController < Admin::BaseController
+  before_action :set_prabhag, only: [:show, :approve, :reject, :boundary_review]
 
   def index
     @submitted_prabhags = Prabhag.submitted.includes(:assigned_to)
@@ -15,19 +13,27 @@ class Admin::PrabhagsController < ApplicationController
 
   def show
     # Get the boundary data from the most recent pending boundary or the best available boundary
-    boundary = @prabhag.boundaries.where(status: 'pending').order(:created_at).last || @prabhag.boundary
-    @geojson_data = JSON.parse(boundary.geojson) if boundary&.geojson&.present?
+    @pending_boundary = @prabhag.boundaries.where(status: 'pending').order(:created_at).last
+    @current_boundary = @pending_boundary || @prabhag.boundary
+
+    if @current_boundary&.geojson&.present?
+      begin
+        @geojson_data = JSON.parse(@current_boundary.geojson)
+      rescue JSON::ParserError
+        # Handle malformed JSON gracefully
+        @geojson_data = nil
+      end
+    end
   end
 
-  def approve
-    @prabhag.approve!(approved_by: current_user)
-    redirect_to admin_prabhag_path(@prabhag), notice: 'Prabhag boundary approved successfully!'
-  end
+  def boundary_review
+    # Get boundaries for review (pending user submissions)
+    @boundaries_for_review = @prabhag.boundaries.for_admin_review.includes(:submitted_by, :edited_by)
 
-  def reject
-    rejection_reason = params[:rejection_reason] || "Rejected by admin"
-    @prabhag.reject!(rejection_reason: rejection_reason)
-    redirect_to admin_prabhag_path(@prabhag), notice: 'Prabhag boundary rejected. It has been made available for reassignment.'
+    respond_to do |format|
+      format.html # renders boundary_review.html.erb
+      format.json # renders boundary_review.json.jbuilder
+    end
   end
 
   private
@@ -36,7 +42,4 @@ class Admin::PrabhagsController < ApplicationController
     @prabhag = Prabhag.find(params[:id])
   end
 
-  def ensure_admin!
-    redirect_to root_path, alert: 'Access denied. Admin privileges required.' unless current_user&.admin?
-  end
 end

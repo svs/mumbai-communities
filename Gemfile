@@ -83,4 +83,6 @@ group :test do
   gem "shoulda-matchers"
   # Mocking and stubbing framework [https://github.com/freerange/mocha]
   gem "mocha"
+  # For controller testing with assigns method
+  gem "rails-controller-testing"
 end

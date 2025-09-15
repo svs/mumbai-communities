@@ -17,7 +17,9 @@ servers:
 # SSL and domain configuration
 proxy:
   ssl: true
-  host: mcgm.svs.io
+  hosts:
+    - mcgm.svs.io
+    - mumbai-communities.svs.io
   response_timeout: 300  # 300 seconds (5 minutes) for requests to complete
 
 # Registry configuration

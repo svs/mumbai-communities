@@ -14,7 +14,6 @@
         <p class="text-xl mb-6 text-gray-600">
           Ready to continue making a difference in Mumbai's communities?
         </p>
-
         <% if @user_assignments&.any? || @user_tickets&.any? %>
           <div class="bg-blue-50 rounded-lg p-4 mb-6">
             <p class="text-blue-800 font-semibold mb-2"><i class="fas fa-bullseye mr-2"></i>Your Active Contributions</p>
@@ -23,27 +22,24 @@
             </p>
           </div>
         <% end %>
-
         <!-- Quick Actions for logged in users -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <% if @user_assignments&.any? %>
-            <%= link_to prabhag_path(@user_assignments.first),
+            <%= link_to ward_prabhag_path(@user_assignments.first.ward, @user_assignments.first),
                         class: "bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors" do %>
               <div class="text-sm opacity-90">Continue Mapping</div>
               <div class="font-bold">Prabhag <%= @user_assignments.first.number %></div>
             <% end %>
           <% end %>
-
           <%= link_to wards_path,
                       class: "bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors" do %>
             <div class="text-sm opacity-90">Explore</div>
             <div class="font-bold">All Communities</div>
           <% end %>
-
-          <%= link_to wards_path,
-                      class: "bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors" do %>
+          <%= link_to "#",
+                      class: "bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg cursor-not-allowed" do %>
             <div class="text-sm opacity-90">Report</div>
-            <div class="font-bold">New Issue</div>
+            <div class="font-bold">Coming Soon</div>
           <% end %>
         </div>
       </div>
@@ -56,21 +52,17 @@
       <p class="text-2xl mb-8 text-gray-600 max-w-4xl mx-auto">
         Identify problems, organize solutions, execute projects, and track the impact you create
       </p>
-
       <!-- Ward Discovery Section -->
       <div class="bg-white rounded-2xl shadow-lg p-8 max-w-2xl mx-auto">
         <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center justify-center">
           <i class="fas fa-home mr-3"></i> Join Your Ward Community
         </h2>
-
         <div class="space-y-4">
           <%= link_to "Explore Communities", wards_path,
                       class: "w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors inline-block text-center" %>
         </div>
-
       </div>
     <% end %>
-
     <!-- Progress Indicators (for all users) -->
     <div class="flex justify-center items-center space-x-8 mt-8 flex-wrap gap-4">
       <div class="flex items-center">
@@ -88,19 +80,16 @@
     </div>
   </div>
 </div>
-
 <!-- Main Content Area -->
 <div class="max-w-7xl mx-auto px-4 py-16">
   <!-- Location Setup Prompt -->
   <%= location_setup_banner %>
-
   <!-- User Location Summary -->
   <% if user_signed_in? && current_user.has_location? %>
     <div class="mb-8">
       <%= user_location_summary %>
     </div>
   <% end %>
-
   <!-- User's Current Activity (if logged in) -->
   <% if user_signed_in? %>
     <% if @user_assignments&.any? || @user_tickets&.any? %>
@@ -118,7 +107,6 @@
               </div>
             </div>
           <% end %>
-
           <% (@user_tickets || []).limit(2).each do |ticket| %>
             <div class="bg-white p-4 rounded-lg border">
               <h4 class="font-semibold text-gray-800"><%= ticket.title %></h4>
@@ -136,7 +124,6 @@
       </div>
     <% end %>
   <% end %>
-
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
     <!-- Community Impact -->
     <div class="bg-white p-8 rounded-2xl shadow-md">
@@ -164,7 +151,6 @@
         </div>
       </div>
     </div>
-
     <!-- Recent Activity -->
     <div class="bg-white p-8 rounded-2xl shadow-md">
       <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
@@ -184,14 +170,12 @@
               <p class="text-xs text-gray-500">Ward <%= ticket.ward_code %> • <%= time_ago_in_words(ticket.created_at) %> ago</p>
             </div>
           <% end %>
-
           <% (@user_assignments || []).limit(2).each do |assignment| %>
             <div class="border-l-4 border-purple-400 pl-3 py-2">
               <p class="text-sm font-medium text-gray-800">Your mapping: Prabhag <%= assignment.number %></p>
               <p class="text-xs text-gray-500">Ward <%= assignment.ward_code %> • In progress</p>
             </div>
           <% end %>
-
           <% if (@user_tickets&.empty? || !@user_tickets) && (@user_assignments&.empty? || !@user_assignments) %>
             <div class="text-center py-4 bg-blue-50 rounded-lg">
               <p class="text-blue-800 font-medium">Ready to get started?</p>
@@ -214,7 +198,6 @@
         <% end %>
       </div>
     </div>
-
     <!-- How It Works -->
     <div class="bg-white p-8 rounded-2xl shadow-md">
       <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
@@ -240,7 +223,6 @@
       </div>
     </div>
   </div>
-
   <!-- Interactive Map Section -->
   <div class="bg-gray-50 rounded-2xl p-8 mb-16">
     <div class="text-center mb-8">
@@ -260,20 +242,18 @@
         </div>
       </div>
     </div>
-
     <!-- Interactive Ward Map -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
-         data-controller="ward-boundary"
-         data-ward-boundary-data-url-value="/wards.json"
-         data-ward-boundary-show-labels-value="false"
-         data-ward-boundary-show-legend-value="true"
-         data-ward-boundary-static-value="true">
-      <div data-ward-boundary-target="container"
+         data-controller="leaflet-map"
+         data-leaflet-map-data-url-value="/wards.json"
+         data-leaflet-map-show-labels-value="false"
+         data-leaflet-map-show-legend-value="true"
+         data-leaflet-map-static-value="true">
+      <div data-leaflet-map-target="container"
            class="h-96 w-full relative desaturated-map">
         <!-- Map will be loaded here -->
       </div>
     </div>
-
     <div class="text-center mt-6 text-gray-600">
       <p class="mb-4">Help unlock inactive wards! Some communities need boundary mapping to get started.</p>
       <div class="space-x-4">
@@ -285,7 +265,6 @@
       </div>
     </div>
   </div>
-
   <!-- Authentication Call-to-Action for non-logged in users -->
   <% unless user_signed_in? %>
     <div class="bg-white border border-gray-200 rounded-2xl p-8 text-center">

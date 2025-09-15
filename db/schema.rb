@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_14_135052) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_15_181514) do
+  create_table "attachments", force: :cascade do |t|
+    t.string "attachable_type", null: false
+    t.integer "attachable_id", null: false
+    t.string "name", null: false
+    t.string "url"
+    t.string "attachment_type", default: "link"
+    t.string "mime_type"
+    t.integer "position", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attachable_type", "attachable_id", "position"], name: "idx_on_attachable_type_attachable_id_position_f0678034d9"
+    t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
+  end
+
   create_table "boundaries", force: :cascade do |t|
     t.string "boundable_type", null: false
     t.integer "boundable_id", null: false
@@ -26,9 +40,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_135052) do
     t.text "rejection_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "edited_by_id"
     t.index ["approved_by_id"], name: "index_boundaries_on_approved_by_id"
     t.index ["boundable_type", "boundable_id", "is_canonical"], name: "index_boundaries_on_boundable_and_canonical"
     t.index ["boundable_type", "boundable_id"], name: "index_boundaries_on_boundable_type_and_boundable_id"
+    t.index ["edited_by_id"], name: "index_boundaries_on_edited_by_id"
     t.index ["status"], name: "index_boundaries_on_status"
     t.index ["submitted_by_id"], name: "index_boundaries_on_submitted_by_id"
     t.index ["year", "source_type"], name: "index_boundaries_on_year_and_source_type"
@@ -110,6 +126,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_135052) do
   end
 
   add_foreign_key "boundaries", "users", column: "approved_by_id"
+  add_foreign_key "boundaries", "users", column: "edited_by_id"
   add_foreign_key "boundaries", "users", column: "submitted_by_id"
   add_foreign_key "prabhags", "users", column: "assigned_to_id"
   add_foreign_key "tickets", "users", column: "assigned_to_id"
