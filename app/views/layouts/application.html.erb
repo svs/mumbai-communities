@@ -13,9 +13,9 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
+    <link rel="icon" href="/mumbai-skyline-favicon-large.png?v=3" type="image/png">
+    <link rel="apple-touch-icon" href="/mumbai-skyline-favicon-large.png?v=3">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
@@ -93,7 +93,7 @@
         <div class="flex flex-wrap justify-between items-center">
           <div class="flex items-center space-x-8">
             <%= link_to root_path, class: "flex items-center text-2xl font-bold text-blue-700 hover:text-blue-800" do %>
-              <i class="fas fa-building mr-2 text-blue-700"></i>
+              <%= image_tag "mumbai-skyline-favicon-large.png", class: "w-8 h-8 mr-2", alt: "Mumbai Skyline" %>
               <span>Mumbai Communities</span>
             <% end %>
             <div class="hidden md:flex space-x-6">
@@ -184,7 +184,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
-              <i class="fas fa-building mr-2 text-blue-700"></i>
+              <%= image_tag "mumbai-skyline-favicon-large.png", class: "w-6 h-6 mr-2", alt: "Mumbai Skyline" %>
               Mumbai Communities
             </h3>
             <p class="text-gray-600 text-sm mb-4">
