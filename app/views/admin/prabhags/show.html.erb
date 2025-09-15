@@ -180,7 +180,7 @@
           polygon.setMap(map);
         }
       </script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdaO8AJfaBvqAWeAwHSp4c282lVOEgHgk&callback=initMap" async defer></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&callback=initMap" async defer></script>
       <% if @prabhag.status == 'submitted' %>
         <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded">
           <h3 class="font-semibold text-blue-900 mb-2">Review Instructions</h3>

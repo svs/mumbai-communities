@@ -81,7 +81,7 @@
     <%# Google Places API - load on location setup page and home page %>
     <% if controller_name == 'location_setup' || controller_name == 'home' %>
       <script async defer
-              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdaO8AJfaBvqAWeAwHSp4c282lVOEgHgk&libraries=places&callback=initPlacesAutocomplete">
+              src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&libraries=places&callback=initPlacesAutocomplete">
       </script>
     <% end %>
   </head>
