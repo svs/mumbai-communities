@@ -42,8 +42,11 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+# Accept build argument for git commit hash
+ARG GIT_COMMIT_SHA="unknown"
+
 # Capture git commit hash for runtime
-RUN git rev-parse HEAD > REVISION 2>/dev/null || echo "unknown" > REVISION
+RUN echo "${GIT_COMMIT_SHA}" > REVISION || echo "unknown" > REVISION
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
