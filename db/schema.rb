@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_15_181514) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_18_091732) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -103,6 +103,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_181514) do
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
     t.datetime "location_confirmed_at"
+    t.integer "sign_in_count", default: 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["prabhag_id"], name: "index_users_on_prabhag_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

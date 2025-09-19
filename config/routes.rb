@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
   get "home/index"
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: {
+    omniauth_callbacks: 'users/omniauth_callbacks',
+    registrations: 'users/registrations'
+  }
+
+  # Development email preview
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 
   # Location setup
   get 'setup_location', to: 'location_setup#show'
@@ -8,23 +16,7 @@ Rails.application.routes.draw do
   
   # Ward-centric structure
   resources :wards, only: [:index, :show] do
-    resources :tickets, only: [:index, :show] do
-      member do
-        post :assign
-        get :work
-        post :submit
-      end
-    end
     resources :prabhags, only: [:index, :show]
-  end
-  
-  # Global ticket management
-  resources :tickets, only: [:index, :show] do
-    member do
-      post :assign
-      get :work
-      post :submit
-    end
   end
   
   # Legacy prabhag routes (for backward compatibility)
@@ -49,12 +41,6 @@ Rails.application.routes.draw do
       end
     end
     resources :boundaries do
-      member do
-        post :approve
-        post :reject
-      end
-    end
-    resources :tickets, only: [:index, :show] do
       member do
         post :approve
         post :reject

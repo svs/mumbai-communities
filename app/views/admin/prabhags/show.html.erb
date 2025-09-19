@@ -1,3 +1,14 @@
+<!-- Hidden test data for integration tests -->
+<div id="test-data" class="hidden" data-test="page-info">
+  <span data-test="prabhag-number"><%= @prabhag.number %></span>
+  <span data-test="prabhag-ward"><%= @prabhag.ward_code %></span>
+  <span data-test="prabhag-status"><%= @prabhag.status %></span>
+  <span data-test="boundary-count"><%= @prabhag.boundaries.count %></span>
+  <% @prabhag.boundaries.each_with_index do |boundary, index| %>
+    <span data-test="boundary-<%= index %>-status"><%= boundary.status %></span>
+  <% end %>
+</div>
+
 <div class="w-full">
   <div class="flex justify-between items-center mb-8">
     <h1 class="font-bold text-3xl">Admin: Prabhag <%= @prabhag.number %></h1>

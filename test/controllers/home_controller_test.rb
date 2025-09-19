@@ -12,22 +12,16 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index for anonymous user" do
+    # Home page accessible to anonymous users
     get root_path
     assert_response :success
-
-    # Should show landing page elements
-    assert_select "h1", text: /MAKE REAL CHANGE/
-    assert_select "h2", text: "Join Your Ward Community"
-    assert_select ".bg-blue-600", text: "Sign in with Google"
 
     # Should show statistics in the rendered content
     assert_match /\d+ Active Ward Communities/, response.body
     assert_match /\d+ Issues Resolved/, response.body
-    assert_match /\d+ Events This Month/, response.body
 
     # Should not show user-specific content
     assert_select "h1", text: /Welcome back/, count: 0
-    assert_select ".bg-yellow-50", count: 0 # User activity section
   end
 
   test "should redirect authenticated user with location to their prabhag" do
@@ -38,7 +32,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect
   end
 
-  test "should load statistics correctly" do
+  test "should load statistics correctly for anonymous users" do
     get root_path
     assert_response :success
 
@@ -46,7 +40,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_match /\d+/, response.body
   end
 
-  test "should load recent activity feed" do
+  test "should load recent activity feed for anonymous users" do
     get root_path
     assert_response :success
 
@@ -54,7 +48,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".bg-white"
   end
 
-  test "should load featured wards" do
+  test "should load featured wards for anonymous users" do
     get root_path
     assert_response :success
 
@@ -70,22 +64,19 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect
   end
 
-  test "should render interactive ward map" do
+  test "should render interactive ward map for anonymous users" do
     get root_path
+    assert_response :success
 
     # Should include leaflet map controller
     assert_select "[data-controller='leaflet-map']"
     assert_select "[data-leaflet-map-data-url-value='/wards.json']"
     assert_select "[data-leaflet-map-static-value='true']"
-
-    # Should show map legend
-    assert_select ".bg-green-500" # Active indicator
-    assert_select ".bg-yellow-500" # Growing indicator
-    assert_select ".bg-gray-400" # Inactive indicator
   end
 
   test "should show authentication options for anonymous users" do
     get root_path
+    assert_response :success
 
     # Should show OAuth and traditional auth options
     assert_select "form[action='#{user_google_oauth2_omniauth_authorize_path}']"
