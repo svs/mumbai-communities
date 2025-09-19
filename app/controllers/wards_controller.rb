@@ -1,4 +1,5 @@
 class WardsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_ward, only: [:show]
 
   def index
@@ -7,9 +8,10 @@ class WardsController < ApplicationController
     @geocoded_wards = @wards.geocoded.count
     @ward_boundaries_count = @wards.joins(:boundaries).where(boundaries: { status: ['approved', 'canonical'] }).distinct.count
     @prabhag_boundaries_count = Boundary.where(boundable_type: 'Prabhag', status: ['approved', 'canonical']).count
-    @total_tickets = Ticket.count
-    @open_tickets = Ticket.open.count
-    @overdue_tickets = Ticket.overdue.count
+    # Ticket system coming soon
+    @total_tickets = 0
+    @open_tickets = 0
+    @overdue_tickets = 0
 
     respond_to do |format|
       format.html # renders wards/index.html.erb
@@ -19,9 +21,10 @@ class WardsController < ApplicationController
 
   def show
     @prabhags = @ward.prabhags.order(:number)
-    @tickets = @ward.tickets.includes(:assigned_to).order(:status, :priority, :due_date)
-    @open_tickets = @tickets.where(status: ['open', 'assigned', 'in_progress'])
-    @completed_tickets = @tickets.completed
+    # Ticket system coming soon - use empty ActiveRecord relations
+    @tickets = Ticket.none
+    @open_tickets = Ticket.none
+    @completed_tickets = Ticket.none
 
     # Get boundary data for map display using semantic finders
     @ward_boundary = @ward.approved_boundary

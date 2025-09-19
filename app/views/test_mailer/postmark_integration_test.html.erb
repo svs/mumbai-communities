@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+      .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+      .content { background: #f8fafc; padding: 30px; border-radius: 0 0 8px 8px; }
+      .success { background: #10b981; color: white; padding: 15px; border-radius: 6px; text-align: center; font-weight: 600; }
+      .details { background: white; padding: 20px; margin: 20px 0; border-radius: 6px; border-left: 4px solid #667eea; }
+      .footer { text-align: center; margin-top: 30px; color: #6b7280; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🏙️ Mumbai Communities</h1>
+      <p>Ward Boundary Management System</p>
+    </div>
+
+    <div class="content">
+      <div class="success">
+        ✓ Postmark Integration Test Successful!
+      </div>
+
+      <div class="details">
+        <h3>Integration Details</h3>
+        <ul>
+          <li><strong>Email Service:</strong> Postmark</li>
+          <li><strong>Environment:</strong> <%= @environment.capitalize %></li>
+          <li><strong>Timestamp:</strong> <%= @timestamp %></li>
+          <li><strong>Rails Version:</strong> <%= Rails.version %></li>
+        </ul>
+      </div>
+
+      <p>This test email confirms that your Mumbai Communities application can successfully send emails through Postmark. The system is ready to send notifications for:</p>
+
+      <ul>
+        <li>🗺️ Ward boundary mapping assignments</li>
+        <li>✅ Boundary approval notifications</li>
+        <li>🎫 Ticket status updates</li>
+        <li>👤 User registration confirmations</li>
+        <li>🔐 Password reset instructions</li>
+      </ul>
+
+      <div class="footer">
+        <p>Sent from Mumbai Communities Ward Boundary System<br>
+        <small>This is an automated test email • <%= @timestamp %></small></p>
+      </div>
+    </div>
+  </body>
+</html>

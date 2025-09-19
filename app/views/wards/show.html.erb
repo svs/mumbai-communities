@@ -142,8 +142,7 @@
           
           <% if @open_tickets.count > 8 %>
             <div class="mt-6 text-center">
-              <%= link_to "View all #{@open_tickets.count} tasks →", ward_tickets_path(@ward.ward_code), 
-                          class: "text-blue-600 hover:underline" %>
+              <span class="text-gray-500">Task system coming soon →</span>
             </div>
           <% end %>
         <% else %>
@@ -192,8 +191,7 @@
       <div>
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
         <div class="space-y-3">
-          <%= link_to "View all tasks", ward_tickets_path(@ward.ward_code), 
-                      class: "block text-blue-600 hover:underline" %>
+          <span class="text-gray-500">Task system coming soon</span>
           <%= link_to "Browse prabhags", ward_prabhags_path(@ward.ward_code), 
                       class: "block text-blue-600 hover:underline" %>
           <% if user_signed_in? %>

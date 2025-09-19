@@ -34,6 +34,9 @@ gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
+# Email delivery via Postmark [https://github.com/wildbit/postmark-rails]
+gem "postmark-rails"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -73,6 +76,9 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
   gem "tidewave", "~> 0.3.0"
+
+  # Preview email in development [https://github.com/ryanb/letter_opener]
+  gem "letter_opener_web"
 end
 
 group :test do
