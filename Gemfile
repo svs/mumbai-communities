@@ -72,7 +72,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  gem "tidewave", "~> 0.3.0"
+  gem "tidewave", "~> 0.4.0"
 end
 
 group :test do
