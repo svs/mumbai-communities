@@ -1,0 +1,1177 @@
+# MCGM Ward Boundary Application - Behavioral Specification
+
+This document provides a comprehensive behavioral specification organized as a hierarchical outline. Each level represents either a scenario/context (inner nodes) or an assertion (leaf nodes).
+
+## Table of Contents
+1. [Anonymous Users](#anonymous-users)
+2. [Authenticated Users](#authenticated-users)
+3. [Admin Users](#admin-users)
+4. [System-Wide Behaviors](#system-wide-behaviors)
+
+---
+
+## Anonymous Users
+
+### Visiting home page
+- landing page display
+  - hero section
+    - shows "MAKE REAL CHANGE IN YOUR WARD" heading
+    - shows "Join Your Ward Community" call-to-action
+    - shows "Explore Communities" link
+  - statistics section
+    - shows Active Ward Communities count
+    - shows Issues Resolved count
+    - shows Events This Month count
+    - shows Citizens Engaged count
+  - how it works section
+    - shows "How It Works" heading
+    - shows "Find your ward" step
+    - shows "Report issues" step
+    - shows "Join events" step
+    - shows "Build change" step
+  - authentication options
+    - shows "Sign in with Google" button
+    - shows "Sign In" link
+    - shows "Sign Up" link
+  - interactive map
+    - renders Leaflet map container
+    - displays map legend with Active/Growing/Inactive indicators
+    - shows "See Which Wards Need Help" link
+    - shows "Learn About Mapping" link
+  - visual elements
+    - displays Mumbai skyline image with alt text
+    - uses responsive grid layout
+    - has proper heading hierarchy (h1, h2)
+    - has accessible button and link attributes
+  - hides authenticated content
+    - does not show "Welcome back" greeting
+    - does not show "Your Active Contributions" section
+    - does not show user-specific dashboard
+- recent activity feed
+  - shows activity from all wards
+  - shows recent tickets with ward information
+
+### Browsing wards
+- accessing wards index
+  - allows access without authentication
+  - shows list of all wards
+  - statistics display
+    - shows total ward count
+    - shows geocoded ward count
+    - shows ward boundaries count
+    - shows prabhag boundaries count
+  - ward information
+    - shows ward names
+    - shows ward codes
+    - shows completion percentages
+    - color-codes by mapping status
+- viewing ward details
+  - allows access without authentication
+  - ward information display
+    - shows ward name
+    - shows ward code
+    - shows prabhags list
+    - shows completion percentage
+  - map visualization
+    - displays ward boundary if available
+    - displays prabhag boundaries if available
+    - allows clicking features for details
+  - statistics
+    - shows ward-level statistics
+    - shows open tickets count
+    - shows overdue tickets count
+- accessing as JSON
+  - returns properly formatted response
+  - includes GeoJSON FeatureCollection
+  - includes features array
+  - includes ward properties and geometry
+
+### Browsing prabhags
+- accessing prabhags index
+  - allows access without authentication
+  - prabhags list display
+    - shows available prabhags
+    - shows prabhag numbers
+    - shows ward associations
+    - shows status indicators
+  - filtering
+    - filters by ward when ward_id provided
+  - statistics display
+    - shows total prabhags count
+    - shows completed prabhags count
+    - shows assigned prabhags count
+  - authentication prompts
+    - hides assignment button when not logged in
+    - hides tracing interface when not assigned
+- viewing prabhag details
+  - allows access without authentication
+  - prabhag information display
+    - shows prabhag number
+    - shows ward code
+    - shows prabhag status
+    - shows PDF URL link
+  - map visualization
+    - displays prabhag boundary if available
+  - conditional content
+    - shows "Assign to me" button only when logged in and available
+
+### Authentication flows
+- navigating to sign in
+  - clicking "Sign In" link redirects to sign in page
+  - sign in page displays
+    - shows email field
+    - shows password field
+    - shows "Forgot your password?" link
+- navigating to sign up
+  - clicking "Sign Up" link redirects to registration page
+  - registration page displays
+    - shows email field
+    - shows password field
+    - shows password confirmation field
+- password recovery
+  - accessing password reset page
+    - shows password reset form
+- protecting resources
+  - redirects to login when accessing protected resources
+
+---
+
+## Authenticated Users
+
+### Dashboard interaction
+- viewing personalized dashboard
+  - personalized greeting
+    - shows user's first name
+    - shows "Ready to continue making a difference" message
+  - quick actions
+    - shows "All Communities" button
+    - shows "New Issue" button
+  - activity sections
+    - shows "Your Recent Activity" section
+    - shows "Community Impact" section
+  - assignments display
+    - shows user assignments when they exist
+    - shows active assigned tickets
+  - empty states
+    - shows "Ready to get started?" when no assignments
+    - shows "Join a ward community to start contributing!" when no activity
+  - hides anonymous content
+    - does not show "Sign in with Google" button
+    - does not show anonymous call-to-action
+- navigation from dashboard
+  - clicking "All Communities" navigates to wards index
+  - clicking "New Issue" navigates to new ticket page
+- location-based redirect
+  - redirects to ward/prabhag page when location is set
+
+### Managing session
+- signing in with email
+  - accepts valid credentials
+  - redirects to root path after sign in
+  - tracking sign in activity
+    - records current sign in timestamp
+    - records last sign in timestamp
+    - increments sign in count
+    - records current sign in IP
+    - records last sign in IP
+- signing in with Google OAuth2
+  - processes OAuth callback
+  - creates account if new user
+  - signs in existing user
+  - saves OAuth provider and uid
+- signing out
+  - logs user out
+  - redirects to root path
+- maintaining session
+  - persists across page navigation
+  - expires after timeout
+
+### Managing passwords
+- requesting password reset
+  - sends password reset email
+  - generates reset token
+- resetting password
+  - with valid token
+    - updates password
+    - redirects to sign in
+  - with invalid token
+    - shows error
+    - does not update password
+  - with expired token
+    - shows error
+    - does not update password
+- changing password from profile
+  - requires current password
+  - updates password on success
+  - sends notification email after change
+
+### Managing profile
+- viewing profile
+  - displays edit profile page
+  - shows current information
+- updating profile information
+  - updating email
+    - sends confirmation email
+    - requires password confirmation
+  - updating name
+    - saves new name
+  - viewing trackable information
+    - shows sign in count
+    - shows last sign in timestamp
+    - shows current sign in timestamp
+- canceling account
+  - deletes user account
+  - redirects appropriately
+
+### Setting up location
+- initial location setup
+  - redirects to setup when no location
+  - displays location setup form at /setup_location
+- searching for location
+  - using autocomplete
+    - shows address suggestions
+    - populates address field on selection
+    - populates coordinates on selection
+  - selecting on map
+    - captures latitude
+    - captures longitude
+- submitting location
+  - with valid coordinates
+    - determines ward and prabhag
+    - saves street address
+    - saves ward code
+    - saves prabhag ID
+    - saves coordinates (lat/lng)
+    - sets location_confirmed_at timestamp
+    - redirects to root
+  - with invalid coordinates
+    - shows error
+    - stays on setup page
+    - does not save location
+- viewing location information
+  - displays location summary
+  - shows current ward
+  - shows current prabhag
+  - indicates if location is set
+  - indicates if location is confirmed
+
+### Self-assigning prabhags
+- viewing available prabhag
+  - shows "Assign to me" button when available
+  - hides button when already assigned
+  - hides button when not available
+- assigning prabhag to self
+  - updates prabhag status to "assigned"
+  - sets current user as assigned_to
+  - redirects to trace page
+  - shows success notice "Prabhag assigned to you"
+- preventing invalid assignments
+  - blocks assignment if already assigned
+  - blocks assignment if not available
+- viewing assignments
+  - displays current assignments on dashboard
+  - shows assigned prabhags in "assigned" status
+  - shows submitted prabhags in "submitted" status
+
+### Tracing boundaries
+- accessing trace interface
+  - with valid assignment
+    - shows boundary tracer interface
+    - shows PDF reference image
+    - shows map for tracing
+    - shows drawing tools
+    - shows prabhag number and ward code
+    - shows submit boundary button
+    - loads existing boundary as reference if available
+  - without valid assignment
+    - denies access
+    - shows "Access denied" alert
+    - redirects away
+- using drawing tools
+  - drawing polygon
+    - captures polygon coordinates
+  - editing polygon
+    - allows editing vertices
+    - allows adding vertices
+    - allows removing vertices
+  - managing drawings
+    - allows deleting polygon
+    - allows undo actions
+    - allows redo actions
+- access control
+  - only allows access to own assignments
+  - prevents access to others' assignments
+
+### Submitting boundaries
+- submitting traced boundary
+  - with valid boundary data
+    - creates new Boundary record
+    - sets source_type to "user_submission"
+    - sets status to "pending"
+    - sets year to 2025
+    - sets submitted_by to current user
+    - updates prabhag status to "submitted"
+    - redirects to prabhag show page
+    - shows success notice "Boundary submitted for review"
+  - without boundary data
+    - shows error alert
+    - does not create Boundary record
+    - redirects to trace page
+  - with invalid assignment
+    - denies access
+    - shows error alert
+- boundary data validation
+  - validates geojson format
+  - validates polygon closure
+  - validates coordinate ranges
+
+### Managing tickets
+- viewing tickets
+  - accessing tickets index
+    - shows all tickets
+    - shows assigned tickets
+    - shows created tickets
+  - ticket information display
+    - shows title
+    - shows description
+    - shows status
+    - shows priority
+    - shows type
+    - shows due date
+    - shows overdue indicator when overdue
+    - shows days remaining when due date exists
+  - filtering tickets
+    - by status
+    - by ward
+    - by type
+- creating tickets
+  - accessing new ticket form
+  - filling ticket details
+  - submitting ticket
+- viewing ticket details
+  - displays complete ticket information
+  - shows assignment information
+  - shows history
+
+---
+
+## Admin Users
+
+### Admin access control
+- verifying admin status
+  - has admin flag set to true
+  - admin? method returns true
+- accessing admin routes
+  - allows access to admin namespace
+  - requires authentication first
+  - checks admin privileges
+  - redirects non-admins to root
+  - shows "Access denied. Admin privileges required." alert
+- interface indicators
+  - shows admin status in interface
+
+### Managing prabhags
+- viewing prabhags dashboard
+  - accessing at /admin/prabhags
+  - submitted prabhags list
+    - shows prabhags in submitted status
+    - shows total submitted count
+  - approved prabhags list
+    - shows prabhags in approved status
+    - shows total approved count
+  - rejected prabhags list
+    - shows prabhags in rejected status
+    - shows total rejected count
+  - prabhag information display
+    - shows prabhag numbers
+    - shows ward codes
+    - shows assigned user for each
+- viewing prabhag details
+  - accessing prabhag show page
+  - boundary data display
+    - shows pending boundary when available
+    - falls back to best boundary
+    - renders boundary on map
+    - shows PDF reference for comparison
+  - error handling
+    - handles malformed geojson gracefully
+
+### Reviewing boundaries
+- accessing boundary review list
+  - viewing all boundaries for review
+  - pending boundaries display
+    - shows map preview
+    - shows PDF reference
+    - shows submitter information
+    - shows submission timestamp
+  - filtering boundaries
+    - by status (pending/approved/rejected)
+    - by boundable type (Ward/Prabhag)
+  - empty state
+    - shows message when no boundaries for review
+  - quick actions
+    - allows quick approve from list
+    - allows navigation to detailed edit page
+- accessing detailed review
+  - viewing boundary review page at /admin/prabhags/:id/boundaries
+  - pending submissions display
+    - shows all pending user submissions
+    - shows submitter information
+    - shows editor information when edited
+
+### Approving boundaries
+- initiating approval
+  - clicking approve button
+  - with pending boundary
+    - updates status to "approved"
+    - sets approved_by to admin user
+    - sets approved_at timestamp
+    - updates related prabhag status
+    - shows success notice
+    - redirects to appropriate path (prabhag or boundaries index)
+  - with already approved boundary
+    - allows re-approval
+    - updates approval information
+- approval side effects
+  - updates prabhag status after approval
+  - tracks approval in audit trail
+  - for prabhag boundaries
+    - redirects to admin_prabhag_path
+  - for ward boundaries
+    - redirects to admin_boundaries_path
+
+### Rejecting boundaries
+- initiating rejection
+  - clicking reject button
+  - providing rejection reason
+  - with default reason
+    - uses "Rejected by admin"
+  - with custom reason
+    - uses provided reason
+- processing rejection
+  - updates status to "rejected"
+  - sets approved_by to admin user (who rejected)
+  - saves rejection_reason
+  - sets approved_at timestamp
+  - updates related prabhag status
+  - shows success notice
+  - redirects to appropriate path
+- rejection side effects
+  - for prabhag boundaries
+    - makes prabhag available for reassignment
+    - clears assigned_to
+    - updates prabhag status
+  - allows rejection of approved boundaries
+
+### Editing boundaries
+- accessing edit interface
+  - viewing boundary edit page
+  - boundary tracer display
+    - shows tracer interface
+    - pre-populates with existing boundary data
+    - loads existing geometry
+    - shows PDF reference for comparison
+- modifying boundary
+  - using drawing tools
+    - modifies vertices
+    - adds/removes points
+  - updating boundary data
+    - captures new geojson
+- saving edited boundary
+  - updates boundary geojson
+  - sets edited_by to admin user
+  - tracks editor in boundary record
+  - maintains boundary history
+  - shows success notice
+  - redirects to admin prabhag page
+- edit tracking
+  - validates edited_by is admin
+  - rejects non-admin as edited_by
+  - allows multiple edits
+  - preserves edit history
+
+### Deleting boundaries
+- initiating deletion
+  - clicking delete button
+- processing deletion
+  - removes boundary from database
+  - shows success notice
+  - redirects to admin boundaries index
+- deletion constraints
+  - does not cascade delete inappropriately
+
+### Managing boundaries index
+- accessing boundaries index
+  - viewing at /admin/boundaries
+  - boundaries list display
+    - shows all boundaries paginated
+    - shows boundary details
+    - shows boundable information (Ward/Prabhag)
+    - shows submitter information
+    - shows approver information
+    - shows source type
+    - shows year
+    - shows is_canonical flag
+  - filtering boundaries
+    - by status
+    - by boundable type
+- viewing boundary details
+  - accessing boundary show page
+  - as HTML
+    - displays boundary information
+    - shows map visualization
+  - as JSON
+    - returns proper geojson format
+    - includes boundary metadata
+
+---
+
+## System-Wide Behaviors
+
+### User model
+- validation
+  - email
+    - validates presence
+    - validates uniqueness
+    - validates format
+  - password
+    - validates minimum length (6 characters)
+- associations
+  - has many assigned_prabhags
+  - has many assigned_tickets
+  - has many created_tickets
+  - belongs to ward optionally
+  - belongs to prabhag optionally
+- OAuth authentication
+  - creating from omniauth
+    - finds existing by email
+    - creates new if not exists
+    - saves OAuth provider
+    - saves OAuth uid
+    - generates random password for OAuth users
+- assignment queries
+  - current_assignments
+    - returns prabhags in assigned status
+    - returns prabhags in submitted status
+  - active_tickets
+    - returns tickets in assigned status
+    - returns tickets in in_progress status
+    - returns tickets in submitted status
+  - completed_tickets
+    - returns completed tickets
+  - overdue_tickets
+    - returns overdue tickets
+- location management
+  - checking location status
+    - has_location? checks ward_code and prabhag_id
+    - location_confirmed? checks timestamp
+    - needs_location_setup? combines both checks
+  - setting location
+    - saves street_address
+    - saves ward_code
+    - saves prabhag_id
+    - saves latitude
+    - saves longitude
+    - sets location_confirmed_at timestamp
+  - displaying location
+    - returns location_summary with ward and prabhag
+    - handles missing location gracefully
+- admin identification
+  - admin? returns admin flag value
+
+### Ward model
+- validation
+  - ward_code
+    - validates presence
+    - validates uniqueness
+  - name
+    - validates presence
+- associations
+  - has many prabhags
+  - has many tickets
+  - has many boundaries (polymorphic)
+- URL generation
+  - to_param
+    - generates slug from name
+    - falls back to ward_code when name blank
+    - normalizes with dashes
+- scoping
+  - geocoded returns wards with is_geocoded true
+  - not_geocoded returns wards with is_geocoded false
+- completion tracking
+  - completion_percentage
+    - calculates based on prabhags with 2017 boundaries
+    - returns 0 when no prabhags
+    - rounds to 1 decimal place
+  - boundary_mapping_percentage
+    - calculates based on prabhags with approved boundaries
+    - uses new Boundary model
+    - returns 0 when no prabhags
+  - fully_mapped?
+    - checks all prabhags have boundary_geojson
+    - returns false when no prabhags
+  - fully_boundary_mapped?
+    - checks all prabhags have Boundary records
+    - returns false when no prabhags
+- geospatial queries
+  - center_coordinates
+    - calculates from prabhag boundaries
+    - returns average lat/lng
+    - returns nil when not fully mapped
+  - has_ward_boundary?
+    - checks for approved/canonical boundaries
+  - prabhags_with_boundaries_count
+    - counts distinct prabhags with boundaries
+- boundary finders
+  - boundary returns best available
+  - approved_boundary returns approved or canonical
+  - canonical_boundary returns official only
+  - latest_user_boundary returns most recent user submission
+  - all_boundaries returns all ordered by priority
+  - has_boundary? checks existence
+- ticket queries
+  - open_tickets counts open tickets
+  - overdue_tickets counts overdue tickets
+
+### Prabhag model
+- validation
+  - number
+    - validates presence
+    - validates uniqueness scoped to ward_code
+  - ward_code
+    - validates presence
+  - pdf_url
+    - validates presence
+  - status
+    - validates inclusion in allowed values
+- associations
+  - belongs to assigned_to user optionally
+  - belongs to ward
+  - has many tickets (composite key on number and ward_code)
+  - has many boundaries (polymorphic)
+- URL generation
+  - find override
+    - finds by number first
+    - falls back to id
+  - to_param returns number as string
+- lifecycle
+  - before_create
+    - sets default status to "available"
+- scoping
+  - available returns prabhags with available status and no assigned_to
+  - assigned returns prabhags with assigned status
+  - submitted returns prabhags with submitted status
+  - approved returns prabhags with approved status
+  - rejected returns prabhags with rejected status
+  - for_ward filters by ward_code
+- assignment workflow
+  - can_be_assigned_to?
+    - checks status is "available"
+    - checks assigned_to is nil
+  - assign_to!
+    - sets assigned_to user
+    - updates status to "assigned"
+- boundary submission
+  - submit_boundary!
+    - creates new Boundary record
+    - sets geojson
+    - sets source_type to "user_submission"
+    - sets year to 2025
+    - sets status to "pending"
+    - sets is_canonical to false
+    - sets submitted_by user
+    - updates prabhag status to "submitted"
+    - runs in transaction
+- geospatial operations
+  - boundary_geometry
+    - parses geojson string to RGeo geometry
+    - handles parse errors gracefully
+  - geometry_to_geojson
+    - converts RGeo geometry to geojson
+  - boundary_area_sqm
+    - calculates area in square meters
+    - uses rough degree-to-meter conversion
+  - boundary_center
+    - calculates centroid from coordinates
+    - returns [lat, lng] tuple
+    - handles parse errors gracefully
+- resource paths
+  - map_image_src returns path to PNG image
+- boundary finders
+  - boundary returns best available
+  - approved_boundary returns approved or canonical
+  - canonical_boundary returns official only
+  - latest_user_boundary returns most recent user submission
+  - all_boundaries returns all ordered by priority
+  - has_boundary? checks existence
+  - needs_mapping?
+    - returns true when no boundaries
+    - returns true when only legacy KML boundaries
+    - returns false when has approved non-legacy boundary
+
+### Boundary model
+- validation
+  - geojson
+    - validates presence
+  - source_type
+    - validates presence
+    - validates inclusion in user_submission/official_import/kml_import
+  - status
+    - validates inclusion in pending/approved/rejected/canonical
+  - boundable_type
+    - validates inclusion in Ward/Prabhag
+  - edited_by
+    - validates is admin when present
+- associations
+  - belongs to boundable (polymorphic)
+  - belongs to submitted_by user optionally
+  - belongs to approved_by user optionally
+  - belongs to edited_by user optionally
+- includes Approvable concern
+- defaults
+  - status defaults to "pending"
+  - is_canonical defaults to false
+- scoping
+  - canonical returns is_canonical true
+  - for_year filters by year
+  - best_ordered
+    - orders by is_canonical desc
+    - then by status priority (approved > pending > rejected)
+    - then by created_at desc
+  - best returns first from best_ordered
+  - recent orders by created_at desc
+  - user_submitted filters source_type user_submission
+  - official filters source_type official_import or kml_import
+  - for_admin_review combines user_submitted and pending
+- canonical management
+  - make_canonical!
+    - clears is_canonical from other boundaries for same boundable
+    - sets self as canonical
+    - updates status to "canonical"
+    - runs in transaction
+- approval workflow
+  - approve!
+    - validates can be approved
+    - updates status to "approved"
+    - sets approved_by user
+    - sets approved_at timestamp
+  - reject!
+    - validates can be rejected
+    - updates status to "rejected"
+    - sets approved_by user
+    - sets rejection_reason
+    - sets approved_at timestamp
+  - allows re-approval of approved boundaries
+  - allows rejection of approved boundaries
+- admin editing
+  - edit_by_admin!
+    - validates user is admin
+    - updates geojson
+    - sets edited_by to admin user
+- boundable type checking
+  - ward? returns true when boundable_type is Ward
+  - prabhag? returns true when boundable_type is Prabhag
+- geojson handling
+  - geojson_feature
+    - returns properly formatted GeoJSON Feature
+    - builds Feature if geometry provided
+    - includes feature properties
+    - handles parse errors gracefully
+
+### Ticket model
+- validation
+  - title validates presence
+  - description validates presence
+  - ticket_type
+    - validates presence
+    - validates inclusion in allowed types
+  - ward_code validates presence
+  - status
+    - validates presence
+    - validates inclusion in allowed statuses
+  - priority
+    - validates presence
+    - validates inclusion in low/medium/high/urgent
+- associations
+  - belongs to assigned_to user optionally
+  - belongs to created_by user (required)
+  - belongs to ward via ward_code
+  - belongs to prabhag optionally via composite key
+- scoping
+  - open returns status open
+  - assigned returns status assigned
+  - in_progress returns status in_progress
+  - submitted returns status submitted
+  - under_review returns status under_review
+  - completed returns status approved or closed
+  - overdue returns tickets past due_date not completed
+  - for_ward filters by ward_code
+  - boundary_mapping filters by ticket_type
+- lifecycle
+  - before_create set_defaults
+    - sets status to "open"
+    - sets priority to "medium"
+    - sets due_date to 7 days for boundary_mapping type
+- assignment workflow
+  - can_be_assigned_to?
+    - checks status is "open"
+  - assign_to!
+    - sets assigned_to user
+    - updates status to "assigned"
+- status transitions
+  - start_work! updates status to "in_progress"
+  - submit_for_review! updates status to "submitted"
+  - approve! updates status to "approved"
+  - close! updates status to "closed"
+  - reject!
+    - updates status to "rejected"
+    - clears assigned_to
+- due date tracking
+  - overdue?
+    - checks due_date present
+    - checks due_date past current time
+    - checks not completed
+  - completed?
+    - checks status is approved or closed
+  - days_remaining
+    - calculates difference between due_date and current date
+    - returns nil when no due_date
+
+### Attachment model
+- validation
+  - name validates presence
+  - attachment_type
+    - validates inclusion in link/file
+  - url
+    - validates presence when type is link
+  - file
+    - validates presence when type is file
+- associations
+  - belongs to attachable (polymorphic)
+  - has one attached file (ActiveStorage)
+- scoping
+  - links returns attachment_type link
+  - files returns attachment_type file
+  - ordered sorts by position then created_at
+- lifecycle
+  - before_save set_mime_type
+    - sets mime_type from file blob when file attached
+- type checking
+  - link? returns true when type is link
+  - file? returns true when type is file
+  - primary? returns true when position is 1
+
+### Approvable concern
+- scopes
+  - approved returns status approved
+  - pending returns status pending
+  - rejected returns status rejected
+- status checking
+  - approved? checks status equals approved
+  - pending? checks status equals pending
+  - rejected? checks status equals rejected
+  - approvable? returns true when pending
+  - rejectable? returns true when pending or approved
+
+### AdminAuthorizable concern
+- filters
+  - before_action authenticate_user!
+  - before_action ensure_admin!
+- authorization
+  - ensure_admin!
+    - checks current_user exists
+    - checks current_user is admin
+    - redirects to root_path when not admin
+    - shows "Access denied. Admin privileges required." alert
+
+### GeocodingService
+- finding prabhag from coordinates
+  - with valid coordinates
+    - queries boundaries spatially
+    - finds containing prabhag
+    - returns [ward_code, prabhag_id] tuple
+  - with coordinates outside boundaries
+    - returns nil
+  - with nil coordinates
+    - handles gracefully
+    - returns nil
+  - with invalid coordinates
+    - handles gracefully
+    - returns nil
+
+### WardCodeMapper service
+- zone to ward code mapping
+  - maps zone names to ward codes
+  - handles all zones (A through K, R/Central)
+  - returns correct ward code ranges
+  - handles invalid zone names
+- ward code to zone mapping
+  - maps ward codes to zone names
+  - returns correct zone for ward code
+  - handles invalid ward codes
+
+### BoundaryUpdateService
+- updating boundary with admin tracking
+  - with valid parameters
+    - updates geojson when provided
+    - updates status when provided
+    - updates year when provided
+    - updates metadata when provided
+    - sets edited_by to admin user
+    - returns true on success
+  - with invalid admin user
+    - validates admin privileges
+    - does not update boundary
+  - with validation errors
+    - returns false
+    - does not save changes
+  - with errors
+    - handles gracefully
+
+### PrabhagStatusService
+- updating after boundary approval
+  - sets prabhag status to "approved"
+  - handles missing prabhag gracefully
+- updating after boundary rejection
+  - resets prabhag status to "available"
+  - clears assigned_to user
+  - handles missing prabhag gracefully
+
+### JSON responses (JBuilder templates)
+- wards index
+  - formats as GeoJSON FeatureCollection
+  - ward features
+    - includes ward boundary geometry
+    - includes ward properties (code, name)
+    - includes completion percentage
+    - sets type to "ward"
+    - sets rendering properties (color, fillOpacity)
+    - sets popup properties (title, details)
+  - prabhag features
+    - includes prabhag boundary geometry
+    - includes prabhag properties
+    - sets type to "prabhag"
+    - sets rendering properties
+- prabhag show
+  - formats as GeoJSON
+  - includes prabhag boundary geometry
+  - includes prabhag properties
+  - includes prabhag status
+- boundary show
+  - formats as GeoJSON
+  - includes boundary metadata
+  - includes boundable information
+  - includes approval information (approved_by, approved_at)
+  - includes submission information (submitted_by)
+  - includes edit information (edited_by)
+- error handling
+  - handles missing boundaries gracefully
+  - returns empty features array when no data
+
+### Routing
+- root route
+  - maps / to home#index
+- ward routes
+  - /wards maps to wards#index
+  - /wards/:id maps to wards#show
+  - supports both slug and ward_code in :id
+- nested ward/prabhag routes
+  - /wards/:ward_id/prabhags maps to prabhags#index filtered by ward
+  - /wards/:ward_id/prabhags/:id maps to prabhags#show
+- prabhag routes (legacy)
+  - /prabhags maps to prabhags#index
+  - /prabhags/:id maps to prabhags#show
+  - POST /prabhags/:id/assign maps to prabhags#assign
+  - GET /prabhags/:id/trace maps to prabhags#trace
+  - POST /prabhags/:id/submit maps to prabhags#submit
+- location setup routes
+  - GET /setup_location maps to location_setup#show
+  - POST /setup_location maps to location_setup#create
+- admin prabhag routes
+  - /admin/prabhags maps to admin/prabhags#index
+  - /admin/prabhags/:id maps to admin/prabhags#show
+  - /admin/prabhags/:id/boundaries maps to admin/prabhags#boundary_review
+- admin boundary routes (nested under prabhag)
+  - /admin/prabhags/:prabhag_id/boundaries/:id maps to admin/boundaries#show
+  - GET /admin/prabhags/:prabhag_id/boundaries/:id/edit maps to admin/boundaries#edit
+  - PATCH /admin/prabhags/:prabhag_id/boundaries/:id maps to admin/boundaries#update
+  - POST /admin/prabhags/:prabhag_id/boundaries/:id/approve maps to admin/boundaries#approve
+  - POST /admin/prabhags/:prabhag_id/boundaries/:id/reject maps to admin/boundaries#reject
+- admin boundary routes (standalone)
+  - /admin/boundaries maps to admin/boundaries#index
+  - /admin/boundaries/:id maps to admin/boundaries#show
+  - /admin/boundaries/:id/edit maps to admin/boundaries#edit
+  - PATCH /admin/boundaries/:id maps to admin/boundaries#update
+  - DELETE /admin/boundaries/:id maps to admin/boundaries#destroy
+  - POST /admin/boundaries/:id/approve maps to admin/boundaries#approve
+  - POST /admin/boundaries/:id/reject maps to admin/boundaries#reject
+- devise routes
+  - standard devise routes for users
+  - omniauth callbacks for Google OAuth2
+  - custom registrations controller
+  - custom omniauth_callbacks controller
+
+### Frontend Stimulus controllers
+- leaflet-map controller
+  - initialization
+    - loads Leaflet.js dynamically
+    - creates map instance
+    - sets initial view
+  - rendering features
+    - loads GeoJSON data
+    - renders features on map
+    - styles by type (ward/prabhag)
+    - styles by status
+    - adds to appropriate layer
+  - interaction
+    - shows popup on feature click
+    - highlights on hover
+    - centers map on features
+- boundary-tracer controller
+  - initialization
+    - loads Leaflet.js dynamically
+    - loads Leaflet.draw plugin
+    - creates map with drawing tools
+  - drawing
+    - enables polygon drawing
+    - enables editing
+    - enables deletion
+  - data capture
+    - captures drawn boundary as GeoJSON
+    - populates hidden form field
+  - submission
+    - submits via form
+  - PDF reference
+    - shows/hides PDF panel
+    - overlays on map when visible
+- places-autocomplete controller
+  - initialization
+    - connects to Google Places API
+  - autocomplete
+    - shows suggestions as user types
+    - filters by location type
+  - selection
+    - populates address field
+    - populates latitude field
+    - populates longitude field
+    - triggers form update
+- ward-list controller
+  - filtering
+    - filters by search term
+    - filters by status
+    - updates visible count
+  - display
+    - shows/hides wards based on filters
+
+### Authorization
+- public access
+  - allows anonymous home page access
+  - allows anonymous wards index access
+  - allows anonymous ward show access
+  - allows anonymous prabhags index access
+  - allows anonymous prabhag show access
+- authenticated access
+  - requires authentication for prabhag assignment
+  - requires authentication for boundary tracing
+  - requires authentication for boundary submission
+  - requires authentication for location setup
+  - requires authentication for ticket creation
+  - requires authentication for admin namespace
+- admin access
+  - requires admin role for admin namespace routes
+  - prevents non-admins from admin routes
+  - redirects non-admins to root with alert
+- ownership access
+  - prevents users from accessing others' assignments
+  - prevents users from submitting boundaries for unassigned prabhags
+  - prevents users from editing others' tickets
+
+### Error handling
+- HTTP errors
+  - returns 404 for missing ward
+  - returns 404 for missing prabhag
+  - returns 404 for missing boundary
+  - returns 404 for missing ticket
+- data errors
+  - handles malformed geojson gracefully
+  - handles missing PDF gracefully
+  - shows appropriate error messages for failed actions
+- system errors
+  - handles database connection errors
+  - handles validation errors gracefully
+  - handles authorization errors with redirect
+- geospatial errors
+  - handles geocoding failures
+  - handles invalid coordinates
+  - handles geometry parse errors
+
+---
+
+## Future Features (Not Yet Implemented)
+
+### Admin boundary approval system tests
+- boundary review list interface
+  - accessing review list
+  - filtering boundaries
+  - quick approving from list
+  - navigating to detailed edit
+  - empty state display
+- detailed boundary editing interface
+  - accessing edit page from review
+  - boundary data pre-population
+  - editing with tracer interface
+  - saving changes
+  - approving from edit page
+  - rejecting from edit page
+- administrative actions tracking
+  - approval workflow
+    - updates status
+    - updates audit trail
+  - rejection workflow
+    - requires reason
+    - updates status
+    - updates audit trail
+  - editing workflow
+    - tracks edited_by field
+  - bulk operations
+    - bulk approving boundaries
+- user experience
+  - navigation between pages
+  - confirmation dialogs for destructive actions
+  - success messages after actions
+  - immediate status updates
+
+### Ticket system (partial implementation)
+- ticket creation
+  - creating various ticket types
+  - attaching files to tickets
+- ticket assignment
+  - assigning to users
+  - reassigning tickets
+- ticket workflow
+  - tracking progress through statuses
+  - adding comments
+  - closing with resolution notes
+- ticket views
+  - filtering and searching
+  - statistics dashboards
+  - overdue tracking
+
+### Events system
+- event creation
+  - creating community events
+  - setting event details
+  - setting event location
+- event participation
+  - RSVP system
+  - attendance tracking
+- event display
+  - upcoming events list
+  - calendar view
+  - event notifications
+
+---
+
+*This specification is a living document and should be updated as new features are implemented and behaviors change.*
+
+*Format note: This document uses hierarchical outline structure where inner nodes represent scenarios/contexts and leaf nodes represent assertions/expectations.*

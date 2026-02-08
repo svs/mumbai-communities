@@ -4,6 +4,8 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:user_one)
     @user.update!(password: "password123", password_confirmation: "password123")
+    @admin_user = users(:admin_2)
+    @admin_user.update!(password: "password123", password_confirmation: "password123")
   end
 
   test "should get new session page" do
@@ -109,14 +111,14 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect to intended page after sign in" do
-    intended_path = wards_path
+    intended_path = admin_prabhags_path
 
     get intended_path
     assert_redirected_to new_user_session_path
 
     post user_session_path, params: {
       user: {
-        email: @user.email,
+        email: @admin_user.email,
         password: "password123"
       }
     }

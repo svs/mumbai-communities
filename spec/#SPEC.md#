@@ -1,0 +1,719 @@
+o# MCGM Ward Boundary Application - Behavioral Specification
+
+This document provides a comprehensive listing of all system behaviors organized by user type and feature area. Each line represents a discrete, testable behavior that should be covered by BDD tests.
+
+## Table of Contents
+1. [Anonymous Users](#anonymous-users)
+2. [Authenticated Users](#authenticated-users)
+3. [Admin Users](#admin-users)
+4. [System-Wide Behaviors](#system-wide-behaviors)
+
+---
+
+## Anonymous Users
+
+### Home Page
+- should see landing page with "MAKE REAL CHANGE IN YOUR WARD" heading
+- should see "Join Your Ward Community" call-to-action
+- should see statistics section with Active Ward Communities count
+- should see statistics section with Issues Resolved count
+- should see statistics section with Events This Month count
+- should see statistics section with Citizens Engaged count
+- should see "Sign in with Google" button
+- should see "Sign In" link
+- should see "Sign Up" link
+- should see "How It Works" section
+- should see "Find your ward" step
+- should see "Report issues" step
+- should see "Join events" step
+- should see "Build change" step
+- should not see "Welcome back" greeting
+- should not see "Your Active Contributions" section
+- should not see user-specific dashboard content
+- should see "Explore Communities" link
+- should see interactive Leaflet map container
+- should see map legend with Active/Growing/Inactive indicators
+- should see "See Which Wards Need Help" link
+- should see "Learn About Mapping" link
+- should see Mumbai skyline image with alt text
+- should see recent activity feed from all wards
+- should see proper heading structure (h1, h2)
+- should have responsive grid layout classes
+- should have accessible button and link attributes
+
+### Ward Browsing
+- should access wards index page at /wards
+- should see list of all wards
+- should see total ward count
+- should see geocoded ward count
+- should see ward boundaries count
+- should see prabhag boundaries count
+- should see ward names and codes
+- should access ward show page without authentication
+- should see ward details including name and code
+- should see ward prabhags list
+- should see ward completion percentage
+- should see ward boundary on map if available
+- should see prabhag boundaries on map if available
+- should see ward statistics
+- should access wards data as JSON
+- should receive properly formatted GeoJSON in JSON response
+- should see ward features array in JSON response
+- should be able to click ward from map to view details
+- should see ward color-coded by mapping completion status
+
+### Prabhag Viewing
+- should access prabhags index page at /prabhags
+- should see list of available prabhags
+- should see prabhag numbers and ward associations
+- should see prabhag status indicators
+- should filter prabhags by ward
+- should see total prabhags count
+- should see completed prabhags count
+- should see assigned prabhags count
+- should access prabhag show page without authentication
+- should see prabhag details including number and ward code
+- should see prabhag PDF URL link
+- should see prabhag boundary on map if available
+- should see prabhag status
+- should see "Assign to me" button if logged in and available
+- should not see assignment button if not logged in
+- should not see tracing interface if not assigned
+
+### Authentication
+- should redirect to sign in page when clicking "Sign In" link
+- should redirect to sign up page when clicking "Sign Up" link
+- should access devise sign in page at /users/sign_in
+- should access devise registration page at /users/sign_up
+- should see email and password fields on sign in form
+- should see email, password, and password confirmation on sign up form
+- should see "Forgot your password?" link
+- should access password reset page at /users/password/new
+- should be redirected to login when accessing protected resources
+
+---
+
+## Authenticated Users
+
+### Dashboard (Home Page)
+- should see personalized greeting with first name
+- should see "Ready to continue making a difference" message
+- should see "All Communities" button
+- should see "New Issue" button
+- should see "Your Recent Activity" section
+- should see "Community Impact" section
+- should not see "Sign in with Google" button after login
+- should not see anonymous call-to-action content
+- should be redirected to ward/prabhag page if location is set
+- should see user assignments if they exist
+- should see active tickets assigned to user
+- should see empty state message if no assignments
+- should see "Ready to get started?" prompt if no activity
+- should be able to click "All Communities" to go to wards index
+- should be able to click "New Issue" to create ticket
+
+### Session Management
+- should be able to sign in with email and password
+- should be able to sign in with Google OAuth2
+- should be able to sign out
+- should be redirected to root path after sign in
+- should be redirected to root path after sign out
+- should see current sign in timestamp tracked
+- should see last sign in timestamp tracked
+- should see sign in count incremented
+- should see current sign in IP tracked
+- should see last sign in IP tracked
+- should maintain session across page navigation
+- should be logged out after session timeout
+
+### Password Management
+- should be able to request password reset
+- should receive password reset email
+- should be able to reset password with valid token
+- should not be able to reset password with invalid token
+- should not be able to reset password with expired token
+- should be able to change password from edit profile
+- should be required to enter current password to change password
+- should receive email notification after password change
+
+### Profile Management
+- should be able to view profile edit page
+- should be able to update email address
+- should be able to update name
+- should receive confirmation email when changing email
+- should be required to enter current password for sensitive changes
+- should be able to cancel account
+- should see trackable information (sign in count, timestamps)
+
+### Location Setup
+- should be redirected to location setup if no location set
+- should see location setup form at /setup_location
+- should be able to search for address using autocomplete
+- should be able to select location on map
+- should submit latitude and longitude to determine ward/prabhag
+- should have location confirmed after successful setup
+- should have street address saved
+- should have ward code saved
+- should have prabhag ID saved
+- should have coordinates (lat/lng) saved
+- should have location_confirmed_at timestamp set
+- should be redirected to root after successful location setup
+- should stay on setup page if coordinates invalid
+- should see error if ward/prabhag cannot be determined
+
+### Location Information
+- should see location summary showing ward and prabhag
+- should know if location is set
+- should know if location is confirmed
+- should be able to view current ward
+- should be able to view current prabhag
+- should need location setup if location not set or not confirmed
+
+### Prabhag Assignment
+- should be able to self-assign available prabhag
+- should see "Assign to me" button on available prabhag
+- should be redirected to trace page after assignment
+- should have prabhag status changed to "assigned"
+- should be set as assigned_to user
+- should see notice "Prabhag assigned to you"
+- should not be able to assign prabhag if already assigned
+- should not be able to assign prabhag if not available
+- should see current assignments on dashboard
+- should see assigned prabhags in "assigned" status
+- should see submitted prabhags in "submitted" status
+
+### Boundary Tracing
+- should access trace page at /prabhags/:id/trace
+- should see boundary tracer interface
+- should see PDF reference image
+- should see map for tracing
+- should see drawing tools
+- should be able to draw polygon on map
+- should be able to edit drawn polygon vertices
+- should be able to delete polygon
+- should be able to undo/redo actions
+- should see existing boundary as reference if available
+- should see prabhag number and ward code
+- should see submit boundary button
+- should be denied access if not assigned to user
+- should see access denied alert if wrong user
+- should only access own assigned prabhags
+
+### Boundary Submission
+- should be able to submit traced boundary
+- should have boundary data validated before submission
+- should create new Boundary record on submission
+- should have boundary set to "user_submission" source type
+- should have boundary set to "pending" status
+- should have boundary year set to 2025
+- should have boundary submitted_by set to current user
+- should have prabhag status changed to "submitted"
+- should be redirected to prabhag show page after submission
+- should see success notice "Boundary submitted for review"
+- should not be able to submit empty boundary
+- should see error alert if boundary data missing
+- should not be able to submit if not assigned user
+
+### Ticket Management
+- should be able to view tickets index
+- should be able to create new ticket
+- should be able to view ticket details
+- should be able to see assigned tickets
+- should be able to see created tickets
+- should see ticket status
+- should see ticket priority
+- should see ticket type
+- should see ticket due date
+- should see overdue indicator for overdue tickets
+- should see days remaining for tickets with due date
+- should be able to filter tickets by status
+- should be able to filter tickets by ward
+- should be able to filter tickets by type
+
+---
+
+## Admin Users
+
+### Admin Authorization
+- should have admin flag set to true
+- should be identified as admin by admin? method
+- should access admin namespace routes
+- should be redirected to root if non-admin accesses admin routes
+- should see "Access denied. Admin privileges required." alert
+- should require authentication before checking admin status
+- should see admin status visible in interface
+
+### Admin Dashboard
+- should access admin prabhags index at /admin/prabhags
+- should see submitted prabhags list
+- should see approved prabhags list
+- should see rejected prabhags list
+- should see total submitted count
+- should see total approved count
+- should see total rejected count
+- should see prabhag numbers and ward codes
+- should see assigned user for each prabhag
+- should be able to click prabhag to view details
+
+### Boundary Review List
+- should access boundary review list
+- should see pending boundaries with map preview
+- should see pending boundaries with PDF reference
+- should see submitter information
+- should see submission timestamp
+- should filter boundaries by status
+- should filter boundaries by boundable type (Ward/Prabhag)
+- should see empty state when no boundaries for review
+- should be able to quick approve from list
+- should be able to navigate to detailed edit page
+
+### Boundary Detailed Review
+- should access admin prabhag show page
+- should see pending boundary geojson data
+- should see current/best boundary as fallback
+- should see boundary rendered on map
+- should see PDF reference for comparison
+- should handle malformed geojson gracefully
+- should access boundary review page at /admin/prabhags/:id/boundaries
+- should see all pending user submissions
+- should see submitter information
+- should see editor information if boundary was edited
+
+### Boundary Approval
+- should be able to approve pending boundary
+- should have boundary status changed to "approved"
+- should have approved_by set to admin user
+- should have approved_at timestamp set
+- should update prabhag status after boundary approval
+- should see success notice after approval
+- should be redirected to appropriate path after approval
+- should redirect to admin_prabhag_path for prabhag boundaries
+- should redirect to admin_boundaries_path for ward boundaries
+- should allow re-approval of already approved boundaries
+- should track approval in audit trail
+
+### Boundary Rejection
+- should be able to reject pending boundary
+- should require rejection reason
+- should have boundary status changed to "rejected"
+- should have approved_by set to admin user (who rejected)
+- should have rejection_reason saved
+- should have approved_at timestamp set
+- should use default reason "Rejected by admin" if none provided
+- should update prabhag status after boundary rejection
+- should make prabhag available for reassignment after rejection
+- should see success notice after rejection
+- should be redirected to appropriate path after rejection
+- should allow rejection of approved boundaries
+
+### Boundary Editing
+- should access boundary edit page
+- should see boundary tracer interface pre-populated with data
+- should see existing boundary geometry loaded
+- should see PDF reference for comparison
+- should be able to modify boundary vertices
+- should be able to update boundary geojson
+- should have edited_by field set to admin user
+- should track who edited the boundary
+- should validate that edited_by is admin user
+- should reject non-admin as edited_by
+- should allow updating multiple times
+- should maintain boundary history
+- should see success notice after update
+- should be redirected to admin prabhag page after update
+
+### Boundary Deletion
+- should be able to delete boundary
+- should remove boundary from database
+- should see success notice after deletion
+- should be redirected to admin boundaries index
+- should not cascade delete related records inappropriately
+
+### Boundary Management
+- should access admin boundaries index
+- should see all boundaries paginated
+- should filter boundaries by status
+- should filter boundaries by boundable type
+- should see boundary details including boundable info
+- should see submitter and approver information
+- should see boundary source type
+- should see boundary year
+- should see is_canonical flag
+- should access boundary show page as JSON
+- should receive proper geojson in JSON response
+
+---
+
+## System-Wide Behaviors
+
+### User Model
+- should validate presence of email
+- should validate uniqueness of email
+- should validate email format
+- should validate password length (minimum 6 characters)
+- should have many assigned_prabhags
+- should have many assigned_tickets
+- should have many created_tickets
+- should belong to ward optionally
+- should belong to prabhag optionally
+- should be created from Google OAuth2 omniauth data
+- should generate random password for OAuth users
+- should save OAuth provider and uid
+- should return current assignments (assigned/submitted prabhags)
+- should return active tickets (assigned/in_progress/submitted)
+- should return completed tickets
+- should return overdue tickets
+- should know if user has location set
+- should know if location is confirmed
+- should be able to set location with all details
+- should return location summary
+- should identify if user needs location setup
+- should identify if user is admin
+
+### Ward Model
+- should validate presence of ward_code
+- should validate uniqueness of ward_code
+- should validate presence of name
+- should have many prabhags
+- should have many tickets
+- should have many boundaries (polymorphic)
+- should generate slug from name for to_param
+- should fallback to ward_code for to_param if name blank
+- should scope geocoded wards
+- should scope not_geocoded wards
+- should calculate completion percentage based on prabhags
+- should identify if fully mapped (all prabhags have boundaries)
+- should calculate center coordinates from prabhag boundaries
+- should identify if has ward boundary
+- should count prabhags with boundaries
+- should calculate boundary mapping percentage
+- should identify if fully boundary-mapped
+- should return best boundary using semantic finder
+- should return approved boundary
+- should return canonical boundary
+- should return latest user boundary
+- should return all boundaries ordered by priority
+- should identify if has any boundary
+- should count open tickets
+- should count overdue tickets
+
+### Prabhag Model
+- should validate presence of number
+- should validate uniqueness of number scoped to ward_code
+- should validate presence of ward_code
+- should validate presence of pdf_url
+- should validate status inclusion in valid values
+- should belong to assigned_to user optionally
+- should belong to ward
+- should have many tickets (composite key)
+- should have many boundaries (polymorphic)
+- should override find to work with number and id
+- should use number as to_param for URLs
+- should set default status to "available" before create
+- should scope available prabhags
+- should scope assigned prabhags
+- should scope submitted prabhags
+- should scope approved prabhags
+- should scope rejected prabhags
+- should scope for_ward by ward_code
+- should determine if can be assigned to user
+- should assign to user and update status
+- should submit boundary with geojson and user tracking
+- should create new boundary record on submission
+- should update status to submitted on boundary submission
+- should return map image source path
+- should convert geojson string to RGeo geometry
+- should convert geometry to geojson
+- should calculate boundary area in square meters
+- should calculate boundary center/centroid
+- should return best boundary using semantic finder
+- should return approved boundary
+- should return canonical boundary
+- should return latest user boundary
+- should return all boundaries ordered by priority
+- should identify if has any boundary
+- should identify if needs mapping (no boundaries or legacy only)
+
+### Boundary Model
+- should validate presence of geojson
+- should validate presence of source_type
+- should validate inclusion of source_type in allowed values
+- should validate inclusion of status in allowed values
+- should validate inclusion of boundable_type in Ward/Prabhag
+- should validate that edited_by is admin user when present
+- should belong to boundable (polymorphic)
+- should belong to submitted_by user optionally
+- should belong to approved_by user optionally
+- should belong to edited_by user optionally
+- should default status to "pending"
+- should default is_canonical to false
+- should scope canonical boundaries
+- should scope for_year by year
+- should scope best_ordered by priority
+- should return best boundary from best_ordered
+- should scope recent boundaries (created_at desc)
+- should scope user_submitted boundaries
+- should scope official boundaries (official_import/kml_import)
+- should scope for_admin_review (pending user submissions)
+- should make boundary canonical and clear others
+- should approve boundary with user and timestamp
+- should reject boundary with user, reason, and timestamp
+- should edit boundary by admin with tracking
+- should identify if boundable is ward
+- should identify if boundable is prabhag
+- should return properly formatted geojson feature
+- should build geojson feature from geometry
+- should include feature properties in geojson
+- should handle malformed geojson gracefully
+- should validate admin user for edit_by_admin method
+- should validate boundary can be approved
+- should validate boundary can be rejected
+- should update approval status with all fields
+- should allow re-approval of approved boundaries
+- should allow rejection of approved boundaries
+
+### Ticket Model
+- should validate presence of title
+- should validate presence of description
+- should validate presence of ticket_type
+- should validate inclusion of ticket_type in allowed values
+- should validate presence of ward_code
+- should validate presence of status
+- should validate inclusion of status in allowed values
+- should validate presence of priority
+- should validate inclusion of priority in allowed values
+- should belong to assigned_to user optionally
+- should belong to created_by user
+- should belong to ward
+- should belong to prabhag optionally (composite key)
+- should scope open tickets
+- should scope assigned tickets
+- should scope in_progress tickets
+- should scope submitted tickets
+- should scope under_review tickets
+- should scope completed tickets (approved/closed)
+- should scope overdue tickets
+- should scope for_ward by ward_code
+- should scope boundary_mapping tickets
+- should set default status to "open" before create
+- should set default priority to "medium" before create
+- should set default due_date for boundary_mapping tickets
+- should determine if can be assigned to user
+- should assign to user and update status
+- should start work and update status to in_progress
+- should submit for review and update status
+- should approve ticket and update status
+- should close ticket and update status
+- should reject ticket and clear assigned_to
+- should identify if ticket is overdue
+- should identify if ticket is completed
+- should calculate days remaining until due date
+
+### Attachment Model
+- should validate presence of name
+- should validate inclusion of attachment_type (link/file)
+- should validate presence of url if type is link
+- should validate presence of file if type is file
+- should belong to attachable (polymorphic)
+- should have one attached file (ActiveStorage)
+- should scope links
+- should scope files
+- should scope ordered by position and created_at
+- should set mime_type from file blob before save
+- should identify if attachment is link
+- should identify if attachment is file
+- should identify if attachment is primary (position 1)
+
+### Approvable Concern
+- should include approved scope (status = approved)
+- should include pending scope (status = pending)
+- should include rejected scope (status = rejected)
+- should identify if approved? (status check)
+- should identify if pending? (status check)
+- should identify if rejected? (status check)
+- should identify if approvable? (pending status)
+- should identify if rejectable? (pending or approved status)
+
+### AdminAuthorizable Concern
+- should require user authentication before action
+- should require admin privileges before action
+- should redirect to root_path if not admin
+- should show "Access denied" alert if not admin
+- should allow access if user is admin
+- should call ensure_admin! before action
+
+### Geocoding Service
+- should find prabhag from coordinates using spatial query
+- should return ward_code and prabhag_id tuple
+- should return nil if coordinates outside all boundaries
+- should handle nil coordinates gracefully
+- should handle invalid coordinates gracefully
+
+### Ward Code Mapper Service
+- should map zone names to ward codes
+- should map ward codes to zone names
+- should handle all zones (A-K, R/Central)
+- should return correct ward ranges for each zone
+- should handle invalid zone names
+- should handle invalid ward codes
+
+### Boundary Update Service
+- should update boundary with admin tracking
+- should set edited_by to admin user
+- should update geojson if provided
+- should update status if provided
+- should update year if provided
+- should update metadata if provided
+- should validate admin user
+- should return true on success
+- should return false on validation failure
+- should handle errors gracefully
+
+### Prabhag Status Service
+- should update prabhag status after boundary approval
+- should set prabhag status to "approved" after approval
+- should update prabhag status after boundary rejection
+- should reset prabhag to "available" after rejection
+- should clear assigned_to after rejection
+- should handle missing prabhag gracefully
+
+### JSON Responses (JBuilder)
+- should format wards index as GeoJSON FeatureCollection
+- should include ward properties (code, name, completion)
+- should include ward boundary geometry
+- should include prabhag boundaries for ward
+- should set feature type to "ward" or "prabhag"
+- should include rendering properties (color, fillOpacity)
+- should include popup properties (title, details)
+- should format prabhag show as GeoJSON
+- should include prabhag boundary geometry
+- should include prabhag properties and status
+- should format boundary show as GeoJSON
+- should include boundary metadata
+- should include boundable information
+- should include approval information
+- should handle missing boundaries gracefully
+- should return empty features array if no data
+
+### Routes
+- should route root to home#index
+- should route /wards to wards#index
+- should route /wards/:id to wards#show
+- should route /wards/:ward_id/prabhags to prabhags#index
+- should route /wards/:ward_id/prabhags/:id to prabhags#show
+- should route /prabhags to prabhags#index (legacy)
+- should route /prabhags/:id to prabhags#show (legacy)
+- should route POST /prabhags/:id/assign to prabhags#assign
+- should route GET /prabhags/:id/trace to prabhags#trace
+- should route POST /prabhags/:id/submit to prabhags#submit
+- should route GET /setup_location to location_setup#show
+- should route POST /setup_location to location_setup#create
+- should route /admin/prabhags to admin/prabhags#index
+- should route /admin/prabhags/:id to admin/prabhags#show
+- should route /admin/prabhags/:id/boundaries to admin/prabhags#boundary_review
+- should route /admin/boundaries to admin/boundaries#index
+- should route /admin/boundaries/:id to admin/boundaries#show
+- should route /admin/boundaries/:id/edit to admin/boundaries#edit
+- should route PATCH /admin/boundaries/:id to admin/boundaries#update
+- should route POST /admin/boundaries/:id/approve to admin/boundaries#approve
+- should route POST /admin/boundaries/:id/reject to admin/boundaries#reject
+- should route DELETE /admin/boundaries/:id to admin/boundaries#destroy
+- should route /admin/prabhags/:prabhag_id/boundaries/:id/edit to admin/boundaries#edit (nested)
+- should route PATCH /admin/prabhags/:prabhag_id/boundaries/:id to admin/boundaries#update (nested)
+- should route devise routes for users
+
+### Frontend (Stimulus Controllers)
+- should initialize leaflet-map controller
+- should load Leaflet.js dynamically
+- should render GeoJSON features on map
+- should style features by type and status
+- should show popups on feature click
+- should center map on features
+- should initialize boundary-tracer controller
+- should load Leaflet.draw plugin
+- should enable drawing tools
+- should capture drawn boundary as GeoJSON
+- should submit boundary data via form
+- should show/hide PDF reference panel
+- should initialize places-autocomplete controller
+- should connect to Google Places API
+- should show autocomplete suggestions
+- should populate address field on selection
+- should populate coordinates on selection
+- should initialize ward-list controller
+- should filter wards by search term
+- should filter wards by status
+- should update visible ward count
+
+### Authorization Rules
+- should allow anonymous access to home page
+- should allow anonymous access to wards index
+- should allow anonymous access to ward show
+- should allow anonymous access to prabhags index
+- should allow anonymous access to prabhag show
+- should require authentication for prabhag assignment
+- should require authentication for boundary tracing
+- should require authentication for boundary submission
+- should require authentication for location setup
+- should require authentication for admin namespace
+- should require admin role for admin namespace
+- should prevent non-admins from accessing admin routes
+- should prevent users from accessing others' assignments
+- should prevent users from submitting boundaries for unassigned prabhags
+
+### Error Handling
+- should show 404 for missing ward
+- should show 404 for missing prabhag
+- should show 404 for missing boundary
+- should handle malformed geojson gracefully
+- should handle missing PDF gracefully
+- should show appropriate error messages for failed actions
+- should handle database connection errors
+- should handle validation errors
+- should handle authorization errors
+- should handle geocoding failures
+
+---
+
+## Future Features (Planned but Not Yet Implemented)
+
+### Admin Boundary Approval (System Tests - Not Implemented)
+- should access boundary review list with filtering
+- should see pending boundaries with PDF and map preview in review interface
+- should quick approve boundary from list view
+- should access detailed boundary edit page from list
+- should see boundary data pre-populated in edit interface
+- should edit boundary using full tracer interface
+- should save edited boundary changes
+- should approve boundary from edit page with confirmation
+- should reject boundary from edit page with reason
+- should see audit trail after approval/rejection
+- should track bulk approval operations
+- should show confirmation dialogs for destructive actions
+- should see success messages after admin actions
+- should see boundary status updates reflected immediately
+- should navigate between review list and detail pages seamlessly
+- should handle complete approval workflow end-to-end
+- should handle complete rejection workflow end-to-end
+- should handle complete edit and approval workflow end-to-end
+
+### Ticket System (Partially Implemented)
+- should create tickets for various types
+- should assign tickets to users
+- should track ticket progress through workflow
+- should show ticket statistics on dashboards
+- should filter and search tickets
+- should attach files to tickets
+- should comment on tickets
+- should close tickets with resolution notes
+
+### Events System (Not Yet Implemented)
+- should create community events
+- should RSVP to events
+- should show upcoming events
+- should track event attendance
+- should show events on calendar
+
+---
+
+*This specification is a living document and should be updated as new features are implemented and behaviors change.*

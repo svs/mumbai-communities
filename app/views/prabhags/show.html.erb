@@ -310,25 +310,9 @@
               <%= link_to "Start Tracing", trace_prabhag_path(@prabhag),
                             class: "block w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 text-center" %>
             <% elsif @prabhag.status == 'submitted' %>
-              <% if user_signed_in? && current_user.admin? %>
-                <div class="space-y-4">
-                  <div class="block w-full bg-orange-50 text-orange-800 font-medium py-3 px-6 text-center">
-                    Submitted for Review
-                  </div>
-                  <div class="grid grid-cols-2 gap-4">
-                    <%= button_to "✅ Approve", approve_admin_prabhag_path(@prabhag),
-                                 class: "bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4",
-                                 data: { confirm: "Approve this boundary? This will mark it as completed." } %>
-                    <%= button_to "❌ Reject", reject_admin_prabhag_path(@prabhag),
-                                 class: "bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-4",
-                                 data: { confirm: "Reject this boundary? This will make it available for reassignment." } %>
-                  </div>
-                </div>
-              <% else %>
-                <div class="block w-full bg-orange-50 text-orange-800 font-medium py-3 px-6 text-center">
-                  Submitted for Review
-                </div>
-              <% end %>
+              <div class="block w-full bg-orange-50 text-orange-800 font-medium py-3 px-6 text-center">
+                Submitted for Review
+              </div>
             <% end %>
           <% else %>
             <div class="block w-full bg-gray-50 text-gray-700 font-medium py-3 px-6 text-center">

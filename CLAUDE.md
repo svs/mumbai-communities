@@ -12,7 +12,7 @@ This application follows Rails conventions with modern Hotwire patterns and mini
 - Progressive enhancement with Stimulus controllers for interactive components
 
 **Testing Philosophy**
-- MiniTest for all testing (no RSpec)
+- RSpec for testing
 - All new features must include comprehensive tests
 - NEVER use mocks - use fixtures and real objects for testing
 
@@ -25,6 +25,22 @@ This application follows Rails conventions with modern Hotwire patterns and mini
 **Development Tools**
 - Use Tidewave instead of `rails runner` for console/evaluation tasks
 - All code evaluation should use the Tidewave project_eval tool
+
+### Development Workflow
+
+- ALWAYS run the specs first to understand what the application does. we have comprehensive feature specs. `ls -al spec/features` to find the appropriate spec and `bundle exec rspec ....` to run them and see what features exist. 
+-  After running the specs, understand whether we need to
+   - update an existing spec OR
+   - add a new spec
+   
+   In either case it should be a minimal change. it is an antipattern to make very large changes and if the changeset is huge you should break it down into smaller pieces. 
+- We first make changes to the feature spec. We most prefer writing feature specs that don't use javascript, relying on Rails, Turbo and so on to ensure our application works without js as far as practicable. Since this app has a mapping component this will not always be possible to avoid js but for other user workflows we should try.
+- After we write the correct feature spec, it should fail. from now we only write code in response to a failing test. 
+  - we see if the failure is in the route, controller, service, model or view
+  - we write the appropriate spec. for view specs we can depend on controller specs rendering views and the feature spec. separate view specs might be overkill.
+  
+- We keep writing specs into the lower levels of the stack. Maximum logic and specs should be for models and services. Then a few scenarios for controllers/request specs. The controller spec should mostly verify that we called the correct service/model method. Feature specs should be least in number and should read like the actual business/behaviour of the application.
+
 
 ### Technology Stack
 

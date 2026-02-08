@@ -1,5 +1,5 @@
 class Admin::PrabhagsController < Admin::BaseController
-  before_action :set_prabhag, only: [:show, :approve, :reject, :boundary_review]
+  before_action :set_prabhag, only: [:show, :boundary_review]
 
   def index
     @submitted_prabhags = Prabhag.submitted.includes(:assigned_to)

@@ -1,0 +1,81 @@
+require 'rails_helper'
+
+RSpec.describe "Authenticated - Dashboard", type: :system do
+  describe "viewing personalized dashboard" do
+    describe "personalized greeting" do
+      it "shows user's first name" do
+        skip "Not yet implemented"
+      end
+
+      it "shows 'Ready to continue making a difference' message" do
+        skip "Not yet implemented"
+      end
+    end
+
+    describe "quick actions" do
+      it "shows 'All Communities' button" do
+        skip "Not yet implemented"
+      end
+
+      it "shows 'New Issue' button" do
+        skip "Not yet implemented"
+      end
+    end
+
+    describe "activity sections" do
+      it "shows 'Your Recent Activity' section" do
+        skip "Not yet implemented"
+      end
+
+      it "shows 'Community Impact' section" do
+        skip "Not yet implemented"
+      end
+    end
+
+    describe "assignments display" do
+      it "shows user assignments when they exist" do
+        skip "Not yet implemented"
+      end
+
+      it "shows active assigned tickets" do
+        skip "Not yet implemented"
+      end
+    end
+
+    describe "empty states" do
+      it "shows 'Ready to get started?' when no assignments" do
+        skip "Not yet implemented"
+      end
+
+      it "shows 'Join a ward community to start contributing!' when no activity" do
+        skip "Not yet implemented"
+      end
+    end
+
+    describe "hides anonymous content" do
+      it "does not show 'Sign in with Google' button" do
+        skip "Not yet implemented"
+      end
+
+      it "does not show anonymous call-to-action" do
+        skip "Not yet implemented"
+      end
+    end
+  end
+
+  describe "navigation from dashboard" do
+    it "clicking 'All Communities' navigates to wards index" do
+      skip "Not yet implemented"
+    end
+
+    it "clicking 'New Issue' navigates to new ticket page" do
+      skip "Not yet implemented"
+    end
+  end
+
+  describe "location-based redirect" do
+    it "redirects to ward/prabhag page when location is set" do
+      skip "Not yet implemented"
+    end
+  end
+end

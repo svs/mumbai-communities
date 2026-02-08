@@ -70,12 +70,16 @@ group :development, :test do
 
   # Load environment variables from .env file [https://github.com/bkeepers/dotenv]
   gem 'dotenv-rails'
+
+  # RSpec for testing [https://github.com/rspec/rspec-rails]
+  gem 'rspec-rails', '~> 7.1'
+  gem 'factory_bot_rails'
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  gem "tidewave", "~> 0.3.0"
+  gem "tidewave", "~> 0.4.2"
 
   # Preview email in development [https://github.com/ryanb/letter_opener]
   gem "letter_opener_web"
@@ -85,10 +89,8 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  # Declarative matchers for testing [https://github.com/thoughtbot/shoulda-matchers]
+  # Declarative matchers for testing
   gem "shoulda-matchers"
-  # Mocking and stubbing framework [https://github.com/freerange/mocha]
-  gem "mocha"
-  # For controller testing with assigns method
-  gem "rails-controller-testing"
+  # Database cleaner for test isolation
+  gem "database_cleaner-active_record"
 end
