@@ -19,6 +19,7 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "cypress": "^15.2.0"
+    "cypress": "^15.2.0",
+    "daisyui": "^5.1.13"
   }
 }

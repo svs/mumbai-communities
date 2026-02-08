@@ -1636,3 +1636,27 @@ prabhag_T_108:
   ward_code: T
   pdf_url: https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/T/Prabhag_108.pdf
   status: available
+admin_submitted:
+  id: 1001
+  number: 101
+  name: Admin Submitted Prabhag
+  ward_code: TEST1
+  pdf_url: https://example.com/admin_submitted.pdf
+  status: submitted
+  assigned_to_id: 1
+admin_approved:
+  id: 1002
+  number: 102
+  name: Admin Approved Prabhag
+  ward_code: TEST1
+  pdf_url: https://example.com/admin_approved.pdf
+  status: approved
+  assigned_to_id: 1
+admin_rejected:
+  id: 1003
+  number: 103
+  name: Admin Rejected Prabhag
+  ward_code: TEST1
+  pdf_url: https://example.com/admin_rejected.pdf
+  status: rejected
+  assigned_to_id:
