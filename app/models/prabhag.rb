@@ -1,4 +1,6 @@
 class Prabhag < ApplicationRecord
+  include HasPois
+
   belongs_to :assigned_to, class_name: "User", optional: true
   belongs_to :ward, foreign_key: "ward_code", primary_key: "ward_code"
   has_many :tickets, foreign_key: [ "prabhag_number", "ward_code" ], primary_key: [ "number", "ward_code" ]
