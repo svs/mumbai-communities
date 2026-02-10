@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   # Ward-centric structure
   resources :wards, only: [:index, :show] do
     resources :prabhags, only: [:index, :show]
+    resources :tweets, only: [:create]
   end
   
   # Legacy prabhag routes (for backward compatibility)

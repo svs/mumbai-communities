@@ -1,6 +1,7 @@
 class WardsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_ward, only: [:show]
+  before_action :set_variant, only: [:show]
 
   def index
     @wards = Ward.includes(:boundaries, :prabhags).order(:ward_code)
@@ -26,6 +27,8 @@ class WardsController < ApplicationController
     @open_tickets = Ticket.none
     @completed_tickets = Ticket.none
 
+    @tweets = @ward.tweets.recent.limit(10)
+
     # Get boundary data for map display using semantic finders
     @ward_boundary = @ward.approved_boundary
     # Only include prabhags with non-pending boundaries for map display
@@ -42,5 +45,9 @@ class WardsController < ApplicationController
   def set_ward
     # Find ward by slug (using to_param method) or ward_code
     @ward = Ward.all.find { |w| w.to_param == params[:id] } || Ward.find_by!(ward_code: params[:id].upcase)
+  end
+
+  def set_variant
+    request.variant = :newspaper unless params[:variant] == 'classic'
   end
 end

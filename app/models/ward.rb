@@ -4,6 +4,7 @@ class Ward < ApplicationRecord
   has_many :prabhags, foreign_key: 'ward_code', primary_key: 'ward_code'
   has_many :tickets, foreign_key: 'ward_code', primary_key: 'ward_code'
   has_many :boundaries, as: :boundable, dependent: :destroy
+  has_many :tweets, dependent: :destroy
   
   validates :ward_code, presence: true, uniqueness: true
   validates :name, presence: true
