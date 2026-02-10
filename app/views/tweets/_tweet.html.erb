@@ -1,0 +1,5 @@
+<blockquote class="twitter-tweet" data-dnt="true">
+  <p><%= tweet.body %></p>
+  &mdash; <%= tweet.author_name %> (@<%= tweet.author_username %>)
+  <a href="https://twitter.com/<%= tweet.author_username %>/status/<%= tweet.tweet_id %>"><%= tweet.tweeted_at&.strftime("%B %d, %Y") %></a>
+</blockquote>

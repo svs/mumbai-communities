@@ -23,6 +23,7 @@ ward_A:
   name: Ward A
   is_geocoded: false
   short_name: A
+  twitter_handle: mybmcWardA
 ward_B:
   id: 12
   ward_code: B

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_09_184123) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_09_191315) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -85,6 +85,23 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_184123) do
     t.index ["created_by_id"], name: "index_tickets_on_created_by_id"
   end
 
+  create_table "tweets", force: :cascade do |t|
+    t.string "tweet_id", null: false
+    t.integer "ward_id", null: false
+    t.text "body", null: false
+    t.string "author_username"
+    t.string "author_name"
+    t.datetime "tweeted_at"
+    t.integer "like_count", default: 0
+    t.integer "retweet_count", default: 0
+    t.integer "reply_count", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tweet_id"], name: "index_tweets_on_tweet_id", unique: true
+    t.index ["ward_id", "tweeted_at"], name: "index_tweets_on_ward_id_and_tweeted_at"
+    t.index ["ward_id"], name: "index_tweets_on_ward_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -137,4 +154,5 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_184123) do
   add_foreign_key "prabhags", "users", column: "assigned_to_id"
   add_foreign_key "tickets", "users", column: "assigned_to_id"
   add_foreign_key "tickets", "users", column: "created_by_id"
+  add_foreign_key "tweets", "wards"
 end
