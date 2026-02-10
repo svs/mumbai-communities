@@ -4,6 +4,8 @@ RSpec.describe "Tweets", type: :request do
   fixtures :wards
 
   let(:ward) { wards(:ward_A) }
+  let(:api_key) { "test-tweets-api-key" }
+  let(:headers) { { "Authorization" => "Bearer #{api_key}" } }
 
   let(:tweets_payload) do
     [
@@ -29,8 +31,11 @@ RSpec.describe "Tweets", type: :request do
   end
 
   describe "POST /wards/:ward_id/tweets" do
+    before { allow(ENV).to receive(:fetch).and_call_original }
+    before { allow(ENV).to receive(:fetch).with("TWEETS_API_KEY").and_return(api_key) }
+
     it "imports tweets and returns count" do
-      post ward_tweets_path(ward), params: { tweets: tweets_payload }, as: :json
+      post ward_tweets_path(ward), params: { tweets: tweets_payload }, headers: headers, as: :json
 
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
@@ -40,10 +45,10 @@ RSpec.describe "Tweets", type: :request do
     end
 
     it "upserts duplicate tweet_ids without creating duplicates" do
-      post ward_tweets_path(ward), params: { tweets: tweets_payload }, as: :json
+      post ward_tweets_path(ward), params: { tweets: tweets_payload }, headers: headers, as: :json
       expect(Tweet.count).to eq(2)
 
-      post ward_tweets_path(ward), params: { tweets: tweets_payload }, as: :json
+      post ward_tweets_path(ward), params: { tweets: tweets_payload }, headers: headers, as: :json
       expect(Tweet.count).to eq(2)
 
       body = JSON.parse(response.body)
@@ -51,7 +56,7 @@ RSpec.describe "Tweets", type: :request do
     end
 
     it "returns imported 0 for empty array" do
-      post ward_tweets_path(ward), params: { tweets: [] }, as: :json
+      post ward_tweets_path(ward), params: { tweets: [] }, headers: headers, as: :json
 
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
@@ -60,11 +65,23 @@ RSpec.describe "Tweets", type: :request do
     end
 
     it "returns 404 for nonexistent ward" do
-      post "/wards/nonexistent-ward/tweets", params: { tweets: tweets_payload }, as: :json
+      post "/wards/nonexistent-ward/tweets", params: { tweets: tweets_payload }, headers: headers, as: :json
 
       expect(response).to have_http_status(:not_found)
       body = JSON.parse(response.body)
       expect(body["error"]).to eq("Ward not found")
+    end
+
+    it "returns 401 without API key" do
+      post ward_tweets_path(ward), params: { tweets: tweets_payload }, as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it "returns 401 with wrong API key" do
+      post ward_tweets_path(ward), params: { tweets: tweets_payload }, headers: { "Authorization" => "Bearer wrong-key" }, as: :json
+
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 end
