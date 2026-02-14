@@ -1,0 +1,193 @@
+<turbo-frame id="ward-tab-content">
+<%
+  mapped_count = @prabhags.select { |p| p.boundary_geojson.present? }.count
+  unmapped_count = @prabhags.count - mapped_count
+  total_facilities = @facility_type_counts.values.sum
+%>
+
+  <!-- Tab Navigation -->
+  <div class="flex gap-6 border-b border-stone-200 mb-8">
+    <%= link_to "News", news_ward_path(@ward),
+        data: { turbo_frame: "ward-tab-content" },
+        class: "pb-2 text-sm text-stone-400 hover:text-stone-600 border-b-2 border-transparent" %>
+    <%= link_to "Info", info_ward_path(@ward),
+        data: { turbo_frame: "ward-tab-content" },
+        class: "pb-2 text-sm font-semibold border-b-2 border-stone-800 text-stone-800" %>
+  </div>
+
+  <!-- Map + Facility Filters -->
+  <div data-controller="facility-map"
+       data-facility-map-url-value="<%= ward_facilities_path(@ward, format: :json) %>"
+       data-facility-map-ward-id-value="<%= @ward.ward_code %>">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
+
+    <!-- Map (8 cols) -->
+    <div class="lg:col-span-8">
+      <div data-controller="leaflet-map"
+           data-leaflet-map-data-url-value="<%= ward_path(@ward, format: :json) %>"
+           data-leaflet-map-show-labels-value="false"
+           data-leaflet-map-show-legend-value="false"
+           data-leaflet-map-clickable-value="true"
+           data-leaflet-map-zoom-value="15"
+           data-leaflet-map-static-value="false">
+        <div data-leaflet-map-target="container" class="w-full rounded-lg" style="height: 500px;"></div>
+      </div>
+    </div>
+
+    <!-- Facility Filters + List (4 cols) -->
+    <div class="lg:col-span-4">
+      <div class="newspaper-section-header">Facilities</div>
+
+      <% if @facility_type_counts.any? %>
+        <div class="space-y-1 mb-4">
+          <% @facility_type_counts.sort_by { |_, count| -count }.each do |type, count| %>
+            <%
+              color = case type
+                      when "hospital" then "#ef4444"
+                      when "school" then "#3b82f6"
+                      when "toilet" then "#a855f7"
+                      when "park", "garden", "open_space" then "#22c55e"
+                      when "police" then "#1e3a5f"
+                      when "fire_station" then "#f97316"
+                      when "library" then "#8b5cf6"
+                      when "place_of_worship" then "#eab308"
+                      when "pharmacy" then "#14b8a6"
+                      when "bank" then "#6366f1"
+                      when "post_office" then "#f59e0b"
+                      when "playground" then "#10b981"
+                      when "bus_station" then "#64748b"
+                      when "railway_station" then "#475569"
+                      else "#6b7280"
+                      end
+            %>
+            <label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-stone-50 px-2 py-1 rounded">
+              <input type="checkbox" checked
+                     data-facility-type="<%= type %>"
+                     data-action="change->facility-map#toggleType"
+                     class="rounded border-stone-300">
+              <span class="inline-block w-3 h-3 rounded-full" style="background: <%= color %>;"></span>
+              <span class="text-stone-700"><%= type.humanize %></span>
+              <span class="text-stone-400 ml-auto"><%= count %></span>
+            </label>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-stone-400 italic mb-4">No facilities tracked yet.</p>
+      <% end %>
+
+      <!-- Scrollable facility list -->
+      <turbo-frame id="facility-list" src="<%= ward_facilities_path(@ward) %>" loading="lazy">
+        <div class="text-sm text-stone-400 italic p-4">Loading facilities...</div>
+      </turbo-frame>
+    </div>
+  </div>
+  </div>
+
+  <!-- Facility Scorecard -->
+  <% if total_facilities > 0 %>
+    <div class="mb-10">
+      <div class="newspaper-section-header">Facility Coverage</div>
+      <turbo-frame id="facilities-scorecard" src="<%= scorecard_ward_facilities_path(@ward) %>" loading="lazy">
+        <div class="text-sm text-stone-400 italic p-4">Loading scorecard...</div>
+      </turbo-frame>
+    </div>
+  <% end %>
+
+  <!-- Prabhags -->
+  <div class="mb-10">
+    <div class="newspaper-section-header">Prabhags</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% @prabhags.each do |prabhag| %>
+        <% boundary = prabhag.approved_boundary %>
+        <%
+          if boundary
+            case boundary.source_type
+            when 'official_import'
+              border_color = 'border-green-500'
+              status_text = boundary.status == 'canonical' ? 'Official' : 'Approved'
+              status_class = 'bg-green-50 text-green-700'
+            when 'kml_import'
+              border_color = 'border-orange-400'
+              status_text = 'Legacy'
+              status_class = 'bg-orange-50 text-orange-700'
+            when 'user_submission'
+              border_color = 'border-purple-400'
+              status_text = 'Community'
+              status_class = 'bg-purple-50 text-purple-700'
+            else
+              border_color = 'border-stone-300'
+              status_text = boundary.source_type.humanize
+              status_class = 'bg-stone-50 text-stone-600'
+            end
+          else
+            border_color = 'border-red-400'
+            status_text = 'Needs mapping'
+            status_class = 'bg-red-50 text-red-700'
+          end
+        %>
+        <%= link_to prabhag_path(prabhag), class: "prabhag-card block border-t-4 #{border_color} bg-white rounded-lg border border-stone-200 p-4 hover:no-underline" do %>
+          <div class="text-lg font-semibold text-stone-800 mb-2">
+            Prabhag <%= prabhag.number %>
+          </div>
+          <span class="inline-block text-xs font-medium px-2 py-1 rounded-full <%= status_class %>">
+            <%= status_text %>
+          </span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Help + Directory -->
+  <%
+    has_help_content = unmapped_count > 0 || @open_tickets&.any?
+    has_directory = @ward.contact_officer_name.present?
+  %>
+  <% if has_help_content || has_directory %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-10">
+      <% if has_help_content %>
+        <div>
+          <div class="newspaper-section-header">How You Can Help</div>
+          <div class="text-stone-600 space-y-3">
+            <% if unmapped_count > 0 %>
+              <p><%= unmapped_count %> prabhag<%= unmapped_count == 1 ? '' : 's' %> still need<%= unmapped_count == 1 ? 's' : '' %> boundary mapping.</p>
+            <% end %>
+            <% if @open_tickets&.any? %>
+              <p><%= @open_tickets.count %> task<%= @open_tickets.count == 1 ? '' : 's' %> need<%= @open_tickets.count == 1 ? 's' : '' %> volunteers.</p>
+            <% end %>
+            <% unless user_signed_in? %>
+              <p class="text-sm">
+                <%= link_to "Sign up", new_user_registration_path, class: "text-stone-700 underline hover:text-stone-900" %>
+                or
+                <%= link_to "sign in", new_user_session_path, class: "text-stone-700 underline hover:text-stone-900" %>
+                to contribute.
+              </p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if has_directory %>
+        <div>
+          <div class="newspaper-section-header">Ward Directory</div>
+          <div class="text-sm text-stone-600 space-y-2">
+            <div><strong class="text-stone-800">Ward Officer:</strong> <%= @ward.contact_officer_name %></div>
+            <% if @ward.contact_officer_email.present? %>
+              <div>
+                <a href="mailto:<%= @ward.contact_officer_email %>" class="text-stone-700 underline hover:text-stone-900">
+                  <%= @ward.contact_officer_email %>
+                </a>
+              </div>
+            <% end %>
+            <% if @ward.contact_officer_phone.present? %>
+              <div>
+                <a href="tel:<%= @ward.contact_officer_phone %>" class="text-stone-700 underline hover:text-stone-900">
+                  <%= @ward.contact_officer_phone %>
+                </a>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</turbo-frame>

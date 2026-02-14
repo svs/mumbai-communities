@@ -16,8 +16,20 @@ Rails.application.routes.draw do
   
   # Ward-centric structure
   resources :wards, only: [:index, :show] do
+    member do
+      get :info
+      get :news
+    end
     resources :prabhags, only: [:index, :show]
     resources :tweets, only: [:create]
+    scope module: :wards do
+      resources :facilities, only: [:index] do
+        collection do
+          get :scorecard
+        end
+      end
+      resources :changes, only: [:index]
+    end
   end
   
   # Legacy prabhag routes (for backward compatibility)
