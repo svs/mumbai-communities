@@ -1,0 +1,24 @@
+<turbo-frame id="facility-list">
+  <div class="space-y-2 max-h-96 overflow-y-auto">
+    <% @facilities.each do |facility| %>
+      <div class="p-2 border-b border-stone-100 text-sm">
+        <div class="font-medium text-stone-800"><%= facility.name || "Unnamed #{facility.facility_type.humanize}" %></div>
+        <div class="flex items-center gap-2 mt-1">
+          <span class="inline-block text-xs px-1.5 py-0.5 rounded bg-stone-100 text-stone-600">
+            <%= facility.facility_type.humanize %>
+          </span>
+          <span class="inline-block text-xs px-1.5 py-0.5 rounded <%= facility.source.start_with?('bmc') ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700' %>">
+            <%= facility.source.start_with?('bmc') ? 'BMC' : 'OSM' %>
+          </span>
+        </div>
+        <% if facility.address.present? %>
+          <div class="text-xs text-stone-400 mt-1"><%= facility.address %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @facilities.empty? %>
+      <p class="text-sm text-stone-400 italic p-4">No facilities tracked yet.</p>
+    <% end %>
+  </div>
+</turbo-frame>

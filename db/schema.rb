@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_14_053821) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_14_100001) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -48,6 +48,26 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_053821) do
     t.index ["status"], name: "index_boundaries_on_status"
     t.index ["submitted_by_id"], name: "index_boundaries_on_submitted_by_id"
     t.index ["year", "source_type"], name: "index_boundaries_on_year_and_source_type"
+  end
+
+  create_table "facilities", force: :cascade do |t|
+    t.string "name"
+    t.string "facility_type", null: false
+    t.string "source", null: false
+    t.string "external_id"
+    t.string "ward_code"
+    t.integer "prabhag_number"
+    t.decimal "latitude", precision: 10, scale: 7
+    t.decimal "longitude", precision: 10, scale: 7
+    t.string "address"
+    t.json "raw_data"
+    t.string "content_hash"
+    t.datetime "last_seen_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facility_type"], name: "index_facilities_on_facility_type"
+    t.index ["source", "external_id"], name: "index_facilities_on_source_and_external_id", unique: true
+    t.index ["ward_code", "facility_type"], name: "index_facilities_on_ward_code_and_facility_type"
   end
 
   create_table "prabhags", force: :cascade do |t|
@@ -130,6 +150,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_053821) do
     t.index ["prabhag_id"], name: "index_users_on_prabhag_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["ward_code"], name: "index_users_on_ward_code"
+  end
+
+  create_table "ward_data_snapshots", force: :cascade do |t|
+    t.string "ward_code"
+    t.string "source_url", null: false
+    t.string "data_type", null: false
+    t.text "content"
+    t.string "content_hash"
+    t.json "parsed_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["content_hash"], name: "index_ward_data_snapshots_on_content_hash"
+    t.index ["ward_code", "data_type"], name: "index_ward_data_snapshots_on_ward_code_and_data_type"
   end
 
   create_table "wards", force: :cascade do |t|
