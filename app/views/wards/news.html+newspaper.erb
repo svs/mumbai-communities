@@ -1,0 +1,95 @@
+<turbo-frame id="ward-tab-content">
+<%
+  mapped_count = @prabhags.select { |p| p.boundary_geojson.present? }.count
+  total_facilities = @facility_type_counts.values.sum
+%>
+
+  <!-- Tab Navigation -->
+  <div class="flex gap-6 border-b border-stone-200 mb-8">
+    <%= link_to "News", news_ward_path(@ward),
+        data: { turbo_frame: "ward-tab-content" },
+        class: "pb-2 text-sm font-semibold border-b-2 border-stone-800 text-stone-800" %>
+    <%= link_to "Info", info_ward_path(@ward),
+        data: { turbo_frame: "ward-tab-content" },
+        class: "pb-2 text-sm text-stone-400 hover:text-stone-600 border-b-2 border-transparent" %>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+    <!-- Sidebar (4 cols — first on mobile, right on desktop) -->
+    <div class="lg:col-span-4 lg:order-last">
+      <!-- Map -->
+      <div class="mb-6">
+        <div data-controller="leaflet-map"
+             data-leaflet-map-data-url-value="<%= ward_path(@ward, format: :json) %>"
+             data-leaflet-map-show-labels-value="false"
+             data-leaflet-map-show-legend-value="false"
+             data-leaflet-map-clickable-value="false"
+             data-leaflet-map-zoom-value="14"
+             data-leaflet-map-static-value="true">
+          <div data-leaflet-map-target="container" class="w-full rounded-lg" style="height: 250px;"></div>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="mb-6">
+        <div class="newspaper-section-header">At a Glance</div>
+        <div class="text-sm text-stone-600 space-y-2">
+          <div class="flex justify-between">
+            <span>Prabhags</span>
+            <span class="font-medium text-stone-800"><%= @prabhags.count %></span>
+          </div>
+          <div class="flex justify-between">
+            <span>Mapped</span>
+            <span class="font-medium text-stone-800"><%= mapped_count %>/<%= @prabhags.count %></span>
+          </div>
+          <% if total_facilities > 0 %>
+            <div class="flex justify-between">
+              <span>Facilities</span>
+              <span class="font-medium text-stone-800"><%= total_facilities %></span>
+            </div>
+          <% end %>
+          <% if @ward.population_estimate.present? %>
+            <div class="flex justify-between">
+              <span>Population</span>
+              <span class="font-medium text-stone-800"><%= number_with_delimiter(@ward.population_estimate) %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Link to Info -->
+      <%= link_to info_ward_path(@ward),
+          data: { turbo_frame: "ward-tab-content" },
+          class: "block text-center text-sm font-medium text-stone-700 border border-stone-300 rounded-lg px-4 py-2 hover:bg-stone-50 transition-colors" do %>
+        See all info &rarr;
+      <% end %>
+    </div>
+
+    <!-- News Feed (8 cols) -->
+    <div class="lg:col-span-8">
+      <!-- Tweets -->
+      <div class="mb-10">
+        <% if @tweets.any? %>
+          <div data-controller="twitter-embeds">
+            <div class="newspaper-section-header">From the Community</div>
+            <div class="space-y-4">
+              <%= render @tweets %>
+            </div>
+          </div>
+        <% else %>
+          <p class="text-sm text-stone-400 italic">No tweets yet.</p>
+        <% end %>
+      </div>
+
+      <!-- Changes Feed -->
+      <div class="mb-10">
+        <div class="newspaper-section-header">Recent Changes</div>
+        <turbo-frame id="changes-feed" src="<%= ward_changes_path(@ward) %>" loading="lazy">
+          <div class="text-sm text-stone-400 italic p-4">Loading changes...</div>
+        </turbo-frame>
+      </div>
+    </div>
+
+  </div>
+</turbo-frame>

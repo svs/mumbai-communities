@@ -1,7 +1,7 @@
 class WardsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :set_ward, only: [:show]
-  before_action :set_variant, only: [:show]
+  skip_before_action :authenticate_user!, only: [:index, :show, :info, :news]
+  before_action :set_ward, only: [:show, :info, :news]
+  before_action :set_variant, only: [:show, :info, :news]
 
   def index
     @wards = Ward.includes(:boundaries, :prabhags).order(:ward_code)
@@ -28,6 +28,7 @@ class WardsController < ApplicationController
     @completed_tickets = Ticket.none
 
     @tweets = @ward.tweets.recent.limit(10)
+    @facility_type_counts = @ward.facilities.group(:facility_type).count
 
     # Get boundary data for map display using semantic finders
     @ward_boundary = @ward.approved_boundary
@@ -38,6 +39,24 @@ class WardsController < ApplicationController
     }
     # Include all prabhags for potential PNG image display (without boundaries or needing mapping)
     @all_prabhags_for_map = @prabhags
+  end
+
+  def info
+    @prabhags = @ward.prabhags.order(:number)
+    @facility_type_counts = @ward.facilities.group(:facility_type).count
+
+    @ward_boundary = @ward.approved_boundary
+    @prabhag_boundaries = @prabhags.select { |p|
+      boundary = p.approved_boundary
+      boundary && boundary.status != 'pending'
+    }
+    @all_prabhags_for_map = @prabhags
+  end
+
+  def news
+    @prabhags = @ward.prabhags.order(:number)
+    @tweets = @ward.tweets.recent.limit(10)
+    @facility_type_counts = @ward.facilities.group(:facility_type).count
   end
 
   private
