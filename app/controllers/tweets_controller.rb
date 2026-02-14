@@ -1,5 +1,6 @@
 class TweetsController < ApplicationController
   skip_before_action :authenticate_user!
+  skip_forgery_protection
   before_action :authenticate_api_key!
 
   def create

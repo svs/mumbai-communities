@@ -46,7 +46,8 @@ class TweetService
           tweeted_at: parse_time(data["createdAt"]),
           like_count: data["likeCount"].to_i,
           retweet_count: data["retweetCount"].to_i,
-          reply_count: data["replyCount"].to_i
+          reply_count: data["replyCount"].to_i,
+          in_reply_to_status_id: data["inReplyToStatusId"]&.to_s
         )
         tweet.save!
         tweet
