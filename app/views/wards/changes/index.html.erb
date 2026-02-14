@@ -1,0 +1,35 @@
+<turbo-frame id="changes-feed">
+  <div class="space-y-3">
+    <% @recent_facilities.each do |facility| %>
+      <div class="border-l-4 border-green-400 pl-3 py-2">
+        <div class="text-sm font-medium text-stone-800">
+          <%= facility.name || "Unnamed #{facility.facility_type.humanize}" %>
+        </div>
+        <div class="text-xs text-stone-500">
+          <span class="uppercase"><%= facility.facility_type.humanize %></span>
+          &middot;
+          <span class="<%= facility.source.start_with?('bmc') ? 'text-blue-600' : 'text-green-600' %>">
+            <%= facility.source.start_with?('bmc') ? 'BMC' : 'OSM' %>
+          </span>
+          &middot;
+          <%= time_ago_in_words(facility.created_at) %> ago
+        </div>
+      </div>
+    <% end %>
+
+    <% @snapshots.each do |snapshot| %>
+      <div class="border-l-4 border-blue-400 pl-3 py-2">
+        <div class="text-sm font-medium text-stone-800">
+          Data snapshot: <%= snapshot.data_type.humanize %>
+        </div>
+        <div class="text-xs text-stone-500">
+          <%= time_ago_in_words(snapshot.created_at) %> ago
+        </div>
+      </div>
+    <% end %>
+
+    <% if @recent_facilities.empty? && @snapshots.empty? %>
+      <p class="text-sm text-stone-400 italic">No recent changes.</p>
+    <% end %>
+  </div>
+</turbo-frame>

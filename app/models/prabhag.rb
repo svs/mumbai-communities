@@ -5,6 +5,7 @@ class Prabhag < ApplicationRecord
   belongs_to :ward, foreign_key: "ward_code", primary_key: "ward_code"
   has_many :tickets, foreign_key: [ "prabhag_number", "ward_code" ], primary_key: [ "number", "ward_code" ]
   has_many :boundaries, as: :boundable, dependent: :destroy
+  has_many :facilities, foreign_key: "prabhag_number", primary_key: "number"
 
   validates :number, presence: true, uniqueness: { scope: :ward_code }
   validates :ward_code, presence: true
