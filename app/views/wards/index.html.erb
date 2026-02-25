@@ -1,25 +1,18 @@
 <div class="max-w-6xl mx-auto py-8 px-4">
 
   <!-- Masthead -->
-  <div class="text-center mb-1">
-    <p class="text-xs uppercase tracking-[0.25em] text-stone-400 mb-3">
-      Mumbai Municipal Corporation · Ward Communities
-    </p>
-    <div class="newspaper-rule mb-3"></div>
-    <h1 class="newspaper-masthead text-5xl md:text-6xl text-stone-900 mb-2">
+  <div class="flex items-baseline justify-between border-b-2 border-stone-900 pb-2 mb-6">
+    <h1 class="newspaper-masthead text-3xl md:text-4xl text-stone-900">
       Mumbai Communities
     </h1>
-    <div class="newspaper-rule-thick mb-3"></div>
-    <p class="text-sm text-stone-500">
+    <p class="text-xs text-stone-400">
       <%= Date.current.strftime("%A, %B %-d, %Y") %>
-      &emsp;·&emsp;
+      &ensp;·&ensp;
       <%= @wards.count %> Wards
-      &emsp;·&emsp;
+      &ensp;·&ensp;
       <%= @total_tweet_count %> dispatches
     </p>
   </div>
-
-  <div class="newspaper-rule mt-6 mb-8"></div>
 
   <!-- Main Grid -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -29,19 +22,17 @@
       <div class="newspaper-section-header">From the Community</div>
 
       <% if @tweets.any? %>
-        <div data-controller="twitter-embeds">
-          <% @tweets.each do |tweet| %>
-            <div class="newspaper-dispatch">
-              <div class="flex items-center gap-3 mb-2">
-                <%= link_to "Ward #{tweet.ward.ward_code}", ward_path(tweet.ward), class: "newspaper-dateline hover:underline" %>
-                <span class="text-xs text-stone-400">
-                  <%= time_ago_in_words(tweet.tweeted_at) %> ago
-                </span>
-              </div>
-              <%= render tweet %>
+        <% @tweets.each do |tweet| %>
+          <div class="newspaper-dispatch">
+            <div class="flex items-center gap-3 mb-2">
+              <%= link_to "Ward #{tweet.ward.ward_code}", ward_path(tweet.ward), class: "newspaper-dateline hover:underline" %>
+              <span class="text-xs text-stone-400">
+                <%= time_ago_in_words(tweet.tweeted_at) %> ago
+              </span>
             </div>
-          <% end %>
-        </div>
+            <%= render tweet %>
+          </div>
+        <% end %>
 
         <div class="mt-6">
           <%= paginate @tweets %>
@@ -53,36 +44,38 @@
 
     <!-- Sidebar (4 cols) -->
     <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-4">
 
-      <!-- Ward Index -->
-      <div class="mb-8">
-        <div class="newspaper-section-header">Wards</div>
-        <div class="space-y-0">
-          <% @wards.each do |ward| %>
-            <% count = @ward_tweet_counts[ward.id] || 0 %>
-            <% next if count == 0 %>
-            <%= link_to ward_path(ward),
-                class: "newspaper-sidebar-link flex justify-between items-center py-1.5 px-2 rounded" do %>
-              <span class="text-sm font-medium text-stone-700">Ward <%= ward.ward_code %></span>
-              <span class="text-xs text-stone-400"><%= count %></span>
+        <!-- Ward Index -->
+        <div class="mb-6">
+          <div class="newspaper-section-header">Wards</div>
+          <div class="grid grid-cols-2 gap-x-2">
+            <% @wards.each do |ward| %>
+              <% count = @ward_tweet_counts[ward.id] || 0 %>
+              <% next if count == 0 %>
+              <%= link_to ward_path(ward),
+                  class: "newspaper-sidebar-link flex justify-between items-center py-1 px-2 rounded" do %>
+                <span class="text-xs font-medium text-stone-700 truncate"><%= ward.ward_code %></span>
+                <span class="text-xs text-stone-400"><%= count %></span>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
         </div>
+
+        <!-- Sign in prompt (anonymous users) -->
+        <% unless user_signed_in? %>
+          <div class="mb-6">
+            <div class="newspaper-section-header">Join</div>
+            <p class="text-sm text-stone-600 mb-3">
+              Sign in to contribute to your ward community.
+            </p>
+            <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path,
+                        method: :post,
+                        class: "block text-center text-sm font-medium text-stone-700 border border-stone-300 rounded px-4 py-2 hover:bg-stone-50 transition-colors" %>
+          </div>
+        <% end %>
+
       </div>
-
-      <!-- Sign in prompt (anonymous users) -->
-      <% unless user_signed_in? %>
-        <div class="mb-8">
-          <div class="newspaper-section-header">Join</div>
-          <p class="text-sm text-stone-600 mb-3">
-            Sign in to contribute to your ward community.
-          </p>
-          <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path,
-                      method: :post,
-                      class: "block text-center text-sm font-medium text-stone-700 border border-stone-300 rounded px-4 py-2 hover:bg-stone-50 transition-colors" %>
-        </div>
-      <% end %>
-
     </div>
   </div>
 

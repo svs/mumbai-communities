@@ -77,18 +77,11 @@ asset_path: /rails/public/assets
 # Configure the image builder.
 builder:
   arch: amd64
+  remote: ssh://svs@marilyn
 
   # Pass git commit hash to Docker build
   args:
     GIT_COMMIT_SHA: <%= `git rev-parse HEAD`.strip rescue "unknown" %>
-
-  # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
-  # remote: ssh://docker@docker-builder-server
-  #
-  # # Pass arguments and secrets to the Docker build process
-  # secrets:
-  #   - GITHUB_TOKEN
-  #   - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
 # ssh:

@@ -6,8 +6,8 @@ class WardsController < ApplicationController
   def index
     @wards = Ward.includes(:boundaries, :prabhags).order(:ward_code)
     @tweets = Tweet.includes(:ward).original.recent.page(params[:page]).per(10)
-    @ward_tweet_counts = Tweet.group(:ward_id).count
-    @total_tweet_count = Tweet.count
+    @ward_tweet_counts = Tweet.original.group(:ward_id).count
+    @total_tweet_count = Tweet.original.count
 
     respond_to do |format|
       format.html

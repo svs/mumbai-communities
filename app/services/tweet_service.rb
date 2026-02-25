@@ -99,7 +99,8 @@ class TweetService
           like_count: data["likeCount"].to_i,
           retweet_count: data["retweetCount"].to_i,
           reply_count: data["replyCount"].to_i,
-          in_reply_to_status_id: data["inReplyToUserId"]&.to_s
+          in_reply_to_status_id: data["inReplyToUserId"]&.to_s,
+          media_urls: data["mediaUrls"].presence
         )
         tweet.save!
         tweet

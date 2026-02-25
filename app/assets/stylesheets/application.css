@@ -58,10 +58,7 @@ button, .btn {
   transition: all 0.3s ease;
 }
 
-/* Newspaper variant styles */
-.warm-map {
-  filter: grayscale(30%) sepia(15%);
-}
+
 
 .newspaper-masthead {
   font-family: 'Barlow', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -125,4 +122,48 @@ button, .btn {
 .prabhag-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Kaminari pagination */
+nav.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-top: 1px solid #d6d3d1;
+  padding-top: 1rem;
+}
+
+nav.pagination a,
+nav.pagination span.page,
+nav.pagination span.gap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: #57534e;
+  transition: background-color 0.1s ease;
+}
+
+nav.pagination a:hover {
+  background-color: #f5f5f4;
+  color: #1c1917;
+}
+
+nav.pagination span.page.current {
+  background-color: #1c1917;
+  color: #ffffff;
+}
+
+nav.pagination span.prev a,
+nav.pagination span.next a {
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
