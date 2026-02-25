@@ -1,0 +1,76 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <div class="flex justify-between items-center border-b border-gray-300 pb-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Discussions</h1>
+      <p class="text-gray-600">
+        <%= link_to @ward.name, ward_path(@ward), class: "text-blue-600 hover:underline" %> &middot;
+        Prabhag <%= @prabhag.number %> &middot; Community Forum
+      </p>
+    </div>
+    <% if user_signed_in? %>
+      <%= link_to "New Discussion", new_prabhag_discussion_path(@prabhag), class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm" %>
+    <% end %>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="flex gap-4 items-center">
+    <%= form_tag prabhag_discussions_path(@prabhag), method: :get, class: "flex-1" do %>
+      <div class="flex gap-2">
+        <input type="text" name="q" value="<%= params[:q] %>" placeholder="Search discussions..." class="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" />
+        <button type="submit" class="bg-gray-100 border border-gray-300 px-3 py-2 rounded text-sm hover:bg-gray-200">Search</button>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Category Filters -->
+  <% if @categories.any? %>
+    <div class="flex gap-2 flex-wrap">
+      <%= link_to "All", prabhag_discussions_path(@prabhag), class: "text-sm px-3 py-1 rounded-full #{params[:category].blank? ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+      <% @categories.each do |category| %>
+        <%= link_to category.name, prabhag_discussions_path(@prabhag, category: category.slug), class: "text-sm px-3 py-1 rounded-full #{params[:category] == category.slug ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Discussion List -->
+  <div class="space-y-1">
+    <% if @discussions.any? %>
+      <% @discussions.each do |discussion| %>
+        <div class="border-l-2 <%= discussion.pinned? ? 'border-yellow-400 bg-yellow-50' : 'border-gray-200' %> pl-4 py-3 hover:bg-gray-50 transition-colors">
+          <div class="flex justify-between items-start">
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <% if discussion.pinned? %>
+                  <span class="text-yellow-600 text-xs font-medium">PINNED</span>
+                <% end %>
+                <% if discussion.closed? %>
+                  <span class="text-red-600 text-xs font-medium">CLOSED</span>
+                <% end %>
+                <%= link_to discussion.title, prabhag_discussion_path(@prabhag, discussion), class: "font-medium text-gray-900 hover:text-blue-600" %>
+              </div>
+              <div class="text-sm text-gray-500 mt-1">
+                by <%= discussion.user.name || discussion.user.email %> &middot;
+                <%= time_ago_in_words(discussion.created_at) %> ago
+                <% if discussion.category %>
+                  &middot; <span class="inline-block px-2 py-0.5 text-xs rounded-full" style="background-color: <%= discussion.category.color || '#e5e7eb' %>20; color: <%= discussion.category.color || '#6b7280' %>"><%= discussion.category.name %></span>
+                <% end %>
+              </div>
+            </div>
+            <div class="text-sm text-gray-500 text-right ml-4">
+              <div><%= discussion.posts_count %> replies</div>
+              <% if discussion.last_post_at %>
+                <div class="text-xs">last <%= time_ago_in_words(discussion.last_post_at) %> ago</div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="pt-4">
+        <%= paginate @discussions %>
+      </div>
+    <% else %>
+      <p class="text-gray-500 italic py-8 text-center">No discussions yet. Be the first to start one!</p>
+    <% end %>
+  </div>
+</div>

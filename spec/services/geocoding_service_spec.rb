@@ -76,6 +76,17 @@ RSpec.describe GeocodingService, type: :service do
       expect(prabhag_id).to be_nil
     end
 
+    it 'falls back to ward boundary when no prabhag matches' do
+      ward_boundary = boundaries(:boundary_ward_21_1)
+      ward_boundary.make_canonical!
+
+      # Point inside ward G SOUTH polygon, no prabhag boundary covers it
+      ward_code, prabhag_id = GeocodingService.find_prabhag_from_coordinates(19.005, 72.822)
+
+      expect(ward_code).to eq('G SOUTH')
+      expect(prabhag_id).to be_nil
+    end
+
     it 'logs information during geocoding' do
       expect {
         GeocodingService.find_prabhag_from_coordinates(19.15, 72.85)

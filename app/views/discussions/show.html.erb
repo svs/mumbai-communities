@@ -1,0 +1,69 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <!-- Breadcrumb -->
+  <div class="text-sm text-gray-500">
+    <%= link_to "All Discussions", discussions_path, class: "hover:text-blue-600" %>
+    <% if @discussion.discussable %>
+      &middot;
+      <% if @discussion.discussable.is_a?(Ward) %>
+        <%= link_to @discussion.discussable.name, ward_path(@discussion.discussable), class: "hover:text-blue-600" %>
+      <% elsif @discussion.discussable.is_a?(Prabhag) %>
+        Prabhag <%= @discussion.discussable.number %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Discussion Header -->
+  <div class="border-b border-gray-300 pb-4">
+    <div class="flex items-center gap-2 mb-1">
+      <% if @discussion.pinned? %>
+        <span class="text-yellow-600 text-xs font-medium bg-yellow-50 px-2 py-0.5 rounded">PINNED</span>
+      <% end %>
+      <% if @discussion.closed? %>
+        <span class="text-red-600 text-xs font-medium bg-red-50 px-2 py-0.5 rounded">CLOSED</span>
+      <% end %>
+      <% if @discussion.archived? %>
+        <span class="text-gray-600 text-xs font-medium bg-gray-100 px-2 py-0.5 rounded">ARCHIVED</span>
+      <% end %>
+    </div>
+    <h1 class="text-2xl font-bold text-gray-900"><%= @discussion.title %></h1>
+    <div class="text-sm text-gray-500 mt-1">
+      by <%= @discussion.user.name || @discussion.user.email %> &middot;
+      <%= time_ago_in_words(@discussion.created_at) %> ago
+      <% if @discussion.category %>
+        &middot; <span class="inline-block px-2 py-0.5 text-xs rounded-full" style="background-color: <%= @discussion.category.color || '#e5e7eb' %>20; color: <%= @discussion.category.color || '#6b7280' %>"><%= @discussion.category.name %></span>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Discussion Body -->
+  <div class="prose prose-sm max-w-none text-gray-800 border-b border-gray-200 pb-6">
+    <%= simple_format(@discussion.body) %>
+  </div>
+
+  <!-- Replies -->
+  <div class="space-y-1">
+    <h2 class="text-lg font-semibold text-gray-900">
+      Replies
+      <span class="text-base font-normal text-gray-500">(<%= @discussion.posts_count %>)</span>
+    </h2>
+
+    <% if @posts.any? %>
+      <% @posts.each do |post| %>
+        <%= render partial: "discussions/post", locals: { post: post, discussion: @discussion, depth: 0 } %>
+      <% end %>
+    <% else %>
+      <p class="text-gray-500 italic py-4">No replies yet.</p>
+    <% end %>
+  </div>
+
+  <!-- Sign-in prompt (root-level show is read-only; reply via ward/prabhag scoped page) -->
+  <% if @discussion.discussable %>
+    <div class="border-t border-gray-200 pt-6 text-center text-sm text-gray-500">
+      <% if @discussion.discussable.is_a?(Ward) %>
+        <%= link_to "Go to ward discussion to reply", ward_discussion_path(@discussion.discussable, @discussion), class: "text-blue-600 hover:underline" %>
+      <% elsif @discussion.discussable.is_a?(Prabhag) %>
+        <%= link_to "Go to prabhag discussion to reply", prabhag_discussion_path(@discussion.discussable, @discussion), class: "text-blue-600 hover:underline" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

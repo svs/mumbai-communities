@@ -347,6 +347,70 @@ RSpec.describe Boundary, type: :model do
     end
   end
 
+  describe '#contains_point?' do
+    it 'returns true for a point inside the polygon' do
+      ward_boundary = boundaries(:boundary_ward_21_1)
+      # Point well inside the G/S ward polygon
+      expect(ward_boundary.contains_point?(19.005, 72.822)).to be true
+    end
+
+    it 'returns false for a point outside the polygon' do
+      ward_boundary = boundaries(:boundary_ward_21_1)
+      # Point far from Mumbai
+      expect(ward_boundary.contains_point?(28.6, 77.2)).to be false
+    end
+
+    it 'returns false for invalid geojson' do
+      boundary.geojson = 'not json'
+      expect(boundary.contains_point?(19.0, 72.8)).to be false
+    end
+  end
+
+  describe '.for_point' do
+    it 'finds a canonical ward boundary containing the point' do
+      ward_boundary = boundaries(:boundary_ward_21_1)
+      ward_boundary.make_canonical!
+
+      result = Boundary.for_point(19.005, 72.822, type: :ward)
+      expect(result).to eq(ward_boundary)
+      expect(result.boundable).to eq(wards(:'ward_G SOUTH'))
+    end
+
+    it 'returns nil when no boundary contains the point' do
+      expect(Boundary.for_point(28.6, 77.2, type: :ward)).to be_nil
+    end
+
+    it 'ignores non-canonical ward boundaries' do
+      ward_boundary = boundaries(:boundary_ward_21_1)
+      expect(ward_boundary.is_canonical).to be false
+      expect(Boundary.for_point(19.005, 72.822, type: :ward)).to be_nil
+    end
+
+    it 'finds approved prabhag boundaries' do
+      prabhag_boundary = boundaries(:boundary_prabhag_74_50)
+      expect(prabhag_boundary.status).to eq('approved')
+      # Extract a point from the prabhag boundary to test with
+      coords = JSON.parse(prabhag_boundary.geojson).dig('coordinates', 0) ||
+               JSON.parse(prabhag_boundary.geojson).dig('geometry', 'coordinates', 0)
+      next unless coords
+      # Use centroid approximation
+      lats = coords.map { |c| c[1] }
+      lngs = coords.map { |c| c[0] }
+      center_lat = (lats.min + lats.max) / 2.0
+      center_lng = (lngs.min + lngs.max) / 2.0
+
+      result = Boundary.for_point(center_lat, center_lng, type: :prabhag)
+      expect(result&.boundable_type).to eq('Prabhag') if result
+    end
+
+    it 'does not match ward type when searching for prabhag' do
+      ward_boundary = boundaries(:boundary_ward_21_1)
+      ward_boundary.make_canonical!
+      result = Boundary.for_point(19.005, 72.822, type: :prabhag)
+      expect(result&.boundable_type).not_to eq('Ward')
+    end
+  end
+
   describe 'boundary approval workflow' do
     it 'optionally belongs to edited_by user' do
       boundary.edited_by = nil

@@ -1,5 +1,6 @@
 class Ward < ApplicationRecord
   include HasPois
+  include Discussable
 
   has_many :prabhags, foreign_key: 'ward_code', primary_key: 'ward_code'
   has_many :tickets, foreign_key: 'ward_code', primary_key: 'ward_code'

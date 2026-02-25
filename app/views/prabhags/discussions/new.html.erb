@@ -1,0 +1,11 @@
+<div class="max-w-2xl mx-auto space-y-6">
+  <div class="text-sm text-gray-500">
+    <%= link_to @ward.name, ward_path(@ward), class: "hover:text-blue-600" %> &middot;
+    Prabhag <%= @prabhag.number %> &middot;
+    <%= link_to "Discussions", prabhag_discussions_path(@prabhag), class: "hover:text-blue-600" %> &middot; New
+  </div>
+
+  <h1 class="text-2xl font-bold text-gray-900">New Discussion</h1>
+
+  <%= render partial: "prabhags/discussions/form", locals: { discussion: @discussion, prabhag: @prabhag } %>
+</div>

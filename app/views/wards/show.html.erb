@@ -191,8 +191,8 @@
       <div>
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
         <div class="space-y-3">
-          <span class="text-gray-500">Task system coming soon</span>
-          <%= link_to "Browse prabhags", ward_prabhags_path(@ward.ward_code), 
+          <%= link_to "Discussions", ward_discussions_path(@ward), class: "block text-blue-600 hover:underline" %>
+          <%= link_to "Browse prabhags", ward_prabhags_path(@ward.ward_code),
                       class: "block text-blue-600 hover:underline" %>
           <% if user_signed_in? %>
             <span class="block text-gray-400">Report issue (coming soon)</span>

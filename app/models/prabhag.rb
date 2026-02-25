@@ -1,5 +1,6 @@
 class Prabhag < ApplicationRecord
   include HasPois
+  include Discussable
 
   belongs_to :assigned_to, class_name: "User", optional: true
   belongs_to :ward, foreign_key: "ward_code", primary_key: "ward_code"

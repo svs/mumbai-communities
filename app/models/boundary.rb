@@ -14,6 +14,29 @@ class Boundary < ApplicationRecord
 
   scope :canonical, -> { where(is_canonical: true) }
   scope :for_year, ->(year) { where(year: year) }
+  scope :for_type, ->(type) { where(boundable_type: type.to_s.classify) }
+  scope :active, -> { where(status: %w[approved canonical]) }
+
+  def self.for_point(latitude, longitude, type: nil)
+    scope = type.to_s.classify == 'Ward' ? canonical : active
+    scope = scope.for_type(type) if type
+    scope.find_each do |boundary|
+      return boundary if boundary.contains_point?(latitude, longitude)
+    end
+    nil
+  end
+
+  def contains_point?(latitude, longitude)
+    feature = RGeo::GeoJSON.decode(geojson)
+    return false unless feature
+
+    geometry = feature.respond_to?(:geometry) ? feature.geometry : feature
+    return false unless geometry
+
+    geometry.contains?(geometry.factory.point(longitude, latitude))
+  rescue StandardError
+    false
+  end
 
   # Semantic scopes for finding the "best" boundary
   scope :best_ordered, -> {

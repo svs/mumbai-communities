@@ -1,11 +1,17 @@
 class TweetsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:create]
+  skip_before_action :authenticate_user!, only: [:create, :show]
   skip_forgery_protection only: [:create]
 
   before_action :set_ward
 
   rescue_from ActiveRecord::RecordNotFound do
     render json: { error: "Ward not found" }, status: :not_found
+  end
+
+  def show
+    @tweet = @ward.tweets.find(params[:id])
+    @parent_tweet = @tweet.parent_tweet
+    @replies = @tweet.replies.order(tweeted_at: :asc)
   end
 
   def new

@@ -1,0 +1,71 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <div class="text-sm text-gray-500">
+    <%= link_to "Admin Discussions", admin_discussions_path, class: "hover:text-blue-600" %>
+  </div>
+
+  <!-- Discussion Header -->
+  <div class="border-b border-gray-300 pb-4">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-xs px-2 py-0.5 rounded-full
+        <%= case @discussion.status
+            when 'open' then 'bg-green-100 text-green-700'
+            when 'closed' then 'bg-red-100 text-red-700'
+            when 'archived' then 'bg-gray-100 text-gray-600'
+            end %>">
+        <%= @discussion.status %>
+      </span>
+      <% if @discussion.pinned? %>
+        <span class="text-yellow-600 text-xs font-medium bg-yellow-50 px-2 py-0.5 rounded">PINNED</span>
+      <% end %>
+    </div>
+    <h1 class="text-2xl font-bold text-gray-900"><%= @discussion.title %></h1>
+    <div class="text-sm text-gray-500 mt-1">
+      by <%= @discussion.user.name || @discussion.user.email %> &middot;
+      <%= time_ago_in_words(@discussion.created_at) %> ago &middot;
+      <% if @discussion.discussable %>
+        <%= @discussion.discussable_type %>: <%= @discussion.discussable.try(:name) || @discussion.discussable.try(:ward_code) %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Moderation Actions -->
+  <div class="flex gap-2 flex-wrap">
+    <% if @discussion.open? %>
+      <%= link_to "Close Discussion", close_admin_discussion_path(@discussion), data: { turbo_method: :post, turbo_confirm: "Close this discussion?" }, class: "text-sm bg-red-100 text-red-700 px-3 py-1.5 rounded hover:bg-red-200" %>
+    <% else %>
+      <%= link_to "Reopen Discussion", reopen_admin_discussion_path(@discussion), data: { turbo_method: :post }, class: "text-sm bg-green-100 text-green-700 px-3 py-1.5 rounded hover:bg-green-200" %>
+    <% end %>
+
+    <% unless @discussion.archived? %>
+      <%= link_to "Archive", archive_admin_discussion_path(@discussion), data: { turbo_method: :post, turbo_confirm: "Archive this discussion?" }, class: "text-sm bg-gray-100 text-gray-700 px-3 py-1.5 rounded hover:bg-gray-200" %>
+    <% end %>
+
+    <% if @discussion.pinned? %>
+      <%= link_to "Unpin", unpin_admin_discussion_path(@discussion), data: { turbo_method: :post }, class: "text-sm bg-yellow-100 text-yellow-700 px-3 py-1.5 rounded hover:bg-yellow-200" %>
+    <% else %>
+      <%= link_to "Pin", pin_admin_discussion_path(@discussion), data: { turbo_method: :post }, class: "text-sm bg-yellow-100 text-yellow-700 px-3 py-1.5 rounded hover:bg-yellow-200" %>
+    <% end %>
+  </div>
+
+  <!-- Discussion Body -->
+  <div class="prose prose-sm max-w-none text-gray-800 border-b border-gray-200 pb-6">
+    <%= simple_format(@discussion.body) %>
+  </div>
+
+  <!-- All Posts (flat list for admin) -->
+  <div class="space-y-4">
+    <h2 class="text-lg font-semibold text-gray-900">All Replies (<%= @posts.count %>)</h2>
+    <% @posts.each do |post| %>
+      <div class="border-l-2 border-gray-200 pl-4 py-2">
+        <div class="text-sm text-gray-500">
+          <span class="font-medium text-gray-700"><%= post.user.name || post.user.email %></span> &middot;
+          <%= time_ago_in_words(post.created_at) %> ago
+          <% if post.parent_id %>
+            &middot; reply to #<%= post.parent_id %>
+          <% end %>
+        </div>
+        <div class="text-sm text-gray-800 mt-1"><%= simple_format(post.body) %></div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -85,6 +85,47 @@ RSpec.describe "Tweets", type: :request do
     end
   end
 
+  describe "GET /wards/:ward_id/tweets/:id" do
+    let!(:complaint) do
+      Tweet.create!(tweet_id: "100", body: "Pothole on main road", ward: ward,
+                    author_username: "citizen1", author_name: "Citizen One",
+                    tweeted_at: 2.hours.ago)
+    end
+
+    let!(:reply) do
+      Tweet.create!(tweet_id: "101", body: "We are looking into it", ward: ward,
+                    author_username: "mybmcWardA", author_name: "BMC Ward A",
+                    in_reply_to_status_id: "100", tweeted_at: 1.hour.ago)
+    end
+
+    it "renders the tweet detail page" do
+      get ward_tweet_path(ward, complaint)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Pothole on main road")
+    end
+
+    it "shows replies to the tweet" do
+      get ward_tweet_path(ward, complaint)
+      expect(response.body).to include("We are looking into it")
+    end
+
+    it "shows parent tweet when viewing a reply" do
+      get ward_tweet_path(ward, reply)
+      expect(response.body).to include("Pothole on main road")
+      expect(response.body).to include("We are looking into it")
+    end
+
+    it "includes a link to view on X" do
+      get ward_tweet_path(ward, complaint)
+      expect(response.body).to include("x.com/citizen1/status/100")
+    end
+
+    it "is publicly accessible without login" do
+      get ward_tweet_path(ward, complaint)
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe "User tweet URL submission" do
     let(:user) { users(:user_one) }
     let(:tweet_url) { "https://x.com/mybmcWardA/status/1234567890" }

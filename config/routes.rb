@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   get 'setup_location', to: 'location_setup#show'
   post 'setup_location', to: 'location_setup#create'
   
+  # Root-level discussions (all discussions across wards/prabhags)
+  resources :discussions, only: [:index, :show]
+
   # Ward-centric structure
   resources :wards, only: [:index, :show] do
     member do
@@ -21,7 +24,7 @@ Rails.application.routes.draw do
       get :news
     end
     resources :prabhags, only: [:index, :show]
-    resources :tweets, only: [:create, :new]
+    resources :tweets, only: [:create, :new, :show]
     scope module: :wards do
       resources :facilities, only: [:index] do
         collection do
@@ -29,6 +32,9 @@ Rails.application.routes.draw do
         end
       end
       resources :changes, only: [:index]
+      resources :discussions, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+        resources :posts, only: [:create, :edit, :update, :destroy]
+      end
     end
   end
   
@@ -39,9 +45,23 @@ Rails.application.routes.draw do
       get :trace
       post :submit
     end
+    scope module: :prabhags do
+      resources :discussions, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+        resources :posts, only: [:create, :edit, :update, :destroy]
+      end
+    end
   end
   
   namespace :admin do
+    resources :discussions, only: [:index, :show] do
+      member do
+        post :close
+        post :reopen
+        post :archive
+        post :pin
+        post :unpin
+      end
+    end
     resources :users, only: [:index]
     resources :prabhags, only: [:index, :show] do
       member do

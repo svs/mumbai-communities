@@ -2,11 +2,10 @@ class HomeController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index]
 
   def index
-    # If user is logged in and has a location, redirect to their prabhag page
+    # If user is logged in and has a location, redirect to their ward page
     if user_signed_in? && current_user.has_location?
       ward = Ward.find_by(ward_code: current_user.ward_code)
-      prabhag = Prabhag.find(current_user.prabhag_id)
-      redirect_to ward_prabhag_path(ward, prabhag) and return
+      redirect_to ward_path(ward) and return if ward
     end
     # Statistics for dashboard
     @total_wards = Ward.count

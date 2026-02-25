@@ -1,0 +1,29 @@
+<%= form_with(model: discussion, url: discussion.persisted? ? ward_discussion_path(ward, discussion) : ward_discussions_path(ward), class: "space-y-4") do |f| %>
+  <% if discussion.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-700 p-3 rounded text-sm">
+      <% discussion.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :title, class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_field :title, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500", placeholder: "Discussion title" %>
+  </div>
+
+  <div>
+    <%= f.label :category_id, "Category", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.collection_select :category_id, @categories, :id, :name, { include_blank: "Select a category (optional)" }, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+  </div>
+
+  <div>
+    <%= f.label :body, class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_area :body, rows: 8, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500", placeholder: "What would you like to discuss?" %>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <%= link_to "Cancel", ward_discussions_path(ward), class: "text-sm text-gray-500 hover:text-gray-700" %>
+    <%= f.submit discussion.persisted? ? "Update Discussion" : "Create Discussion", class: "bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 cursor-pointer" %>
+  </div>
+<% end %>

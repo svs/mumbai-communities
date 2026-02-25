@@ -5,35 +5,53 @@ RSpec.describe TweetService, type: :service do
 
   let(:ward) { wards(:ward_A) }
 
-  let(:bird_json) do
-    [
-      {
-        "id" => "111222333",
-        "text" => "Pothole fixed on MG Road",
-        "createdAt" => "Mon Feb 09 10:00:00 +0000 2026",
-        "likeCount" => 3,
-        "retweetCount" => 1,
-        "replyCount" => 0,
-        "author" => { "username" => "mybmcWardA", "name" => "BMC Ward A" }
-      },
-      {
-        "id" => "111222334",
-        "text" => "Drainage cleaning drive tomorrow",
-        "createdAt" => "Mon Feb 09 08:00:00 +0000 2026",
-        "likeCount" => 7,
-        "retweetCount" => 2,
-        "replyCount" => 5,
-        "author" => { "username" => "resident123", "name" => "Local Resident" }
+  let(:api_response) do
+    {
+      "data" => [
+        {
+          "id" => "111222333",
+          "text" => "Pothole fixed on MG Road",
+          "created_at" => "2026-02-09T10:00:00.000Z",
+          "author_id" => "999",
+          "public_metrics" => { "like_count" => 3, "retweet_count" => 1, "reply_count" => 0 }
+        },
+        {
+          "id" => "111222334",
+          "text" => "Drainage cleaning drive tomorrow",
+          "created_at" => "2026-02-09T08:00:00.000Z",
+          "author_id" => "888",
+          "public_metrics" => { "like_count" => 7, "retweet_count" => 2, "reply_count" => 5 },
+          "referenced_tweets" => [{ "type" => "replied_to", "id" => "111222300" }]
+        }
+      ],
+      "includes" => {
+        "users" => [
+          { "id" => "999", "username" => "mybmcWardA", "name" => "BMC Ward A" },
+          { "id" => "888", "username" => "resident123", "name" => "Local Resident" }
+        ],
+        "tweets" => [
+          {
+            "id" => "111222300",
+            "text" => "Please fix the drainage on my street",
+            "created_at" => "2026-02-08T12:00:00.000Z",
+            "author_id" => "777"
+          }
+        ]
       }
-    ].to_json
+    }
   end
 
-  let(:success_status) { instance_double(Process::Status, success?: true) }
-  let(:failure_status) { instance_double(Process::Status, success?: false) }
+  let(:http_success) { instance_double(Net::HTTPSuccess, is_a?: true, body: api_response.to_json) }
+  let(:http_failure) { instance_double(Net::HTTPServiceUnavailable, is_a?: false, code: "503", body: "Service Unavailable") }
+
+  before do
+    allow(http_success).to receive(:is_a?).with(Net::HTTPSuccess).and_return(true)
+    allow(http_failure).to receive(:is_a?).with(Net::HTTPSuccess).and_return(false)
+  end
 
   describe ".fetch" do
-    it "parses bird JSON and creates Tweet records" do
-      allow(Open3).to receive(:capture3).and_return([bird_json, "", success_status])
+    it "parses API response and creates Tweet records" do
+      allow(TweetService).to receive(:api_get).and_return(http_success)
 
       tweets = TweetService.fetch(ward)
 
@@ -45,8 +63,22 @@ RSpec.describe TweetService, type: :service do
       expect(tweets.first.ward).to eq(ward)
     end
 
+    it "imports parent tweets from referenced_tweets" do
+      allow(TweetService).to receive(:api_get).and_return(http_success)
+
+      TweetService.fetch(ward)
+
+      parent = Tweet.find_by(tweet_id: "111222300")
+      expect(parent).to be_present
+      expect(parent.body).to eq("Please fix the drainage on my street")
+
+      reply = Tweet.find_by(tweet_id: "111222334")
+      expect(reply.in_reply_to_status_id).to eq("111222300")
+      expect(reply.parent_tweet).to eq(parent)
+    end
+
     it "upserts on duplicate tweet_id" do
-      allow(Open3).to receive(:capture3).and_return([bird_json, "", success_status])
+      allow(TweetService).to receive(:api_get).and_return(http_success)
 
       TweetService.fetch(ward)
       expect { TweetService.fetch(ward) }.not_to change(Tweet, :count)
@@ -60,18 +92,31 @@ RSpec.describe TweetService, type: :service do
       expect(tweets).to eq([])
     end
 
-    it "returns empty array on bird failure" do
-      allow(Open3).to receive(:capture3).and_return(["", "command not found", failure_status])
+    it "returns empty array on API failure" do
+      allow(TweetService).to receive(:api_get).and_return(http_failure)
 
       tweets = TweetService.fetch(ward)
       expect(tweets).to eq([])
     end
+  end
 
-    it "returns empty array on invalid JSON" do
-      allow(Open3).to receive(:capture3).and_return(["not json at all", "", success_status])
+  describe ".import" do
+    it "stores conversation_id and in_reply_to_status_id" do
+      tweets_data = [
+        {
+          "id" => "555",
+          "text" => "Test reply",
+          "author" => { "username" => "test", "name" => "Test" },
+          "inReplyToStatusId" => "444",
+          "conversationId" => "444"
+        }
+      ]
 
-      tweets = TweetService.fetch(ward)
-      expect(tweets).to eq([])
+      result = TweetService.import(ward, tweets_data)
+      tweet = result.first
+
+      expect(tweet.in_reply_to_status_id).to eq("444")
+      expect(tweet.conversation_id).to eq("444")
     end
   end
 end

@@ -1,0 +1,51 @@
+<div class="max-w-2xl mx-auto py-8 px-4">
+
+  <%# Breadcrumb %>
+  <div class="mb-6 text-sm text-stone-400">
+    <%= link_to "Ward #{@ward.ward_code}", ward_path(@ward), class: "hover:text-stone-600" %>
+    <span class="mx-1">/</span>
+    <span class="text-stone-600">Tweet</span>
+  </div>
+
+  <%# Parent tweet (if this is a reply) %>
+  <% if @parent_tweet %>
+    <div class="mb-2 opacity-75">
+      <p class="text-xs uppercase tracking-wide text-stone-400 mb-2">In reply to</p>
+      <%= render partial: "tweets/tweet", locals: { tweet: @parent_tweet } %>
+    </div>
+    <div class="border-l-2 border-stone-200 ml-4 pl-4 mb-4">
+  <% end %>
+
+  <%# Main tweet %>
+  <div class="mb-6">
+    <%= render partial: "tweets/tweet", locals: { tweet: @tweet } %>
+  </div>
+
+  <% if @parent_tweet %>
+    </div>
+  <% end %>
+
+  <%# Replies %>
+  <% if @replies.any? %>
+    <div class="border-t border-stone-200 pt-4 mt-4">
+      <p class="text-xs uppercase tracking-wide text-stone-400 mb-3">
+        <%= pluralize(@replies.size, "reply") %>
+      </p>
+      <div class="space-y-3">
+        <% @replies.each do |reply| %>
+          <%= render partial: "tweets/tweet", locals: { tweet: reply } %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%# View on X link %>
+  <div class="mt-6 pt-4 border-t border-stone-200 text-center">
+    <a href="https://x.com/<%= @tweet.author_username || "i" %>/status/<%= @tweet.tweet_id %>"
+       target="_blank" rel="noopener"
+       class="text-sm text-stone-400 hover:text-stone-600 transition-colors">
+      View on X <i class="fas fa-external-link-alt ml-1"></i>
+    </a>
+  </div>
+
+</div>

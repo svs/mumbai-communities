@@ -1,0 +1,48 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <h1 class="text-2xl font-bold text-gray-900">Manage Discussions</h1>
+
+  <!-- Status Filters -->
+  <div class="flex gap-2">
+    <%= link_to "All", admin_discussions_path, class: "text-sm px-3 py-1 rounded-full #{params[:status].blank? ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+    <% %w[open closed archived].each do |status| %>
+      <%= link_to status.capitalize, admin_discussions_path(status: status), class: "text-sm px-3 py-1 rounded-full #{params[:status] == status ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+    <% end %>
+  </div>
+
+  <div class="space-y-2">
+    <% @discussions.each do |discussion| %>
+      <div class="border border-gray-200 rounded p-4 hover:bg-gray-50">
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="flex items-center gap-2">
+              <% if discussion.pinned? %>
+                <span class="text-yellow-600 text-xs font-medium">PINNED</span>
+              <% end %>
+              <span class="text-xs px-2 py-0.5 rounded-full
+                <%= case discussion.status
+                    when 'open' then 'bg-green-100 text-green-700'
+                    when 'closed' then 'bg-red-100 text-red-700'
+                    when 'archived' then 'bg-gray-100 text-gray-600'
+                    end %>">
+                <%= discussion.status %>
+              </span>
+              <%= link_to discussion.title, admin_discussion_path(discussion), class: "font-medium text-gray-900 hover:text-blue-600" %>
+            </div>
+            <div class="text-sm text-gray-500 mt-1">
+              by <%= discussion.user.name || discussion.user.email %> &middot;
+              <%= time_ago_in_words(discussion.created_at) %> ago &middot;
+              <% if discussion.discussable %>
+                <%= discussion.discussable_type %> <%= discussion.discussable.try(:name) || discussion.discussable.try(:ward_code) %>
+              <% end %>
+              &middot; <%= discussion.posts_count %> replies
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="pt-4">
+      <%= paginate @discussions %>
+    </div>
+  </div>
+</div>

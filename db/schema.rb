@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_14_110606) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_25_221556) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -50,6 +50,38 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_110606) do
     t.index ["year", "source_type"], name: "index_boundaries_on_year_and_source_type"
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.text "description"
+    t.integer "position", default: 0
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+    t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "discussions", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "body", null: false
+    t.string "discussable_type"
+    t.integer "discussable_id"
+    t.integer "user_id"
+    t.integer "category_id"
+    t.string "status", default: "open"
+    t.boolean "pinned", default: false
+    t.integer "posts_count", default: 0
+    t.datetime "last_post_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_discussions_on_category_id"
+    t.index ["discussable_type", "discussable_id"], name: "index_discussions_on_discussable_type_and_discussable_id"
+    t.index ["pinned", "last_post_at"], name: "index_discussions_on_pinned_and_last_post_at"
+    t.index ["status"], name: "index_discussions_on_status"
+    t.index ["user_id"], name: "index_discussions_on_user_id"
+  end
+
   create_table "facilities", force: :cascade do |t|
     t.string "name"
     t.string "facility_type", null: false
@@ -78,6 +110,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_110606) do
     t.json "metadata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.integer "discussion_id", null: false
+    t.integer "user_id", null: false
+    t.integer "parent_id"
+    t.text "body", null: false
+    t.integer "depth", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discussion_id", "created_at"], name: "index_posts_on_discussion_id_and_created_at"
+    t.index ["discussion_id"], name: "index_posts_on_discussion_id"
+    t.index ["parent_id"], name: "index_posts_on_parent_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "prabhags", force: :cascade do |t|
@@ -142,6 +188,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_110606) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "in_reply_to_status_id"
+    t.json "media_urls"
+    t.string "conversation_id"
     t.index ["tweet_id"], name: "index_tweets_on_tweet_id", unique: true
     t.index ["ward_id", "tweeted_at"], name: "index_tweets_on_ward_id_and_tweeted_at"
     t.index ["ward_id"], name: "index_tweets_on_ward_id"
@@ -209,6 +257,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_110606) do
   add_foreign_key "boundaries", "users", column: "approved_by_id"
   add_foreign_key "boundaries", "users", column: "edited_by_id"
   add_foreign_key "boundaries", "users", column: "submitted_by_id"
+  add_foreign_key "discussions", "categories"
+  add_foreign_key "discussions", "users"
+  add_foreign_key "posts", "discussions"
+  add_foreign_key "posts", "posts", column: "parent_id"
+  add_foreign_key "posts", "users"
   add_foreign_key "prabhags", "users", column: "assigned_to_id"
   add_foreign_key "roles", "people"
   add_foreign_key "tickets", "users", column: "assigned_to_id"

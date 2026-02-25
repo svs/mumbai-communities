@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :assigned_prabhags, class_name: 'Prabhag', foreign_key: 'assigned_to_id'
   has_many :assigned_tickets, class_name: 'Ticket', foreign_key: 'assigned_to_id'
   has_many :created_tickets, class_name: 'Ticket', foreign_key: 'created_by_id'
+  has_many :discussions, dependent: :destroy
+  has_many :posts, dependent: :destroy
 
   # Location relationships
   belongs_to :ward, foreign_key: 'ward_code', primary_key: 'ward_code', optional: true
@@ -40,7 +42,7 @@ class User < ApplicationRecord
 
   # Location methods
   def has_location?
-    ward_code.present? && prabhag_id.present?
+    ward_code.present?
   end
 
   def location_confirmed?

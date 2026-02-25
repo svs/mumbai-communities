@@ -1,0 +1,23 @@
+infrastructure:
+  id: 1
+  name: Infrastructure
+  slug: infrastructure
+  description: Roads, water supply, drainage, and other infrastructure topics
+  position: 0
+  color: "#3b82f6"
+
+sanitation:
+  id: 2
+  name: Sanitation
+  slug: sanitation
+  description: Waste management, cleanliness, and public health
+  position: 1
+  color: "#22c55e"
+
+general:
+  id: 3
+  name: General
+  slug: general
+  description: General ward discussions
+  position: 2
+  color: "#6b7280"
