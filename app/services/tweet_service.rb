@@ -34,7 +34,7 @@ class TweetService
     def fetch(ward, count: 10)
       return [] if ward.twitter_handle.blank?
 
-      query = "from:#{ward.twitter_handle}"
+      query = "(from:#{ward.twitter_handle} OR @#{ward.twitter_handle}) -is:retweet"
       uri = URI("#{API_BASE}/tweets/search/recent?query=#{CGI.escape(query)}&max_results=#{count}&tweet.fields=#{TWEET_FIELDS}&expansions=#{EXPANSIONS}&media.fields=#{MEDIA_FIELDS}&user.fields=#{USER_FIELDS}")
 
       response = api_get(uri)
