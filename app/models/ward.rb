@@ -7,6 +7,8 @@ class Ward < ApplicationRecord
   has_many :tweets, dependent: :destroy
   has_many :facilities, foreign_key: 'ward_code', primary_key: 'ward_code'
   has_many :ward_data_snapshots, foreign_key: 'ward_code', primary_key: 'ward_code'
+  has_many :roles, as: :roleable, dependent: :destroy
+  has_many :people, through: :roles
   
   validates :ward_code, presence: true, uniqueness: true
   validates :name, presence: true

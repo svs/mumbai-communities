@@ -137,57 +137,51 @@
     </div>
   </div>
 
-  <!-- Help + Directory -->
-  <%
-    has_help_content = unmapped_count > 0 || @open_tickets&.any?
-    has_directory = @ward.contact_officer_name.present?
-  %>
-  <% if has_help_content || has_directory %>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-10">
-      <% if has_help_content %>
-        <div>
-          <div class="newspaper-section-header">How You Can Help</div>
-          <div class="text-stone-600 space-y-3">
-            <% if unmapped_count > 0 %>
-              <p><%= unmapped_count %> prabhag<%= unmapped_count == 1 ? '' : 's' %> still need<%= unmapped_count == 1 ? 's' : '' %> boundary mapping.</p>
-            <% end %>
-            <% if @open_tickets&.any? %>
-              <p><%= @open_tickets.count %> task<%= @open_tickets.count == 1 ? '' : 's' %> need<%= @open_tickets.count == 1 ? 's' : '' %> volunteers.</p>
-            <% end %>
-            <% unless user_signed_in? %>
-              <p class="text-sm">
-                <%= link_to "Sign up", new_user_registration_path, class: "text-stone-700 underline hover:text-stone-900" %>
-                or
-                <%= link_to "sign in", new_user_session_path, class: "text-stone-700 underline hover:text-stone-900" %>
-                to contribute.
-              </p>
-            <% end %>
+  <!-- Ward Directory -->
+  <% if @ward_roles&.any? %>
+    <div class="mb-10">
+      <div class="newspaper-section-header">Ward Directory</div>
+      <div class="space-y-3">
+        <% @ward_roles.each do |role| %>
+          <div class="flex items-start gap-3 py-2 border-b border-stone-100 last:border-0">
+            <div class="flex-1">
+              <div class="font-medium text-stone-800"><%= role.person.name %></div>
+              <div class="text-xs text-stone-500"><%= role.role_name.humanize.titleize %></div>
+            </div>
+            <div class="text-sm text-stone-500 text-right space-y-0.5">
+              <% if role.person.phone.present? %>
+                <div><a href="tel:<%= role.person.phone %>" class="hover:text-stone-700"><%= role.person.phone %></a></div>
+              <% end %>
+              <% if role.person.email.present? %>
+                <div><a href="mailto:<%= role.person.email %>" class="hover:text-stone-700"><%= role.person.email %></a></div>
+              <% end %>
+            </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 
-      <% if has_directory %>
-        <div>
-          <div class="newspaper-section-header">Ward Directory</div>
-          <div class="text-sm text-stone-600 space-y-2">
-            <div><strong class="text-stone-800">Ward Officer:</strong> <%= @ward.contact_officer_name %></div>
-            <% if @ward.contact_officer_email.present? %>
-              <div>
-                <a href="mailto:<%= @ward.contact_officer_email %>" class="text-stone-700 underline hover:text-stone-900">
-                  <%= @ward.contact_officer_email %>
-                </a>
-              </div>
-            <% end %>
-            <% if @ward.contact_officer_phone.present? %>
-              <div>
-                <a href="tel:<%= @ward.contact_officer_phone %>" class="text-stone-700 underline hover:text-stone-900">
-                  <%= @ward.contact_officer_phone %>
-                </a>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
+  <!-- How You Can Help -->
+  <% if unmapped_count > 0 || @open_tickets&.any? %>
+    <div class="mb-10">
+      <div class="newspaper-section-header">How You Can Help</div>
+      <div class="text-stone-600 space-y-3">
+        <% if unmapped_count > 0 %>
+          <p><%= unmapped_count %> prabhag<%= unmapped_count == 1 ? '' : 's' %> still need<%= unmapped_count == 1 ? 's' : '' %> boundary mapping.</p>
+        <% end %>
+        <% if @open_tickets&.any? %>
+          <p><%= @open_tickets.count %> task<%= @open_tickets.count == 1 ? '' : 's' %> need<%= @open_tickets.count == 1 ? 's' : '' %> volunteers.</p>
+        <% end %>
+        <% unless user_signed_in? %>
+          <p class="text-sm">
+            <%= link_to "Sign up", new_user_registration_path, class: "text-stone-700 underline hover:text-stone-900" %>
+            or
+            <%= link_to "sign in", new_user_session_path, class: "text-stone-700 underline hover:text-stone-900" %>
+            to contribute.
+          </p>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </turbo-frame>

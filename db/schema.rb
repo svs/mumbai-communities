@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_14_100001) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_14_110606) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -70,6 +70,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_100001) do
     t.index ["ward_code", "facility_type"], name: "index_facilities_on_ward_code_and_facility_type"
   end
 
+  create_table "people", force: :cascade do |t|
+    t.string "name"
+    t.string "phone"
+    t.string "email"
+    t.text "notes"
+    t.json "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "prabhags", force: :cascade do |t|
     t.integer "number"
     t.string "name"
@@ -82,6 +92,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_100001) do
     t.datetime "updated_at", null: false
     t.index ["assigned_to_id"], name: "index_prabhags_on_assigned_to_id"
     t.index ["number", "ward_code"], name: "index_prabhags_on_number_and_ward_code", unique: true
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.integer "person_id", null: false
+    t.string "roleable_type", null: false
+    t.integer "roleable_id", null: false
+    t.string "role_name"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.json "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_roles_on_person_id"
+    t.index ["roleable_type", "roleable_id"], name: "index_roles_on_roleable"
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -186,6 +210,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_14_100001) do
   add_foreign_key "boundaries", "users", column: "edited_by_id"
   add_foreign_key "boundaries", "users", column: "submitted_by_id"
   add_foreign_key "prabhags", "users", column: "assigned_to_id"
+  add_foreign_key "roles", "people"
   add_foreign_key "tickets", "users", column: "assigned_to_id"
   add_foreign_key "tickets", "users", column: "created_by_id"
   add_foreign_key "tweets", "wards"

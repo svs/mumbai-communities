@@ -1,0 +1,22 @@
+<div class="max-w-lg mx-auto mt-8">
+  <h2 class="text-xl font-semibold text-stone-800 mb-4">Submit a Tweet</h2>
+  <p class="text-sm text-stone-500 mb-6">Paste a tweet URL from twitter.com or x.com to add it to this ward's feed.</p>
+
+  <%= form_with url: ward_tweets_path(@ward), method: :post, class: "space-y-4" do |f| %>
+    <div>
+      <%= f.label :tweet_url, "Tweet URL", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :tweet_url,
+          placeholder: "https://x.com/username/status/123456789",
+          class: "w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          required: true,
+          autofocus: true %>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <%= f.submit "Submit Tweet",
+          class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer" %>
+      <%= link_to "Cancel", news_ward_path(@ward),
+          class: "text-sm text-stone-500 hover:text-stone-700" %>
+    </div>
+  <% end %>
+</div>

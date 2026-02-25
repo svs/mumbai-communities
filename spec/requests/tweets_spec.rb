@@ -84,4 +84,63 @@ RSpec.describe "Tweets", type: :request do
       expect(response).to have_http_status(:unauthorized)
     end
   end
+
+  describe "User tweet URL submission" do
+    let(:user) { users(:user_one) }
+    let(:tweet_url) { "https://x.com/mybmcWardA/status/1234567890" }
+
+    let(:oembed_response) do
+      {
+        "author_name" => "BMC Ward A",
+        "author_url" => "https://twitter.com/mybmcWardA",
+        "html" => '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Pothole fixed near station road</p></blockquote>'
+      }.to_json
+    end
+
+    describe "GET /wards/:ward_id/tweets/new" do
+      it "renders the form when logged in" do
+        sign_in user
+        get new_ward_tweet_path(ward)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("tweet_url")
+      end
+
+      it "redirects to sign in when not logged in" do
+        get new_ward_tweet_path(ward)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    describe "POST /wards/:ward_id/tweets with tweet_url" do
+      it "creates a tweet from a valid URL when logged in" do
+        sign_in user
+        allow(TweetService).to receive(:import_from_url) {
+          Tweet.create!(tweet_id: "1234567890", body: "Pothole fixed near station road", ward: ward)
+        }
+
+        expect {
+          post ward_tweets_path(ward), params: { tweet_url: tweet_url }
+        }.to change(Tweet, :count).by(1)
+
+        expect(response).to redirect_to(news_ward_path(ward))
+        follow_redirect!
+        expect(response.body).to include("Tweet submitted")
+      end
+
+      it "rejects an invalid URL" do
+        sign_in user
+        post ward_tweets_path(ward), params: { tweet_url: "https://example.com/not-a-tweet" }
+
+        expect(response).to redirect_to(news_ward_path(ward))
+        follow_redirect!
+        expect(response.body).to include("Invalid tweet URL")
+        expect(Tweet.count).to eq(0)
+      end
+
+      it "redirects to sign in when not logged in" do
+        post ward_tweets_path(ward), params: { tweet_url: tweet_url }
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+  end
 end

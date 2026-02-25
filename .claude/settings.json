@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__chrome_devtools__*"
+    ]
+  }
+}

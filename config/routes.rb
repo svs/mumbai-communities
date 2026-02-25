@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       get :news
     end
     resources :prabhags, only: [:index, :show]
-    resources :tweets, only: [:create]
+    resources :tweets, only: [:create, :new]
     scope module: :wards do
       resources :facilities, only: [:index] do
         collection do
@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   end
   
   namespace :admin do
+    resources :users, only: [:index]
     resources :prabhags, only: [:index, :show] do
       member do
         get 'boundaries', to: 'prabhags#boundary_review'
