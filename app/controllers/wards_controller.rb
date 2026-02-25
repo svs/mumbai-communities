@@ -5,18 +5,13 @@ class WardsController < ApplicationController
 
   def index
     @wards = Ward.includes(:boundaries, :prabhags).order(:ward_code)
-    @total_wards = @wards.count
-    @geocoded_wards = @wards.geocoded.count
-    @ward_boundaries_count = @wards.joins(:boundaries).where(boundaries: { status: ['approved', 'canonical'] }).distinct.count
-    @prabhag_boundaries_count = Boundary.where(boundable_type: 'Prabhag', status: ['approved', 'canonical']).count
-    # Ticket system coming soon
-    @total_tickets = 0
-    @open_tickets = 0
-    @overdue_tickets = 0
+    @tweets = Tweet.includes(:ward).original.recent.page(params[:page]).per(10)
+    @ward_tweet_counts = Tweet.group(:ward_id).count
+    @total_tweet_count = Tweet.count
 
     respond_to do |format|
-      format.html # renders wards/index.html.erb
-      format.json # renders wards/index.json.jbuilder
+      format.html
+      format.json
     end
   end
 
@@ -27,7 +22,7 @@ class WardsController < ApplicationController
     @open_tickets = Ticket.none
     @completed_tickets = Ticket.none
 
-    @tweets = @ward.tweets.recent.limit(10)
+    @tweets = @ward.tweets.original.recent.limit(10)
     @facility_type_counts = @ward.facilities.group(:facility_type).count
 
     # Get boundary data for map display using semantic finders
@@ -44,6 +39,7 @@ class WardsController < ApplicationController
   def info
     @prabhags = @ward.prabhags.order(:number)
     @facility_type_counts = @ward.facilities.group(:facility_type).count
+    @ward_roles = @ward.roles.active.includes(:person).order(Arel.sql("CASE role_name WHEN 'ward_office' THEN 0 WHEN 'assistant_commissioner' THEN 1 ELSE 2 END"), :role_name)
 
     @ward_boundary = @ward.approved_boundary
     @prabhag_boundaries = @prabhags.select { |p|
@@ -55,7 +51,7 @@ class WardsController < ApplicationController
 
   def news
     @prabhags = @ward.prabhags.order(:number)
-    @tweets = @ward.tweets.recent.limit(10)
+    @tweets = @ward.tweets.original.recent.limit(10)
     @facility_type_counts = @ward.facilities.group(:facility_type).count
   end
 

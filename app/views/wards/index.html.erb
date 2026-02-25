@@ -1,196 +1,97 @@
-<div class="max-w-7xl mx-auto">
+<div class="max-w-6xl mx-auto py-8 px-4">
 
-  <!-- Location Setup Prompt -->
-  <%= location_setup_banner %>
-
-  <!-- User Location Summary -->
-  <% if user_signed_in? && current_user.has_location? %>
-    <div class="mb-6">
-      <%= user_location_summary %>
-    </div>
-  <% end %>
-
-  <!-- Platform Statistics -->
-  <div class="bg-gray-50 rounded-lg p-4 mb-6">
-    <div class="grid grid-cols-3 md:grid-cols-5 gap-4 text-center">
-      <div>
-        <div class="text-lg font-bold text-gray-900"><%= @total_wards %></div>
-        <div class="text-xs text-gray-500">Wards</div>
-      </div>
-      <div>
-        <div class="text-lg font-bold text-purple-700"><%= @ward_boundaries_count %></div>
-        <div class="text-xs text-gray-500">Ward Boundaries</div>
-      </div>
-      <div>
-        <div class="text-lg font-bold text-green-700"><%= @prabhag_boundaries_count %></div>
-        <div class="text-xs text-gray-500">Prabhag Boundaries</div>
-      </div>
-      <div>
-        <div class="text-lg font-bold text-gray-400">0</div>
-        <div class="text-xs text-gray-500">Open Tasks</div>
-        <div class="text-xs text-gray-400">Coming Soon</div>
-      </div>
-      <div>
-        <div class="text-lg font-bold text-gray-400">0</div>
-        <div class="text-xs text-gray-500">Overdue</div>
-        <div class="text-xs text-gray-400">Coming Soon</div>
-      </div>
-    </div>
+  <!-- Masthead -->
+  <div class="text-center mb-1">
+    <p class="text-xs uppercase tracking-[0.25em] text-stone-400 mb-3">
+      Mumbai Municipal Corporation · Ward Communities
+    </p>
+    <div class="newspaper-rule mb-3"></div>
+    <h1 class="newspaper-masthead text-5xl md:text-6xl text-stone-900 mb-2">
+      Mumbai Communities
+    </h1>
+    <div class="newspaper-rule-thick mb-3"></div>
+    <p class="text-sm text-stone-500">
+      <%= Date.current.strftime("%A, %B %-d, %Y") %>
+      &emsp;·&emsp;
+      <%= @wards.count %> Wards
+      &emsp;·&emsp;
+      <%= @total_tweet_count %> dispatches
+    </p>
   </div>
 
-  <!-- Authentication Section -->
-  <% unless user_signed_in? %>
-    <div class="bg-blue-50 border border-blue-200 rounded-lg p-8 mb-12 text-center">
-      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Join the Community</h2>
-      <p class="text-blue-600 mb-6">Sign in to start contributing to Mumbai's civic improvement</p>
-      <div class="space-x-4">
-        <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, 
-                    method: :post, 
-                    class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg inline-block" %>
-        <div class="mt-4 text-sm">
-          <%= link_to "Sign In", new_user_session_path, 
-                      class: "text-blue-600 hover:text-blue-800 underline" %>
-          |
-          <%= link_to "Sign Up", new_user_registration_path, 
-                      class: "text-blue-600 hover:text-blue-800 underline" %>
-        </div>
-      </div>
-    </div>
-  <% end %>
+  <div class="newspaper-rule mt-6 mb-8"></div>
 
-  <!-- Current User Tasks -->
-  <% if user_signed_in? && current_user.active_tickets.any? %>
-    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-12">
-      <h3 class="text-xl font-semibold text-yellow-800 mb-4">Your Active Tasks</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <% current_user.active_tickets.limit(4).each do |ticket| %>
-          <div class="bg-white p-4 rounded border">
-            <h4 class="font-semibold text-gray-800"><%= ticket.title %></h4>
-            <p class="text-sm text-gray-600 mb-2">Ward <%= ticket.ward_code %></p>
-            <div class="flex justify-between items-center">
-              <span class="text-xs px-2 py-1 rounded <%= ticket.overdue? ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800' %>">
-                <%= ticket.overdue? ? 'Overdue' : "#{ticket.days_remaining} days left" %>
-              </span>
-              <%= link_to "Continue", work_ticket_path(ticket), 
-                          class: "text-blue-600 hover:text-blue-800 text-sm" %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+  <!-- Main Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-  <!-- Large Map with Sidebar Layout -->
-  <div class="ward-map-layout -mt-4 -mx-4 flex">
-    <!-- Sidebar -->
-    <div class="w-80 bg-white border-r border-gray-200 flex flex-col" data-controller="ward-list">
-      <!-- Header -->
-      <div class="p-4 border-b border-gray-200">
-        <h2 class="text-xl font-bold text-gray-800 mb-2">Mumbai Wards</h2>
-        <div class="relative">
-          <input type="text"
-                 placeholder="Filter wards..."
-                 class="w-full bg-gray-50 text-gray-800 px-3 py-2 rounded text-sm placeholder-gray-500 border border-gray-300 focus:border-gray-400 focus:outline-none">
-          <i class="fas fa-search absolute right-3 top-2.5 text-gray-400 text-sm"></i>
-        </div>
-      </div>
+    <!-- Feed (8 cols) -->
+    <div class="lg:col-span-8">
+      <div class="newspaper-section-header">From the Community</div>
 
-      <!-- Ward List -->
-      <div class="flex-1 overflow-y-auto sidebar-scroll">
-        <% @wards.each do |ward| %>
-          <% boundary_percentage = ward.boundary_mapping_percentage %>
-          <% activity_status = boundary_percentage == 100 ? 'active' : boundary_percentage > 0 ? 'growing' : 'inactive' %>
-
-          <%= link_to ward_path(ward.ward_code),
-              class: "block hover:bg-gray-50 transition-colors ward-sidebar-item",
-              data: { ward_code: ward.ward_code } do %>
-            <div class="px-4 py-3 border-b border-gray-100">
-              <div class="flex items-center justify-between mb-1">
-                <div class="flex items-center">
-                  <i class="fas fa-map-marker-alt text-gray-400 mr-2 text-sm"></i>
-                  <span class="font-medium text-gray-800">Ward <%= ward.ward_code %></span>
-                </div>
-                <div class="flex items-center">
-                  <div class="w-2 h-2 rounded-full mr-2 <%= activity_status == 'active' ? 'bg-green-500' : activity_status == 'growing' ? 'bg-yellow-500' : 'bg-gray-400' %>"></div>
-                  <span class="text-xs text-gray-600 capitalize"><%= activity_status %></span>
-                </div>
+      <% if @tweets.any? %>
+        <div data-controller="twitter-embeds">
+          <% @tweets.each do |tweet| %>
+            <div class="newspaper-dispatch">
+              <div class="flex items-center gap-3 mb-2">
+                <%= link_to "Ward #{tweet.ward.ward_code}", ward_path(tweet.ward), class: "newspaper-dateline hover:underline" %>
+                <span class="text-xs text-stone-400">
+                  <%= time_ago_in_words(tweet.tweeted_at) %> ago
+                </span>
               </div>
-
-              <div class="text-xs text-gray-600 space-y-1">
-                <div class="flex justify-between">
-                  <span>Prabhags:</span>
-                  <span><%= ward.prabhags_with_boundaries_count %>/<%= ward.prabhags.count %></span>
-                </div>
-                <% if ward.open_tickets > 0 %>
-                  <div class="flex justify-between">
-                    <span>Tasks:</span>
-                    <span class="<%= ward.overdue_tickets > 0 ? 'text-red-600' : 'text-blue-600' %>"><%= ward.open_tickets %></span>
-                  </div>
-                <% end %>
-              </div>
-
-              <!-- Mini Progress Bar -->
-              <div class="w-full bg-gray-200 rounded-full h-1 mt-2">
-                <div class="<%= activity_status == 'active' ? 'bg-green-500' : activity_status == 'growing' ? 'bg-yellow-500' : 'bg-gray-400' %> h-1 rounded-full transition-all duration-300"
-                     style="width: <%= boundary_percentage %>%"></div>
-              </div>
-              <div class="text-xs text-gray-500 mt-1 text-right"><%= boundary_percentage %>%</div>
+              <%= render tweet %>
             </div>
           <% end %>
-        <% end %>
-      </div>
-
-      <!-- Legend at bottom -->
-      <div class="p-4 border-t border-gray-200">
-        <div class="text-xs text-gray-600 space-y-1">
-          <div class="flex items-center">
-            <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-            <span>Active - All prabhags mapped</span>
-          </div>
-          <div class="flex items-center">
-            <div class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
-            <span>Growing - Some prabhags mapped</span>
-          </div>
-          <div class="flex items-center">
-            <div class="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>
-            <span>Inactive - No prabhags mapped</span>
-          </div>
         </div>
-      </div>
+
+        <div class="mt-6">
+          <%= paginate @tweets %>
+        </div>
+      <% else %>
+        <p class="text-sm text-stone-400 italic">No community dispatches yet.</p>
+      <% end %>
     </div>
 
-    <!-- Map Section -->
-    <div class="flex-1 relative"
-         data-controller="leaflet-map"
-         data-leaflet-map-data-url-value="/wards.json"
-         data-leaflet-map-show-labels-value="true"
-         data-leaflet-map-show-legend-value="true"
-         data-leaflet-map-static-value="true">
-      <div data-leaflet-map-target="container" class="w-full h-full desaturated-map">
-        <!-- Map will be loaded here -->
+    <!-- Sidebar (4 cols) -->
+    <div class="lg:col-span-4">
+
+      <!-- Ward Index -->
+      <div class="mb-8">
+        <div class="newspaper-section-header">Wards</div>
+        <div class="space-y-0">
+          <% @wards.each do |ward| %>
+            <% count = @ward_tweet_counts[ward.id] || 0 %>
+            <% next if count == 0 %>
+            <%= link_to ward_path(ward),
+                class: "newspaper-sidebar-link flex justify-between items-center py-1.5 px-2 rounded" do %>
+              <span class="text-sm font-medium text-stone-700">Ward <%= ward.ward_code %></span>
+              <span class="text-xs text-stone-400"><%= count %></span>
+            <% end %>
+          <% end %>
+        </div>
       </div>
+
+      <!-- Sign in prompt (anonymous users) -->
+      <% unless user_signed_in? %>
+        <div class="mb-8">
+          <div class="newspaper-section-header">Join</div>
+          <p class="text-sm text-stone-600 mb-3">
+            Sign in to contribute to your ward community.
+          </p>
+          <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path,
+                      method: :post,
+                      class: "block text-center text-sm font-medium text-stone-700 border border-stone-300 rounded px-4 py-2 hover:bg-stone-50 transition-colors" %>
+        </div>
+      <% end %>
+
     </div>
   </div>
 
-  <!-- How It Works -->
-  <div class="mt-16 bg-gray-50 rounded-lg p-8">
-    <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">How MCGM.in Works</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="text-center">
-        <div class="text-4xl mb-4">🗺️</div>
-        <h3 class="text-lg font-semibold mb-2">1. Find Your Ward</h3>
-        <p class="text-gray-600">Click on your ward to see all civic tasks and issues in your area</p>
-      </div>
-      <div class="text-center">
-        <div class="text-4xl mb-4">🎯</div>
-        <h3 class="text-lg font-semibold mb-2">2. Pick a Task</h3>
-        <p class="text-gray-600">Choose from boundary mapping, infrastructure reports, or other civic tasks</p>
-      </div>
-      <div class="text-center">
-        <div class="text-4xl mb-4">✅</div>
-        <h3 class="text-lg font-semibold mb-2">3. Make Impact</h3>
-        <p class="text-gray-600">Complete tasks to help improve your ward and engage with local governance</p>
-      </div>
-    </div>
+  <!-- Footer -->
+  <div class="newspaper-rule mb-6 mt-12"></div>
+  <div class="flex justify-center gap-8 text-sm text-stone-500">
+    <%= link_to "Boundary Mapping", prabhags_path,
+                class: "hover:text-stone-800 underline" %>
+    <a href="https://portal.mcgm.gov.in" target="_blank"
+       class="hover:text-stone-800 underline">MCGM Portal</a>
   </div>
 </div>

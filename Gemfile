@@ -26,6 +26,9 @@ gem "jbuilder"
 gem "rgeo"
 gem "rgeo-geojson"
 
+# Pagination [https://github.com/kaminari/kaminari]
+gem "kaminari"
+
 # Authentication with Devise [https://github.com/heartcombo/devise]
 gem "devise"
 
