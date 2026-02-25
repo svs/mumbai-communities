@@ -4,6 +4,21 @@ require 'net/http'
 class TweetService
   TWEET_URL_PATTERN = %r{\Ahttps?://(twitter\.com|x\.com)/\w+/status/(\d+)}
   API_BASE = "https://api.x.com/2"
+
+  # City-wide handles — tweets mentioning these get assigned to a ward
+  # only if they also co-mention a ward handle
+  CITYWIDE_HANDLES = %w[
+    mybmc
+    mybmcInfra
+    mybmcSWM
+    mybmcHealth
+    mybmcHealthDept
+    MumbaiPolice
+    MTPHereToHelp
+    CPMumbaiPolice
+    MMRDAOfficial
+    mayor_mumbai
+  ].freeze
   TWEET_FIELDS = "created_at,author_id,public_metrics,in_reply_to_user_id,attachments,conversation_id,referenced_tweets"
   EXPANSIONS = "author_id,attachments.media_keys,referenced_tweets.id,referenced_tweets.id.author_id"
   MEDIA_FIELDS = "url,preview_image_url,type"
@@ -31,11 +46,13 @@ class TweetService
       import(ward, tweet_data).first
     end
 
-    def fetch(ward, count: 10)
+    def fetch(ward, count: 10, since_id: nil)
       return [] if ward.twitter_handle.blank?
 
       query = "(from:#{ward.twitter_handle} OR @#{ward.twitter_handle}) -is:retweet"
-      uri = URI("#{API_BASE}/tweets/search/recent?query=#{CGI.escape(query)}&max_results=#{count}&tweet.fields=#{TWEET_FIELDS}&expansions=#{EXPANSIONS}&media.fields=#{MEDIA_FIELDS}&user.fields=#{USER_FIELDS}")
+      params = "query=#{CGI.escape(query)}&max_results=#{count}&tweet.fields=#{TWEET_FIELDS}&expansions=#{EXPANSIONS}&media.fields=#{MEDIA_FIELDS}&user.fields=#{USER_FIELDS}"
+      params += "&since_id=#{since_id}" if since_id
+      uri = URI("#{API_BASE}/tweets/search/recent?#{params}")
 
       response = api_get(uri)
       unless response.is_a?(Net::HTTPSuccess)
@@ -75,7 +92,56 @@ class TweetService
 
     def refresh_all
       Ward.where.not(twitter_handle: [nil, ""]).find_each do |ward|
-        fetch(ward)
+        latest_tweet_id = ward.tweets.order(tweeted_at: :desc).pick(:tweet_id)
+        fetch(ward, since_id: latest_tweet_id)
+      end
+      fetch_citywide
+    end
+
+    # Fetch tweets mentioning city-wide handles and assign to wards by co-mention
+    def fetch_citywide(count: 100)
+      ward_handle_map = Ward.where.not(twitter_handle: [nil, ""])
+        .pluck(:twitter_handle, :id)
+        .to_h { |handle, id| [handle.downcase, id] }
+
+      latest_tweet_id = Tweet.order(tweeted_at: :desc).pick(:tweet_id)
+
+      CITYWIDE_HANDLES.each do |handle|
+        query = "@#{handle} -is:retweet"
+        params = "query=#{CGI.escape(query)}&max_results=#{count}&tweet.fields=#{TWEET_FIELDS}&expansions=#{EXPANSIONS}&media.fields=#{MEDIA_FIELDS}&user.fields=#{USER_FIELDS}"
+        params += "&since_id=#{latest_tweet_id}" if latest_tweet_id
+        uri = URI("#{API_BASE}/tweets/search/recent?#{params}")
+
+        response = api_get(uri)
+        unless response.is_a?(Net::HTTPSuccess)
+          Rails.logger.error "TweetService: X API failed for @#{handle}: #{response.code}"
+          next
+        end
+
+        payload = JSON.parse(response.body)
+        next unless payload["data"]
+
+        users = (payload.dig("includes", "users") || []).index_by { |u| u["id"] }
+        media = (payload.dig("includes", "media") || []).index_by { |m| m["media_key"] }
+
+        payload["data"].each do |tweet_data|
+          text = tweet_data["text"] || ""
+          # Find which ward handle is co-mentioned
+          ward_id = ward_handle_map.find { |ward_handle, _|
+            text.downcase.include?("@#{ward_handle}")
+          }&.last
+          next unless ward_id
+
+          ward = Ward.find(ward_id)
+          data = build_tweet_data(tweet_data, users, media)
+          import(ward, [data])
+        end
+
+        Rails.logger.info "TweetService: Scanned #{payload['data'].size} tweets for @#{handle}"
+      rescue JSON::ParserError => e
+        Rails.logger.error "TweetService: Failed to parse response for @#{handle}: #{e.message}"
+      rescue StandardError => e
+        Rails.logger.error "TweetService: Error fetching @#{handle}: #{e.message}"
       end
     end
 
