@@ -6,10 +6,12 @@
 
   <!-- Statistics -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-    <div class="bg-yellow-100 p-4 rounded-lg">
-      <div class="text-2xl font-bold text-yellow-800"><%= @total_submitted %></div>
-      <div class="text-yellow-600">Pending Review</div>
-    </div>
+    <% if @total_submitted > 0 %>
+      <div class="bg-yellow-100 p-4 rounded-lg">
+        <div class="text-2xl font-bold text-yellow-800"><%= @total_submitted %></div>
+        <div class="text-yellow-600">Pending Review</div>
+      </div>
+    <% end %>
     <div class="bg-green-100 p-4 rounded-lg">
       <div class="text-2xl font-bold text-green-800"><%= @total_approved %></div>
       <div class="text-green-600">Approved</div>
@@ -21,9 +23,9 @@
   </div>
 
   <!-- Submitted Prabhags (Pending Review) -->
-  <div class="mb-8">
-    <h2 class="text-2xl font-semibold mb-4 text-yellow-700">Pending Review (<%= @total_submitted %>)</h2>
+  <div class="mb-8 pending-review">
     <% if @submitted_prabhags.any? %>
+    <h2 class="text-2xl font-semibold mb-4 text-yellow-700">Pending Review (<%= @total_submitted %>)</h2>
       <div class="bg-white rounded-lg shadow overflow-hidden">
         <table class="min-w-full">
           <thead class="bg-gray-50">
@@ -45,7 +47,14 @@
                   Ward <%= prabhag.ward_code %>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <%= prabhag.assigned_to&.name || prabhag.assigned_to&.email || 'Unassigned' %>
+                  <% if prabhag.assigned_to %>
+                    <%= prabhag.assigned_to.name || prabhag.assigned_to.email %>
+                    <% if prabhag.assigned_to.name.present? %>
+                      <div class="text-xs text-gray-400"><%= prabhag.assigned_to.email %></div>
+                    <% end %>
+                  <% else %>
+                    Unassigned
+                  <% end %>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <%= time_ago_in_words(prabhag.updated_at) %> ago
@@ -70,12 +79,12 @@
         </table>
       </div>
     <% else %>
-      <p class="text-gray-600 bg-gray-50 p-4 rounded-lg">No prabhags pending review.</p>
+      <p class="text-gray-600 bg-gray-50 p-4 rounded-lg">No prabhags pending review</p>
     <% end %>
   </div>
 
   <!-- Recently Approved -->
-  <div class="mb-8">
+  <div class="mb-8 approved-prabhags">
     <h2 class="text-2xl font-semibold mb-4 text-green-700">Recently Approved</h2>
     <% if @approved_prabhags.any? %>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -105,7 +114,7 @@
 
   <!-- Recently Rejected -->
   <% if @rejected_prabhags.any? %>
-    <div>
+    <div class="rejected-prabhags">
       <h2 class="text-2xl font-semibold mb-4 text-red-700">Recently Rejected</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <% @rejected_prabhags.limit(6).each do |prabhag| %>

@@ -142,7 +142,7 @@ RSpec.describe "Authenticated - Boundaries", type: :system do
         expect(page).not_to have_text("NoMethodError")
 
         # Should show submitted status
-        expect(page).to have_text("Submitted for Review")
+        expect(page).to have_text("Under review")
 
         # Should NOT see admin approval buttons for non-admin user
         expect(page).not_to have_button("Approve")

@@ -125,7 +125,7 @@
             status_class = 'bg-red-50 text-red-700'
           end
         %>
-        <%= link_to prabhag_path(prabhag), class: "prabhag-card block border-t-4 #{border_color} bg-white rounded-lg border border-stone-200 p-4 hover:no-underline" do %>
+        <%= link_to prabhag_path(prabhag), class: "prabhag-card block border-t-4 #{border_color} bg-white rounded-lg border border-stone-200 p-4 hover:no-underline", data: { turbo_frame: "_top" } do %>
           <div class="text-lg font-semibold text-stone-800 mb-2">
             Prabhag <%= prabhag.number %>
           </div>
@@ -175,9 +175,9 @@
         <% end %>
         <% unless user_signed_in? %>
           <p class="text-sm">
-            <%= link_to "Sign up", new_user_registration_path, class: "text-stone-700 underline hover:text-stone-900" %>
+            <%= link_to "Sign up", new_user_registration_path, class: "text-stone-700 underline hover:text-stone-900", data: { turbo_frame: "_top" } %>
             or
-            <%= link_to "sign in", new_user_session_path, class: "text-stone-700 underline hover:text-stone-900" %>
+            <%= link_to "sign in", new_user_session_path, class: "text-stone-700 underline hover:text-stone-900", data: { turbo_frame: "_top" } %>
             to contribute.
           </p>
         <% end %>

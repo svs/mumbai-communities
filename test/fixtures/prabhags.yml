@@ -103,7 +103,7 @@ prabhag_C_222:
   name: Prabhag 222
   ward_code: C
   pdf_url: https://portal.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Assessment%20And%20Collection%20(Election)/Docs/Election%20Department/BMC%20General%20Election%202025/Ward%20Formation/Draft/Draft%20Prabhag%20Maps%202025/C/Prabhag_222.pdf
-  status: submitted
+  status: available
   assigned_to_id: 2
 prabhag_D_214:
   id: 76
@@ -1642,7 +1642,7 @@ admin_submitted:
   name: Admin Submitted Prabhag
   ward_code: TEST1
   pdf_url: https://example.com/admin_submitted.pdf
-  status: submitted
+  status: available
   assigned_to_id: 1
 admin_approved:
   id: 1002

@@ -297,16 +297,29 @@ RSpec.describe "Admin - Prabhags", type: :system do
   end
 
   describe "public page protection" do
-    it "does not show approve/reject buttons" do
-      prabhag = create(:prabhag, :submitted, assigned_to: admin, ward_code: ward.ward_code, ward: ward)
-      create(:boundary, :pending, boundable: prabhag, submitted_by: admin)
+    it "does not show approve/reject buttons to non-admin users" do
+      prabhag = create(:prabhag, :submitted, assigned_to: regular_user, ward_code: ward.ward_code, ward: ward)
+      create(:boundary, :pending, boundable: prabhag, submitted_by: regular_user)
+
+      login_as(regular_user, scope: :user)
+      visit prabhag_path(prabhag)
+
+      expect(page).to have_text("Under review")
+      expect(page).not_to have_button("Approve")
+      expect(page).not_to have_button("Reject")
+    end
+
+    it "shows inline approve/reject buttons to admin users" do
+      prabhag = create(:prabhag, :submitted, assigned_to: regular_user, ward_code: ward.ward_code, ward: ward)
+      create(:boundary, :pending, boundable: prabhag, submitted_by: regular_user)
 
       login_as(admin, scope: :user)
       visit prabhag_path(prabhag)
 
-      expect(page).to have_text("Submitted for Review")
-      expect(page).not_to have_button("Approve")
-      expect(page).not_to have_button("Reject")
+      expect(page).to have_text("Under review")
+      expect(page).to have_text("Admin Review")
+      expect(page).to have_button("Approve")
+      expect(page).to have_button("Reject")
     end
   end
 end

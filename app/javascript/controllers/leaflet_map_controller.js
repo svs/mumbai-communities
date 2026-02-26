@@ -8,7 +8,8 @@ export default class extends Controller {
     showLegend: { type: Boolean, default: true },
     clickable: { type: Boolean, default: true },
     zoom: { type: Number, default: 11 },
-    static: { type: Boolean, default: false }
+    static: { type: Boolean, default: false },
+    centerOnPoint: { type: Boolean, default: false }
   }
 
   connect() {
@@ -100,15 +101,46 @@ export default class extends Controller {
 
       features.forEach((feature) => {
         try {
-          // Create layer using the styling information embedded in feature properties
           const props = feature.properties
+
+          // Point features → circle markers (POIs, facilities)
+          if (feature.geometry && feature.geometry.type === 'Point') {
+            const [lng, lat] = feature.geometry.coordinates
+            const color = props.marker_color || '#6b7280'
+
+            const marker = window.L.circleMarker([lat, lng], {
+              radius: 7,
+              fillColor: color,
+              color: '#ffffff',
+              weight: 2,
+              opacity: 1,
+              fillOpacity: 0.85
+            }).addTo(this.mapInstance)
+
+            const facilityLink = props.facility_id
+              ? `<a href="/facilities/${props.facility_id}" class="inline-block mt-1 text-blue-600 hover:text-blue-800 text-xs font-medium">View details →</a>`
+              : ''
+
+            marker.bindPopup(`
+              <div class="p-2">
+                <h3 class="font-bold text-sm">${props.popup_title || props.name || 'Unknown'}</h3>
+                ${props.popup_subtitle ? `<p class="text-xs text-gray-500">${props.popup_subtitle}</p>` : ''}
+                ${facilityLink}
+              </div>
+            `)
+
+            return // skip polygon logic
+          }
+
+          // Polygon/MultiPolygon features → styled GeoJSON layers
           const layer = window.L.geoJSON(feature, {
             style: {
               color: props.color || '#6b7280',
               weight: props.weight || 1,
               opacity: 0.8,
               fillColor: props.fillColor || props.color || '#6b7280',
-              fillOpacity: props.fillOpacity || 0.1
+              fillOpacity: props.fillOpacity || 0.1,
+              dashArray: props.dashArray || null
             }
           }).addTo(this.mapInstance)
 
@@ -219,6 +251,16 @@ export default class extends Controller {
       if (features.length > 0) {
         setTimeout(() => {
           try {
+            // If centerOnPoint is set, find the first Point feature and center on it
+            if (this.centerOnPointValue) {
+              const pointFeature = features.find(f => f.geometry && f.geometry.type === 'Point')
+              if (pointFeature) {
+                const [lng, lat] = pointFeature.geometry.coordinates
+                this.mapInstance.setView([lat, lng], this.zoomValue || 16)
+                return
+              }
+            }
+
             const validLayers = []
             this.mapInstance.eachLayer(layer => {
               if (layer.getBounds && typeof layer.getBounds === 'function') {

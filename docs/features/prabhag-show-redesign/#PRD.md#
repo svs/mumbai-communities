@@ -1,0 +1,472 @@
+# Prabhag Show Page Redesign - Product Requirements Document
+
+## Executive Summary
+
+The prabhag show page needs to be redesigned from a community-oriented page (which duplicates ward-level concerns) into a focused **mapping and audit workbench**. The current page mixes ward-level community features (discussions, events, gallery, community stats) with prabhag-level geographic concerns (boundary mapping, PDF reference, boundary history). The product owner has clarified the separation: **wards handle community organization and discussion; prabhags handle boundary mapping, facility auditing, and geographic data**. This redesign strips away misplaced community features and rebuilds the page around its three core jobs: viewing/tracing boundaries, inspecting facilities, and auditing geographic data quality.
+
+## Problem Statement
+
+The current prabhag show page has several problems:
+
+1. **Identity crisis** -- It tries to be a community hub (Report Issue, Discuss, Events, Gallery buttons) when that is the ward page's job. Three of four community action buttons are disabled placeholders (`cursor-not-allowed`).
+
+2. **Tiny, deprioritized map** -- The map occupies 1/4 of the header width (`lg:col-span-1`, 256px tall). For a page whose primary purpose is boundary mapping, the map should be the dominant element.
+
+3. **Redundant information** -- Prabhag number, ward code, and status appear in at least three places: the title row, the "Prabhag Information" section, and the status badge. The "Location" column in the header duplicates ward info that belongs on the ward page.
+
+4. **Dead links** -- "Election Results" and "Demographics" both point to `#`. The "MCGM Ward Page" link constructs a URL that does not resolve.
+
+5. **Status inconsistency** -- The display relies on `prabhag.status` (available/assigned/submitted/approved/rejected), which can be inconsistent with the actual boundary state. A prabhag can have `status: 'available'` but still have a legacy KML boundary, or `status: 'approved'` with only a legacy boundary that needs remapping.
+
+6. **No facility visibility** -- Facilities (`Facility` model) exist with `prabhag_number` but are not shown on the prabhag page at all. The ward info page shows facilities at the ward level; there is no prabhag-level drill-down.
+
+7. **No PDF reference on the show page** -- The MCGM PDF is only accessible from the trace page. Users browsing a prabhag cannot see the official reference map without entering the tracing workflow.
+
+8. **No audit information** -- There is no way to see what has been verified, what data sources exist, or what needs checking for a given prabhag.
+
+## Goals and Objectives
+
+### Primary Goals
+
+- Make the prabhag page a **mapping and audit workbench** focused on geographic data
+- Elevate the map to be the dominant visual element on the page
+- Show facilities within the prabhag boundary with type filtering
+- Surface the MCGM PDF reference alongside the boundary
+- Provide clear boundary status derived from actual boundary data, not just `prabhag.status`
+- Show audit/verification status: what data exists, what sources, what needs checking
+
+### Success Metrics
+
+- Users can determine boundary status at a glance without confusion
+- Users can see all facilities within a prabhag and their data sources
+- The path from "viewing a prabhag" to "tracing its boundary" is a single clear action
+- No dead links or disabled placeholder buttons remain on the page
+- Page loads without JavaScript for core content (progressive enhancement)
+
+### Non-Goals
+
+- This feature will NOT add community discussion features to the prabhag page (that is the ward's job)
+- This feature will NOT add issue reporting at the prabhag level (tickets/issues belong at the ward level)
+- This feature will NOT change the trace page (`trace.html.erb`) -- that is a separate interface
+- This feature will NOT change the admin boundary review workflow
+- This feature will NOT add new models or database migrations -- it works with existing data
+
+## User Stories
+
+### Must Have
+
+**US-1: View prabhag boundary prominently**
+> As a citizen viewing a prabhag, I want to see its boundary on a large, prominent map so that I can understand the geographic area this prabhag covers.
+
+Acceptance Criteria:
+- Map occupies at least 2/3 of the page width on desktop (or full width on mobile)
+- Map height is at least 400px
+- If a boundary exists, it is rendered as a filled polygon with clear border
+- If no boundary exists, the map shows the approximate area (from ward center or PDF metadata) with a message indicating no boundary has been traced
+- Map uses the existing `leaflet-map` Stimulus controller
+- Map is interactive (zoom, pan) by default
+
+**US-2: Understand boundary status from actual data**
+> As a citizen, I want to see the true boundary status derived from actual boundary records so that I understand whether this prabhag has been mapped, and by whom.
+
+Acceptance Criteria:
+- Status is computed from the boundary records, not solely from `prabhag.status`
+- The following states are clearly distinguished:
+  - **No boundary** -- no boundary records exist at all
+  - **Legacy only** -- only KML import boundaries exist (needs remapping from 2025 PDF)
+  - **Pending review** -- a user submission exists but has not been approved
+  - **Approved** -- a user submission or official import has been approved
+  - **Canonical/Official** -- an official import boundary exists and is marked canonical
+- The status shows the source type (official import, user submission, KML legacy) and the year
+- If a user submitted the boundary, their name is shown
+- If an admin approved the boundary, the approval date is shown
+
+**US-3: Access the MCGM PDF reference**
+> As a citizen or mapper, I want to see the official MCGM PDF reference map for this prabhag directly on the show page so that I can compare it with the traced boundary.
+
+Acceptance Criteria:
+- A clear link/button to open the MCGM PDF is always visible
+- The link opens the PDF in a new tab (using `@prabhag.pdf_url`)
+- A thumbnail or preview of the prabhag's converted PNG image is shown (using `@prabhag.map_image_src` which resolves to `/prabhag_images/prabhag_<number>.png`)
+- If the PNG does not exist, a fallback message with just the PDF link is shown
+
+**US-4: Navigate to boundary tracing**
+> As a logged-in user, I want a clear call to action to start or continue mapping this prabhag so that I can contribute boundary data.
+
+Acceptance Criteria:
+- If the prabhag is unassigned (`available`) and the user is logged in: show "Map This Prabhag" button that assigns and redirects to trace
+- If the prabhag is assigned to the current user: show "Continue Mapping" button linking to trace page
+- If the prabhag is assigned to someone else: show "Mapping in progress by [name]"
+- If a boundary has been submitted and is pending review: show "Boundary submitted -- awaiting review"
+- If the user is not logged in: show "Sign in to help map this area"
+- These actions appear near the map, not buried in a separate section
+
+**US-5: View facilities within this prabhag**
+> As a citizen, I want to see what public facilities (hospitals, schools, toilets, parks, etc.) exist within this prabhag so that I can understand the civic infrastructure in my area.
+
+Acceptance Criteria:
+- Facilities are listed below the map, grouped or filterable by type
+- Each facility shows: name (or "Unnamed [type]"), facility type, data source (BMC/OSM), and address if available
+- Facility markers appear on the map when the prabhag has a boundary
+- Facility count summary is shown (e.g., "3 hospitals, 2 schools, 1 park")
+- If no facilities exist for this prabhag, show "No facilities tracked yet" with a note about data sources
+- Facilities are queried using `prabhag_number` from the `facilities` table
+
+**US-6: See boundary history**
+> As a citizen or admin, I want to see the history of boundary submissions for this prabhag so that I can understand how the boundary has evolved.
+
+Acceptance Criteria:
+- All boundary records are shown in reverse chronological order
+- Each entry shows: status (pending/approved/rejected/canonical), source type, year, submitter, date
+- Rejected boundaries show the rejection reason
+- Approved boundaries show who approved and when
+- The currently active (best) boundary is visually distinguished from historical entries
+
+### Should Have
+
+**US-7: Prabhag data audit summary**
+> As a data auditor, I want to see a summary of what geographic data exists and what needs verification for this prabhag so that I can prioritize audit work.
+
+Acceptance Criteria:
+- An "Audit Status" or "Data Quality" section shows:
+  - Boundary: source, year, last updated, approval status
+  - Facilities: count by source (BMC vs OSM), with indication of whether counts seem reasonable
+  - PDF reference: available/unavailable
+- The section uses a simple checklist format indicating what has been verified and what has not
+- This section renders without JavaScript
+
+**US-8: View prabhag on ward context map**
+> As a citizen, I want to understand where this prabhag sits within its ward so that I have geographic context.
+
+Acceptance Criteria:
+- A small "context inset" or a link to the ward info page with this prabhag highlighted
+- The breadcrumb navigation clearly shows: Home > Wards > [Ward Name] > Prabhag [Number]
+- The ward link in the breadcrumb navigates to the ward info page
+
+### Could Have
+
+**US-9: Side-by-side PDF and boundary comparison**
+> As a mapper reviewing their work, I want to compare the MCGM PDF with the traced boundary side-by-side on the show page so that I can visually verify accuracy without entering the full tracing interface.
+
+Acceptance Criteria:
+- An expandable/collapsible panel shows the PDF preview alongside the map
+- This is a view-only comparison (no editing capability -- that is the trace page's job)
+- Only shown when a boundary exists
+
+**US-10: Facility data gap indicators**
+> As a data auditor, I want to see where facility data from BMC and OSM disagree so that I can identify facilities that need verification on the ground.
+
+Acceptance Criteria:
+- For each facility type present in this prabhag, show BMC count vs OSM count
+- Highlight types where counts differ significantly
+- This mirrors the ward-level scorecard but scoped to the prabhag
+
+## Functional Requirements
+
+### FR-1: Page Layout Structure
+
+The page should follow a clear visual hierarchy:
+
+1. **Breadcrumb** (compact, same pattern as current)
+2. **Header bar** -- Prabhag number, computed boundary status badge, ward link, action button(s)
+3. **Map section** -- Large interactive Leaflet map (full width or 2/3 width, min 400px tall)
+4. **PDF Reference panel** -- Alongside or below the map; thumbnail of the PNG conversion plus link to the full PDF
+5. **Facilities section** -- List of facilities within this prabhag with type grouping
+6. **Audit/Data Quality section** -- Summary of data completeness
+7. **Boundary History section** -- Chronological list of all boundary records
+
+### FR-2: Computed Boundary Status
+
+Replace the current `prabhag.status`-based display with a computed status derived from boundary records:
+
+```
+def computed_mapping_status
+  best = boundary  # Uses Boundary.best semantic finder
+  return :unmapped unless best
+
+  case best.source_type
+  when 'kml_import'
+    :legacy_needs_remapping
+  when 'official_import'
+    best.status == 'canonical' ? :official_canonical : :official_approved
+  when 'user_submission'
+    case best.status
+    when 'pending' then :pending_review
+    when 'approved' then :community_approved
+    when 'rejected' then :rejected
+    else :unknown
+    end
+  else
+    :unknown
+  end
+end
+```
+
+This logic should live on the `Prabhag` model (or a presenter/helper), not in the view.
+
+### FR-3: Facility Loading
+
+Facilities should be loaded in the controller action:
+
+```ruby
+@facilities = Facility.where(prabhag_number: @prabhag.number, ward_code: @prabhag.ward_code)
+@facility_type_counts = @facilities.group(:facility_type).count
+```
+
+Note: The current `Facility` model has `prabhag_number` as an integer column. The `Prabhag` model already has `has_many :facilities, foreign_key: "prabhag_number", primary_key: "number"`, but this does not scope by `ward_code`. Facilities should be filtered by both `prabhag_number` AND `ward_code` to avoid cross-ward collisions where prabhag numbers repeat across wards.
+
+### FR-4: Map Data
+
+The JSON endpoint (`show.json.jbuilder`) should be extended to include facility markers when a boundary exists, so the Leaflet map can render them. Alternatively, facilities can be loaded via a separate turbo frame to keep the initial page load lean.
+
+### FR-5: Remove Community Features
+
+The following sections should be removed from the prabhag show page:
+- "Community Actions" grid (Report Issue, Discuss, Events, Gallery)
+- "Recent Issues" section
+- "Community Stats" section
+- "Recent Activity" feed
+- `load_community_data` call in the controller (or make it conditional/lazy)
+
+Community features belong on the ward page. The prabhag page may link to ward-level discussions but should not host its own community sections.
+
+### FR-6: Remove Dead Links and Redundant Content
+
+Remove:
+- "Election Results" link (points to `#`)
+- "Demographics" link (points to `#`)
+- "MCGM Ward Page" link with incorrect URL pattern
+- The redundant "Prabhag Information" section that repeats number/ward/status
+- The "Representatives" column in the header (this is ward-level info, accessible via ward page)
+
+### FR-7: Progressive Enhancement
+
+The page must render useful content without JavaScript:
+- Breadcrumb, header, status badge, PDF link, facility list, boundary history all render server-side
+- The map requires JavaScript (Leaflet) and should degrade gracefully to a message: "Enable JavaScript to view the interactive map"
+- Facility filtering can use Turbo Frames for type toggling without full-page reload
+
+## Non-Functional Requirements
+
+### Performance
+
+- The page should load in under 2 seconds on a 3G connection for the HTML content
+- Facility loading should not block initial page render -- use lazy-loaded Turbo Frames if the facility count exceeds 50
+- Map tile loading is external (OpenStreetMap) and acceptable to load asynchronously
+
+### Security
+
+- No new authentication requirements -- the page is publicly viewable
+- Action buttons (assign, trace) remain gated behind `authenticate_user!` as they are today
+- Admin links remain gated behind `current_user.admin?`
+
+### Accessibility
+
+- All status badges use text labels, not just color
+- Map has an aria-label describing what it shows
+- Facility list is navigable via keyboard
+- PDF link has descriptive text (not just an icon)
+
+### Compatibility
+
+- Works on mobile (responsive layout -- map goes full width, sections stack vertically)
+- Works without JavaScript for core content (progressive enhancement)
+- Consistent with the newspaper-style design used on ward info pages
+
+## Edge Cases and Error Handling
+
+### Boundary Edge Cases
+
+| Edge Case                                     | Current Behavior                          | Required Behavior                                                                                                           |
+|-----------------------------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| No boundaries at all                          | Shows "No map yet" placeholder            | Show map centered on ward area with "No boundary traced yet" overlay; show prominent "Map This Prabhag" CTA                 |
+| Only legacy KML boundary                      | Shows as "Approved" or "Active Community" | Show as "Legacy boundary (2017) -- needs remapping from 2025 PDF" with the legacy boundary rendered in a muted/dashed style |
+| Pending user submission + legacy boundary     | Shows based on `prabhag.status`           | Show pending submission as primary with "Under Review" status; show legacy boundary as faded reference                      |
+| Multiple boundaries (approved + pending)      | Shows "best" boundary on map              | Show best boundary on map; list all in boundary history with clear indication of which is active                            |
+| Rejected boundary, prabhag reset to available | Shows as "Available"                      | Show as "Previous submission rejected -- available for remapping" with rejection reason visible                             |
+| Boundary with malformed GeoJSON               | May crash or show blank                   | Handle gracefully with error message "Boundary data could not be rendered"                                                  |
+| Boundary submitted by deleted user            | Shows nil user                            | Display "Unknown user" instead of crashing                                                                                  |
+
+### Facility Edge Cases
+
+| Edge Case                               | Required Behavior                                                                                       |
+|-----------------------------------------|---------------------------------------------------------------------------------------------------------|
+| No facilities for this prabhag          | Show "No facilities tracked yet for this prabhag. Facility data is sourced from BMC and OpenStreetMap." |
+| Facilities with no coordinates          | Include in list but exclude from map markers                                                            |
+| Facilities with no name                 | Display as "Unnamed [facility type]" (consistent with ward facilities page)                             |
+| `prabhag_number` collision across wards | Filter by both `prabhag_number` AND `ward_code`                                                         |
+| Very large facility count (100+)        | Paginate or lazy-load; show count in header                                                             |
+
+### PDF Edge Cases
+
+| Edge Case                     | Required Behavior                                                                                                      |
+|-------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| `pdf_url` is nil or empty     | Hide PDF section entirely; validation on Prabhag model currently requires `pdf_url` presence, so this should not occur |
+| PDF URL returns 404           | Link still shown (external resource -- cannot verify at render time); PDF thumbnail PNG may be absent                  |
+| PNG conversion does not exist | Show PDF link only, without thumbnail                                                                                  |
+| PDF is very large (>10MB)     | Link opens in new tab (existing behavior); do not embed                                                                |
+
+### Status Edge Cases
+
+| Edge Case                                                         | Required Behavior                                                |
+|-------------------------------------------------------------------|------------------------------------------------------------------|
+| `prabhag.status` says "approved" but no approved boundary exists  | Computed status overrides: show "No approved boundary found"     |
+| `prabhag.status` says "available" but an approved boundary exists | Computed status overrides: show boundary status from actual data |
+| Prabhag assigned to a user who has been deactivated               | Show assignment but flag that the mapper may be inactive         |
+
+## Technical Considerations
+
+### Architecture Impact
+
+- **Model changes**: Add `computed_mapping_status` method to `Prabhag` model (or a presenter). No database changes.
+- **Controller changes**: Simplify `PrabhagsController#show` -- remove `load_community_data`, add facility loading, add computed status.
+- **View changes**: Complete rewrite of `app/views/prabhags/show.html.erb`. This is the primary deliverable.
+- **JBuilder changes**: Extend `app/views/prabhags/show.json.jbuilder` to optionally include facility markers for the map.
+- **No new Stimulus controllers needed** -- reuse `leaflet-map` controller (already supports facility markers via the ward info page pattern).
+
+### Facility Association Fix
+
+The current `Prabhag` model defines:
+```ruby
+has_many :facilities, foreign_key: "prabhag_number", primary_key: "number"
+```
+
+This is incorrect for a multi-ward scenario because `prabhag_number` is not globally unique -- it repeats across wards. The facility query in the controller should explicitly scope by ward_code:
+
+```ruby
+@facilities = @prabhag.ward.facilities.where(prabhag_number: @prabhag.number)
+```
+
+Or the association should use a composite key. This is a data integrity concern that affects this feature.
+
+### Database Changes
+
+None required. All data structures already exist.
+
+### API Modifications
+
+The `show.json.jbuilder` should include:
+- Prabhag boundary (already present)
+- Facility markers as additional GeoJSON features (new)
+- Computed mapping status as a property (new)
+
+### Integration Points
+
+- **Ward info page**: Prabhag show links back to ward info; ward info links to prabhag show (already exists)
+- **Trace page**: Prabhag show links to trace page for assigned users (already exists, keep as-is)
+- **Admin boundary review**: Admin link from prabhag show to admin panel (already exists, keep as-is)
+- **Facility map controller**: Reuse the `facility-map` Stimulus controller pattern from ward info page for toggling facility types on the map
+
+## User Interface
+
+### Layout (Desktop)
+
+```
++------------------------------------------------------------------+
+| Home > Wards > Ward Name > Prabhag 72                            |
+| Home > Wards > Ward Name > Prabhag 72 |
+| Prabhag 72               [Official (canonical)]  [Map This Area] |
+| Prabhag 72               [Official (canonical)]  [Map This Area] |
++------------------------------------------------------------------+
+|                                                                  |
+|
+|                    (full width, 400-500px)                       |
+| (full width, 400-500px) |
+|                                                                  |
+|
+| MCGM Reference PDF                                               |
+| MCGM Reference PDF |
++------------------------------------------------------------------+
+| Facilities (12)                                                  |
+| Facilities (12) |
+| +-- Facility list with name, type, source, address              |
+| +-- Facility list with name, type, source, address |
+| Data Quality                                                     |
+| Data Quality |
+| [x] Facilities: 12 tracked (8 BMC, 4 OSM)                      |
+| [x] Facilities: 12 tracked (8 BMC, 4 OSM) |
+| [ ] Ground verification: Not started                            |
+| [ ] Ground verification: Not started |
+| Boundary History                                                 |
+| Boundary History |
+| [approved]  User submission - 2025 - by Mapper Name             |
+| [approved]  User submission - 2025 - by Mapper Name |
++------------------------------------------------------------------+
+```
+
+### Layout (Mobile)
+
+All sections stack vertically. Map goes full width at 300px height. Facility list is collapsed by default with an expand trigger. PDF thumbnail is smaller.
+
+### Design Tokens
+
+Follow the existing newspaper-style design from ward info pages:
+- Section headers: `newspaper-section-header` class (already defined in app CSS)
+- Stone/neutral color palette for text: `text-stone-800`, `text-stone-600`, `text-stone-400`
+- Status badges: consistent with ward info prabhag tiles (green for official, orange for legacy, purple for community, red for unmapped)
+- Border accents: `border-t-4` with status color on cards (consistent with prabhag tiles on ward info page)
+
+## Dependencies
+
+### External Dependencies
+
+- OpenStreetMap tile server (for Leaflet map)
+- MCGM portal (for PDF URLs -- external, may be down)
+
+### Internal Dependencies
+
+- `leaflet-map` Stimulus controller must support rendering facility markers (verify current capability)
+- `Facility` data must be populated for prabhags (currently populated at ward level; `prabhag_number` population depends on the facility import pipeline)
+- Prabhag PNG images must exist at `/prabhag_images/prabhag_<number>.png` (generated by PDF conversion pipeline)
+
+### Blocking Factors
+
+- If facility data does not have `prabhag_number` populated for most records, the facility section will appear empty. This may need a data backfill task (separate from this feature).
+- The `prabhag_number` non-uniqueness across wards needs the query fix described in Technical Considerations.
+
+## Risks and Mitigations
+
+| Risk                                                | Likelihood | Impact | Mitigation                                                                                                              |
+|-----------------------------------------------------|------------|--------|-------------------------------------------------------------------------------------------------------------------------|
+| Facility data sparse at prabhag level               | High       | Medium | Show "No facilities tracked yet" gracefully; link to ward-level facility view as fallback                               |
+| PNG thumbnails missing for many prabhags            | Medium     | Low    | Degrade to PDF link only; thumbnail is nice-to-have                                                                     |
+| Removing community features confuses existing users | Low        | Low    | No evidence of active community usage; all community buttons were disabled placeholders                                 |
+| Computed status disagrees with `prabhag.status`     | Medium     | Medium | Display computed status prominently but keep `prabhag.status` as a secondary reference for debugging; log discrepancies |
+| Map performance with many facility markers          | Low        | Medium | Lazy-load facilities via Turbo Frame; use marker clustering if count exceeds 100                                        |
+
+## Implementation Strategy
+
+This redesign should be implemented incrementally in the following order:
+
+### Phase 1: Strip and restructure (smallest viable change)
+1. Remove community sections (dead buttons, community stats, recent issues, activity feed)
+2. Remove redundant "Prabhag Information" section and dead links
+3. Enlarge the map from 1/4 width to full width
+4. Clean up the controller (`load_community_data` removal)
+
+### Phase 2: Computed status and PDF reference
+1. Add `computed_mapping_status` method to Prabhag model with specs
+2. Replace status display in the view with computed status
+3. Add PDF reference section with thumbnail and link
+
+### Phase 3: Facilities
+1. Fix facility query scoping (ward_code + prabhag_number)
+2. Add facility loading to controller
+3. Add facility list section to the view
+4. Add facility markers to the map JSON endpoint
+
+### Phase 4: Audit summary
+1. Add data quality checklist section
+2. Wire up boundary, facility, and PDF data to checklist indicators
+
+## Open Questions
+
+1. **Facility prabhag_number coverage**: How many facilities currently have `prabhag_number` populated? If coverage is low, should we add a spatial lookup that assigns facilities to prabhags based on their coordinates falling within the prabhag boundary? (This would be a separate feature/task.)
+
+2. **PNG thumbnail availability**: How many prabhags have the converted PNG images at `/prabhag_images/`? Should we add a fallback that generates them on demand, or is this a batch pre-processing step?
+
+3. **Should the prabhag page show POIs from OSM?** The `HasPois` concern on `Prabhag` uses `OsmService.pois_within` to query OSM POIs dynamically. This is separate from the `Facility` model. Should the page show stored facilities, live OSM POIs, or both?
+
+4. **Ground verification workflow**: The audit section mentions "Ground verification: Not started". Is there a planned model for tracking on-the-ground verification of boundary accuracy and facility existence? If not, should this be a future placeholder or omitted entirely?
+
+5. **Should rejected prabhags show the rejection reason prominently?** Currently the rejection reason is only visible in the boundary history. Should it also appear in the header status area to make it immediately obvious why a submission was rejected?

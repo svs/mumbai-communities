@@ -53,7 +53,7 @@ RSpec.describe "Simple Admin Workflow", type: :request do
 
       expect(boundary.status).to eq('rejected')
       expect(boundary.rejection_reason).to eq("Please improve")
-      expect(prabhag.status).to eq('rejected')
+      expect(prabhag.status).to eq('available')
       expect(prabhag.assigned_to).to be_nil
     end
   end

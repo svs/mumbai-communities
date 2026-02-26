@@ -71,7 +71,9 @@ class Admin::BoundariesController < Admin::BaseController
 
 
   def redirect_to_appropriate_path(notice_message)
-    if @boundary.prabhag?
+    if params[:return_to].present? && params[:return_to].start_with?("/") && !params[:return_to].start_with?("//")
+      redirect_to params[:return_to], notice: notice_message
+    elsif @boundary.prabhag?
       redirect_to admin_prabhag_path(@boundary.boundable), notice: notice_message
     else
       redirect_to admin_boundaries_path, notice: notice_message

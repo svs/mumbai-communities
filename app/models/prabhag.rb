@@ -65,6 +65,70 @@ class Prabhag < ApplicationRecord
     "/prabhag_images/prabhag_#{number}.png"
   end
 
+  # Computed mapping status derived from actual boundary records (not prabhag.status)
+  def computed_mapping_status
+    best = boundary
+    return :unmapped unless best
+
+    case best.source_type
+    when 'kml_import'
+      :legacy_needs_remapping
+    when 'official_import'
+      best.status == 'canonical' ? :official_canonical : :official_approved
+    when 'user_submission'
+      case best.status
+      when 'pending' then :pending_review
+      when 'approved' then :community_approved
+      when 'rejected' then :rejected
+      else :unknown
+      end
+    else
+      :unknown
+    end
+  end
+
+  # Lifecycle stage — determines what the prabhag page shows and what actions are available
+  # :unmapped → :pending → :mapped → :enriched → :active
+  def lifecycle_stage
+    best = boundary
+    return :unmapped unless best
+    return :pending if best.status == 'pending'
+
+    # Has an approved/canonical boundary — check if enriched with facilities
+    facility_count = Facility.where(ward_code: ward_code).count
+    has_discussions = respond_to?(:discussions) && discussions.exists?
+
+    if has_discussions && facility_count > 0
+      :active
+    elsif facility_count > 0
+      :enriched
+    else
+      :mapped
+    end
+  end
+
+  # Badge display data for the computed mapping status
+  def mapping_status_badge
+    case computed_mapping_status
+    when :unmapped
+      { label: "Unmapped", bg: "bg-red-50", text: "text-red-700" }
+    when :legacy_needs_remapping
+      { label: "Legacy — needs remapping", bg: "bg-orange-50", text: "text-orange-700" }
+    when :official_canonical
+      { label: "Official", bg: "bg-green-50", text: "text-green-700" }
+    when :official_approved
+      { label: "Approved", bg: "bg-green-50", text: "text-green-700" }
+    when :pending_review
+      { label: "Under review", bg: "bg-yellow-50", text: "text-yellow-700" }
+    when :community_approved
+      { label: "Community mapped", bg: "bg-purple-50", text: "text-purple-700" }
+    when :rejected
+      { label: "Rejected — needs remapping", bg: "bg-red-50", text: "text-red-700" }
+    else
+      { label: "Unknown", bg: "bg-gray-100", text: "text-gray-600" }
+    end
+  end
+
   private
 
   def set_default_status

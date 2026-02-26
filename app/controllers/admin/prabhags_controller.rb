@@ -2,9 +2,13 @@ class Admin::PrabhagsController < Admin::BaseController
   before_action :set_prabhag, only: [:show, :boundary_review]
 
   def index
-    @submitted_prabhags = Prabhag.submitted.includes(:assigned_to)
-    @approved_prabhags = Prabhag.approved.includes(:assigned_to)
-    @rejected_prabhags = Prabhag.rejected.includes(:assigned_to)
+    @submitted_prabhags = Prabhag.submitted.includes(:assigned_to).order(updated_at: :desc)
+    @approved_prabhags = Prabhag.approved.includes(:assigned_to).order(updated_at: :desc)
+    rejected_by_status = Prabhag.rejected
+    rejected_by_boundary = Prabhag.joins(:boundaries).where(boundaries: { status: 'rejected' })
+    @rejected_prabhags = Prabhag.where(id: rejected_by_status.select(:id))
+                                .or(Prabhag.where(id: rejected_by_boundary.select(:id)))
+                                .distinct.includes(:assigned_to).order(updated_at: :desc)
     
     @total_submitted = @submitted_prabhags.count
     @total_approved = @approved_prabhags.count

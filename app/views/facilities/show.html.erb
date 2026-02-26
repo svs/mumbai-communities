@@ -1,0 +1,151 @@
+<% type_colors = {
+  "hospital" => "bg-red-100 text-red-700", "school" => "bg-blue-100 text-blue-700",
+  "toilet" => "bg-purple-100 text-purple-700", "park" => "bg-green-100 text-green-700",
+  "garden" => "bg-green-100 text-green-700", "police" => "bg-slate-100 text-slate-700",
+  "fire_station" => "bg-orange-100 text-orange-700", "library" => "bg-violet-100 text-violet-700",
+  "place_of_worship" => "bg-yellow-100 text-yellow-700", "pharmacy" => "bg-teal-100 text-teal-700",
+  "bank" => "bg-indigo-100 text-indigo-700", "post_office" => "bg-amber-100 text-amber-700",
+  "playground" => "bg-emerald-100 text-emerald-700", "bus_station" => "bg-gray-100 text-gray-700",
+  "railway_station" => "bg-gray-100 text-gray-700"
+} %>
+<% badge_class = type_colors[@facility.facility_type] || "bg-stone-100 text-stone-700" %>
+<% source_badge = case @facility.source
+   when "osm" then "bg-green-50 text-green-600"
+   when "bmc_arcgis", "bmc_portal" then "bg-blue-50 text-blue-600"
+   else "bg-stone-50 text-stone-600"
+   end %>
+
+<div class="w-full">
+  <%# Breadcrumb %>
+  <nav class="flex items-center space-x-2 text-sm mb-3">
+    <%= link_to "Home", root_path, class: "text-blue-600 hover:text-blue-800" %>
+    <span class="text-gray-400">/</span>
+    <% if @ward %>
+      <%= link_to @ward.name, ward_path(@ward), class: "text-blue-600 hover:text-blue-800" %>
+      <span class="text-gray-400">/</span>
+    <% end %>
+    <% if @prabhag %>
+      <%= link_to "Prabhag #{@prabhag.number}", prabhag_path(@prabhag), class: "text-blue-600 hover:text-blue-800" %>
+      <span class="text-gray-400">/</span>
+    <% end %>
+    <span class="text-gray-700"><%= @facility.name || @facility.facility_type.humanize %></span>
+  </nav>
+
+  <%# Header %>
+  <div class="mb-6">
+    <div class="flex items-center gap-3 mb-1">
+      <h1 class="text-3xl font-bold text-stone-900"><%= @facility.name || "Unnamed #{@facility.facility_type.humanize}" %></h1>
+      <span class="px-2.5 py-1 text-xs font-medium rounded-full <%= badge_class %>"><%= @facility.facility_type.humanize %></span>
+      <span class="px-2.5 py-1 text-xs font-medium rounded-full <%= source_badge %>"><%= @facility.source == "osm" ? "OpenStreetMap" : "BMC" %></span>
+    </div>
+    <% unless @facility.name.present? %>
+      <p class="text-sm text-stone-500 mt-1">
+        <i class="fas fa-pencil-alt mr-1 text-blue-400"></i>
+        Know this place's name? <% if user_signed_in? %><a href="#" class="text-blue-600 underline">Help us name it</a><% else %><%= link_to "Sign in to help", new_user_session_path, class: "text-blue-600 underline" %><% end %>
+      </p>
+    <% end %>
+  </div>
+
+  <%# Map %>
+  <% if @facility.latitude && @facility.longitude %>
+    <div class="w-full bg-white rounded-lg border border-stone-200 overflow-hidden mb-6"
+         style="height: 300px;"
+         data-controller="leaflet-map"
+         data-leaflet-map-data-url-value="<%= facility_path(@facility, format: :json) %>"
+         data-leaflet-map-show-labels-value="false"
+         data-leaflet-map-show-legend-value="false"
+         data-leaflet-map-clickable-value="false"
+         data-leaflet-map-zoom-value="16"
+         data-leaflet-map-static-value="false"
+         data-leaflet-map-center-on-point-value="true">
+      <div data-leaflet-map-target="container" class="w-full h-full"></div>
+    </div>
+  <% end %>
+
+  <%# Details %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <div>
+      <h2 class="text-lg font-semibold text-stone-900 pb-2 border-b border-stone-200 mb-4">Details</h2>
+      <dl class="space-y-3">
+        <div>
+          <dt class="text-xs font-medium text-stone-400 uppercase tracking-wide">Address</dt>
+          <dd class="text-sm text-stone-700 mt-0.5"><%= @facility.address.presence || "Not yet added" %></dd>
+        </div>
+        <div>
+          <dt class="text-xs font-medium text-stone-400 uppercase tracking-wide">Coordinates</dt>
+          <dd class="text-sm text-stone-500 mt-0.5"><%= @facility.latitude %>, <%= @facility.longitude %></dd>
+        </div>
+        <% if @facility.raw_data.present? %>
+          <% raw = @facility.raw_data.is_a?(String) ? (JSON.parse(@facility.raw_data) rescue {}) : (@facility.raw_data || {}) %>
+          <% if raw["phone"].present? %>
+            <div>
+              <dt class="text-xs font-medium text-stone-400 uppercase tracking-wide">Phone</dt>
+              <dd class="text-sm text-stone-700 mt-0.5"><%= raw["phone"] %></dd>
+            </div>
+          <% end %>
+          <% if raw["website"].present? %>
+            <div>
+              <dt class="text-xs font-medium text-stone-400 uppercase tracking-wide">Website</dt>
+              <dd class="text-sm mt-0.5"><%= link_to raw["website"].truncate(40), raw["website"], target: "_blank", class: "text-blue-600 hover:text-blue-800" %></dd>
+            </div>
+          <% end %>
+          <% if raw["opening_hours"].present? %>
+            <div>
+              <dt class="text-xs font-medium text-stone-400 uppercase tracking-wide">Hours</dt>
+              <dd class="text-sm text-stone-700 mt-0.5"><%= raw["opening_hours"] %></dd>
+            </div>
+          <% end %>
+        <% end %>
+      </dl>
+    </div>
+
+    <div>
+      <h2 class="text-lg font-semibold text-stone-900 pb-2 border-b border-stone-200 mb-4">Data Source</h2>
+      <dl class="space-y-3">
+        <div>
+          <dt class="text-xs font-medium text-stone-400 uppercase tracking-wide">Source</dt>
+          <dd class="text-sm text-stone-700 mt-0.5"><%= @facility.source == "osm" ? "OpenStreetMap" : "BMC #{@facility.source.gsub('bmc_', '').titleize}" %></dd>
+        </div>
+        <% if @facility.external_id.present? %>
+          <div>
+            <dt class="text-xs font-medium text-stone-400 uppercase tracking-wide">External ID</dt>
+            <dd class="text-sm text-stone-500 mt-0.5">
+              <% if @facility.source == "osm" && @facility.external_id.match?(%r{^(node|way|relation)/\d+$}) %>
+                <%= link_to @facility.external_id, "https://www.openstreetmap.org/#{@facility.external_id}", target: "_blank", class: "text-blue-600 hover:text-blue-800" %>
+              <% else %>
+                <%= @facility.external_id %>
+              <% end %>
+            </dd>
+          </div>
+        <% end %>
+        <div>
+          <dt class="text-xs font-medium text-stone-400 uppercase tracking-wide">Last seen</dt>
+          <dd class="text-sm text-stone-500 mt-0.5"><%= @facility.last_seen_at&.strftime("%B %d, %Y") || "Unknown" %></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <%# Raw OSM tags (collapsible) %>
+  <% if @facility.raw_data.present? %>
+    <% raw = @facility.raw_data.is_a?(String) ? (JSON.parse(@facility.raw_data) rescue {}) : (@facility.raw_data || {}) %>
+    <% display_tags = raw.reject { |k, _| %w[osm_id osm_type].include?(k) } %>
+    <% if display_tags.any? %>
+      <details class="mb-8">
+        <summary class="text-sm font-semibold text-stone-600 cursor-pointer hover:text-stone-800">
+          All data fields (<%= display_tags.size %>)
+        </summary>
+        <div class="mt-3 bg-stone-50 rounded-lg p-4">
+          <dl class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <% display_tags.sort.each do |key, value| %>
+              <div class="flex gap-2 text-sm">
+                <dt class="text-stone-400 font-mono"><%= key %></dt>
+                <dd class="text-stone-700"><%= value %></dd>
+              </div>
+            <% end %>
+          </dl>
+        </div>
+      </details>
+    <% end %>
+  <% end %>
+</div>

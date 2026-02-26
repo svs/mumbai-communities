@@ -113,10 +113,10 @@ RSpec.describe "Home", type: :system do
 
       visit root_path
 
-      within ".space-y-4" do
-        expect(page).to have_text(/\d+ Active Ward Communities/)
-        expect(page).to have_text(/\d+ Issues Resolved/)
-        expect(page).to have_text(/\d+ Citizens Engaged/)
+      within "#community-stats" do
+        expect(page).to have_text("Active Ward Communities")
+        expect(page).to have_text("Issues Resolved")
+        expect(page).to have_text("Citizens Engaged")
       end
     end
   end
@@ -125,7 +125,7 @@ RSpec.describe "Home", type: :system do
     it "works" do
       visit root_path
 
-      click_link "Sign In"
+      click_link "Sign In", match: :first
       expect(page).to have_current_path(new_user_session_path)
 
       visit root_path

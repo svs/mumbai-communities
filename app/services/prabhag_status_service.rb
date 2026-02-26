@@ -20,7 +20,7 @@ class PrabhagStatusService
   def update_after_boundary_rejection
     return unless should_reject_prabhag?
 
-    @prabhag.update!(status: 'rejected', assigned_to: nil)
+    @prabhag.update!(status: 'available', assigned_to: nil)
   end
 
   private

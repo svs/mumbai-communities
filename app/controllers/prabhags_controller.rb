@@ -9,12 +9,15 @@ class PrabhagsController < ApplicationController
 
     # Filter by ward if ward_id parameter is provided
     if params[:ward_id].present?
-      @prabhags = Prabhag.for_ward(params[:ward_id])
-      @ward_name = params[:ward_id]
+      slug_name = params[:ward_id].gsub('-', ' ').titleize
+      @ward = Ward.find_by(name: slug_name) || Ward.find_by!(ward_code: params[:ward_id].upcase)
+      @prabhags = Prabhag.for_ward(@ward.ward_code)
+      @ward_name = @ward.name
     else
       @prabhags = Prabhag.all
     end
 
+    @all_prabhags = @prabhags.includes(:assigned_to, :boundaries).order(:number)
     @available_prabhags = @prabhags.available.order(:ward_code, :number)
     @total_prabhags = @prabhags.count
     @completed_prabhags = @prabhags.approved.count
@@ -22,19 +25,42 @@ class PrabhagsController < ApplicationController
   end
 
   def show
-    # Get related ward if available
     if @ward.blank? && @prabhag.ward_code.present?
       @ward = Ward.find_by(ward_code: @prabhag.ward_code)
     end
 
-    # For approved prabhags, load community data
-    if @prabhag.status == 'approved'
-      load_community_data
+    @boundary = @prabhag.boundary
+    @stage = @prabhag.lifecycle_stage
+
+    # Load POIs for mapped prabhags (approved boundary + live OSM query)
+    if @boundary&.geojson.present? && @boundary.status != 'pending'
+      @pois = Rails.cache.fetch("prabhag/#{@prabhag.id}/pois/v1", expires_in: 24.hours) do
+        @prabhag.pois rescue []
+      end
+      @poi_groups = @pois.group_by { |poi| poi[:type] }
+    else
+      @pois = []
+      @poi_groups = {}
+    end
+
+    # Fallback: stored facilities filtered to within prabhag boundary
+    if @poi_groups.empty? && @ward && @boundary&.geojson.present?
+      @prabhag_facilities = Rails.cache.fetch("prabhag/#{@prabhag.id}/facilities/v1", expires_in: 24.hours) do
+        @ward.facilities.where.not(latitude: nil, longitude: nil)
+             .select { |f| @boundary.contains_point?(f.latitude, f.longitude) }
+      end
+      @ward_facility_counts = @prabhag_facilities.group_by(&:facility_type).transform_values(&:count)
+    elsif @poi_groups.empty? && @ward
+      @prabhag_facilities = []
+      @ward_facility_counts = @ward.facilities.group(:facility_type).count
+    else
+      @prabhag_facilities = []
+      @ward_facility_counts = {}
     end
 
     respond_to do |format|
       format.html
-      format.json # Uses show.json.jbuilder template
+      format.json
     end
   end
 
@@ -72,99 +98,12 @@ class PrabhagsController < ApplicationController
 
   def set_prabhag
     if params[:ward_id].present?
-      # Handle nested route: /wards/:ward_id/prabhags/:id
       slug_name = params[:ward_id].gsub('-', ' ').titleize
       ward = Ward.find_by(name: slug_name) || Ward.find_by!(ward_code: params[:ward_id].upcase)
-      @prabhag = ward.prabhags.find(params[:id])
+      @prabhag = ward.prabhags.find_by(number: params[:id]) || ward.prabhags.find(params[:id])
       @ward = ward
     else
-      # Handle direct route: /prabhags/:id (find handles both number and id)
       @prabhag = Prabhag.find(params[:id])
     end
-  end
-
-  def load_community_data
-    # Load tickets (issues) for this prabhag
-    @recent_tickets = @prabhag.tickets.includes(:created_by, :assigned_to)
-                                    .order(created_at: :desc)
-                                    .limit(10)
-
-    # Get community statistics
-    @community_stats = {
-      active_issues: @prabhag.tickets.where(status: ['open', 'assigned', 'in_progress']).count,
-      active_neighbors: User.joins("JOIN tickets ON users.id = tickets.created_by_id")
-                           .where("tickets.prabhag_number = ? AND tickets.ward_code = ?", @prabhag.number, @prabhag.ward_code)
-                           .distinct.count,
-      resolution_rate: calculate_resolution_rate,
-      new_members_this_week: User.joins("JOIN tickets ON users.id = tickets.created_by_id")
-                                .where("tickets.prabhag_number = ? AND tickets.ward_code = ? AND tickets.created_at > ?",
-                                       @prabhag.number, @prabhag.ward_code, 1.week.ago)
-                                .distinct.count
-    }
-
-    # Events will be loaded when Event model is implemented
-    # For now, @upcoming_events remains nil for graceful degradation
-    @upcoming_events = nil
-
-    # Recent activity feed
-    @recent_activity = []
-
-    # Add recent tickets to activity feed
-    @prabhag.tickets.includes(:created_by).order(created_at: :desc).limit(5).each do |ticket|
-      @recent_activity << {
-        type: 'issue',
-        icon: '<i class="fas fa-exclamation-triangle"></i>',
-        text: "New issue: #{ticket.title}",
-        time: time_ago_in_words(ticket.created_at) + ' ago',
-        created_at: ticket.created_at
-      }
-    end
-
-    # Sort activity by actual timestamp (most recent first)
-    @recent_activity.sort_by! { |activity| activity[:created_at] }.reverse!
-  end
-
-  def calculate_resolution_rate
-    total_tickets = @prabhag.tickets.count
-    return 0 if total_tickets == 0
-
-    completed_tickets = @prabhag.tickets.completed.count
-    ((completed_tickets.to_f / total_tickets) * 100).round
-  end
-
-  def prabhag_json_data
-    data = {
-      id: @prabhag.id,
-      number: @prabhag.number,
-      ward_code: @prabhag.ward_code,
-      status: @prabhag.status,
-      pdf_url: @prabhag.pdf_url
-    }
-
-    if @ward
-      data[:ward] = {
-        name: @ward.name,
-        population_estimate: @ward.population_estimate
-      }
-    end
-
-    if @prabhag.status == 'approved'
-      data[:community] = {
-        stats: @community_stats,
-        recent_tickets: @recent_tickets.map do |ticket|
-          {
-            id: ticket.id,
-            title: ticket.title,
-            description: ticket.description,
-            status: ticket.status,
-            created_at: ticket.created_at,
-            created_by: ticket.created_by.name || ticket.created_by.email.split('@').first
-          }
-        end,
-        recent_activity: @recent_activity
-      }
-    end
-
-    data
   end
 end

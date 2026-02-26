@@ -76,7 +76,8 @@
               <div class="newspaper-section-header">From the Community</div>
               <% if user_signed_in? %>
                 <%= link_to new_ward_tweet_path(@ward),
-                    class: "text-xs font-medium text-blue-600 hover:text-blue-800" do %>
+                    class: "text-xs font-medium text-blue-600 hover:text-blue-800",
+                    data: { turbo_frame: "_top" } do %>
                   <i class="fas fa-plus mr-1"></i>Submit a Tweet
                 <% end %>
               <% end %>

@@ -49,7 +49,11 @@
                       Boundary Submission #<%= boundary.id %>
                     </h3>
                     <p class="text-sm text-gray-500">
-                      Submitted by <%= boundary.submitted_by&.name || 'Unknown User' %> •
+                      Submitted by <%= boundary.submitted_by&.name || boundary.submitted_by&.email || 'Unknown User' %>
+                      <% if boundary.submitted_by&.name.present? && boundary.submitted_by&.email.present? %>
+                        (<%= boundary.submitted_by.email %>)
+                      <% end %>
+                      •
                       <%= time_ago_in_words(boundary.created_at) %> ago
                       <% if boundary.edited_by %>
                         • Edited by <%= boundary.edited_by.name %>
@@ -60,7 +64,7 @@
                 <div class="flex items-center space-x-2">
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                     <i class="fas fa-clock mr-1"></i>
-                    Pending Review
+                    pending
                   </span>
                 </div>
               </div>
@@ -135,7 +139,7 @@
                       confirm: "Are you sure you want to approve this boundary submission?",
                       data: { turbo_method: :post } do %>
                     <i class="fas fa-check mr-2"></i>
-                    Quick Approve
+                    Approve
                   <% end %>
 
                   <%= button_to reject_admin_prabhag_boundary_path(@prabhag, boundary),
@@ -157,7 +161,7 @@
       <div class="bg-white rounded-lg shadow-sm border p-12 text-center">
         <div class="max-w-md mx-auto">
           <i class="fas fa-clipboard-check text-gray-400 text-6xl mb-4"></i>
-          <h3 class="text-lg font-medium text-gray-900 mb-2">No boundaries to review</h3>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">No pending boundary found</h3>
           <p class="text-gray-500 mb-6">
             All boundary submissions for <%= @prabhag.name %> have been processed.
             New submissions will appear here for your review.

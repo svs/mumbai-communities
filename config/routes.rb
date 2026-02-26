@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   # Root-level discussions (all discussions across wards/prabhags)
   resources :discussions, only: [:index, :show]
 
+  # Facility pages — each facility gets its own page
+  resources :facilities, only: [:show]
+
   # Ward-centric structure
   resources :wards, only: [:index, :show] do
     member do

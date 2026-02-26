@@ -1,0 +1,23 @@
+<% local_pdf = "/prabhag_pdfs/Prabhag_#{prabhag.number}.pdf" %>
+<% local_pdf_exists = File.exist?(Rails.root.join("public", local_pdf.sub(%r{^/}, ''))) %>
+
+<% if local_pdf_exists %>
+  <object data="<%= local_pdf %>" type="application/pdf" class="w-full rounded-lg border border-stone-200" style="height: 600px;">
+    <p class="p-4 text-sm text-stone-500">
+      PDF viewer not available.
+      <%= link_to "Download the PDF", local_pdf, target: "_blank", class: "text-blue-600 hover:text-blue-800 font-medium" %>
+      or
+      <%= link_to "view on MCGM portal", prabhag.pdf_url, target: "_blank", class: "text-blue-600 hover:text-blue-800 font-medium" %>.
+    </p>
+  </object>
+<% else %>
+  <div class="flex items-center gap-4 p-4 bg-stone-50 rounded-lg border border-stone-200">
+    <i class="fas fa-file-pdf text-3xl text-red-400"></i>
+    <div>
+      <p class="text-sm text-stone-600 mb-1">Official MCGM boundary map for Prabhag <%= prabhag.number %></p>
+      <%= link_to prabhag.pdf_url, target: "_blank", class: "text-sm font-medium text-blue-600 hover:text-blue-800" do %>
+        <i class="fas fa-external-link-alt mr-1"></i>View on MCGM portal
+      <% end %>
+    </div>
+  </div>
+<% end %>
