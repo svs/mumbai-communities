@@ -5,9 +5,12 @@ class WardsController < ApplicationController
 
   def index
     @wards = Ward.includes(:boundaries, :prabhags).order(:ward_code)
-    @tweets = Tweet.includes(:ward).original.recent.page(params[:page]).per(10)
+    @tweets = Tweet.includes(:ward).original.recent
+    @tweets = @tweets.where(category: params[:category]) if params[:category].present?
+    @tweets = @tweets.page(params[:page]).per(10)
     @ward_tweet_counts = Tweet.original.group(:ward_id).count
     @total_tweet_count = Tweet.original.count
+    @category_counts = Tweet.original.where.not(category: nil).group(:category).count
 
     respond_to do |format|
       format.html

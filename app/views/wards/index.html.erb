@@ -46,6 +46,24 @@
     <div class="lg:col-span-4">
       <div class="lg:sticky lg:top-4">
 
+        <!-- Topics -->
+        <% if @category_counts.present? %>
+          <div class="mb-6">
+            <div class="newspaper-section-header">Topics</div>
+            <div class="space-y-1">
+              <%= link_to "All", wards_path,
+                  class: "block text-sm px-2 py-1 rounded #{'bg-stone-800 text-white' if params[:category].blank?} #{'text-stone-600 hover:bg-stone-100' if params[:category].present?}" %>
+              <% @category_counts.sort_by { |_, v| -v }.each do |category, count| %>
+                <%= link_to wards_path(category: category),
+                    class: "flex justify-between items-center text-sm px-2 py-1 rounded #{'bg-stone-800 text-white' if params[:category] == category} #{'text-stone-600 hover:bg-stone-100' if params[:category] != category}" do %>
+                  <span><%= category.humanize %></span>
+                  <span class="text-xs <%= params[:category] == category ? 'text-stone-300' : 'text-stone-400' %>"><%= count %></span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
         <!-- Ward Index -->
         <div class="mb-6">
           <div class="newspaper-section-header">Wards</div>
