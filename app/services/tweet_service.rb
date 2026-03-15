@@ -182,7 +182,7 @@ class TweetService
       rescue ActiveRecord::RecordInvalid => e
         Rails.logger.error "TweetService: Failed to save tweet #{id}: #{e.message}"
         nil
-      end
+      end.tap { |tweets| categorize_new_tweets(tweets.compact) }
     end
 
     # Backfill: re-fetch reply tweets to get parent tweet IDs, then fetch parents
@@ -290,6 +290,13 @@ class TweetService
       request = Net::HTTP::Get.new(uri)
       request["Authorization"] = "Bearer #{bearer_token}"
       http.request(request)
+    end
+
+    def categorize_new_tweets(tweets)
+      uncategorized = tweets.select { |t| t.category.blank? }
+      TweetCategorizer.bulk_categorize(Tweet.where(id: uncategorized.map(&:id))) if uncategorized.any?
+    rescue StandardError => e
+      Rails.logger.error "TweetService: Categorization failed: #{e.message}"
     end
 
     # Accept both X API v2 format ("mediaUrls") and bird-cli format ("media")
