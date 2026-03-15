@@ -27,6 +27,9 @@ class TweetCategorizer
     Categories: #{CATEGORIES.join(", ")}
     Tweet types: #{TWEET_TYPES.join(", ")}
 
+    Rules:
+    - If the tweet text mentions "encroachment" or "hawker" or "illegal stall", the category MUST be "encroachment".
+
     Return a JSON array with one object per tweet, in the same order as the input:
     [{"id": <id>, "category": "<category>", "tweet_type": "<tweet_type>"}, ...]
 
