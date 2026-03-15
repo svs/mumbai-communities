@@ -175,7 +175,7 @@ class TweetService
           reply_count: data["replyCount"].to_i,
           in_reply_to_status_id: data["inReplyToStatusId"]&.to_s.presence,
           conversation_id: data["conversationId"]&.to_s,
-          media_urls: data["mediaUrls"].presence
+          media_urls: normalize_media(data).presence
         )
         tweet.save!
         tweet
@@ -290,6 +290,17 @@ class TweetService
       request = Net::HTTP::Get.new(uri)
       request["Authorization"] = "Bearer #{bearer_token}"
       http.request(request)
+    end
+
+    # Accept both X API v2 format ("mediaUrls") and bird-cli format ("media")
+    def normalize_media(data)
+      if data["mediaUrls"]
+        data["mediaUrls"]
+      elsif data["media"]
+        data["media"].map do |m|
+          { "url" => m["url"], "preview_image_url" => m["previewUrl"], "type" => m["type"] }
+        end
+      end
     end
 
     def parse_time(value)
