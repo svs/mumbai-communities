@@ -22,7 +22,8 @@ class WardsController < ApplicationController
     @open_tickets = Ticket.none
     @completed_tickets = Ticket.none
 
-    @tweets = @ward.tweets.original.recent.limit(10)
+    @tweets = @ward.tweets.original.recent.limit(20)
+    @category_counts = @ward.tweets.original.where.not(category: nil).group(:category).count
     @facility_type_counts = @ward.facilities.group(:facility_type).count
 
     # Get boundary data for map display using semantic finders
