@@ -51,7 +51,10 @@ class WardsController < ApplicationController
 
   def news
     @prabhags = @ward.prabhags.order(:number)
-    @tweets = @ward.tweets.original.recent.limit(10)
+    @tweets = @ward.tweets.original.recent
+    @tweets = @tweets.where(category: params[:category]) if params[:category].present?
+    @tweets = @tweets.limit(20)
+    @category_counts = @ward.tweets.original.where.not(category: nil).group(:category).count
     @facility_type_counts = @ward.facilities.group(:facility_type).count
   end
 

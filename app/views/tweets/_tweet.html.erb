@@ -70,6 +70,23 @@
       </div>
     <% end %>
 
+    <%# Category & type badges %>
+    <% if tweet.category.present? %>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-stone-100 text-stone-600"><%= tweet.category.humanize %></span>
+        <% if tweet.tweet_type.present? && tweet.tweet_type != "other" %>
+          <span class="inline-block px-2 py-0.5 text-xs font-medium rounded-full
+            <%= case tweet.tweet_type
+                when 'complaint' then 'bg-red-50 text-red-600'
+                when 'resolution' then 'bg-green-50 text-green-600'
+                when 'appreciation' then 'bg-blue-50 text-blue-600'
+                when 'question' then 'bg-amber-50 text-amber-600'
+                else 'bg-stone-100 text-stone-600'
+                end %>"><%= tweet.tweet_type.capitalize %></span>
+        <% end %>
+      </div>
+    <% end %>
+
     <%# Footer %>
     <div class="flex items-center justify-between text-xs text-stone-400">
       <span><%= tweet.tweeted_at&.strftime("%-d %b %Y, %-I:%M %p") %></span>

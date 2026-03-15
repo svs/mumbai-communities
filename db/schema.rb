@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_25_221556) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_15_090505) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -190,6 +190,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_25_221556) do
     t.string "in_reply_to_status_id"
     t.json "media_urls"
     t.string "conversation_id"
+    t.string "category"
+    t.string "tweet_type"
     t.index ["tweet_id"], name: "index_tweets_on_tweet_id", unique: true
     t.index ["ward_id", "tweeted_at"], name: "index_tweets_on_ward_id_and_tweeted_at"
     t.index ["ward_id"], name: "index_tweets_on_ward_id"

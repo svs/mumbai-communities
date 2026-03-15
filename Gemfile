@@ -97,3 +97,5 @@ group :test do
   # Database cleaner for test isolation
   gem "database_cleaner-active_record"
 end
+
+gem "ruby_llm", "~> 1.13"
