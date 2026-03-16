@@ -64,6 +64,21 @@
           </div>
         <% end %>
 
+        <!-- Location Search -->
+        <div class="mb-6" data-controller="location-search" data-action="click@window->location-search#closeResults">
+          <div class="newspaper-section-header">Find Your Ward</div>
+          <div class="relative">
+            <input type="text"
+                   data-location-search-target="input"
+                   data-action="input->location-search#search keydown->location-search#keydown"
+                   placeholder="Search for a place in Mumbai..."
+                   class="w-full text-sm border border-stone-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-stone-400">
+            <div data-location-search-target="results"
+                 class="hidden absolute z-10 w-full bg-white border border-stone-200 rounded shadow-lg mt-1 max-h-48 overflow-y-auto">
+            </div>
+          </div>
+        </div>
+
         <!-- Ward Index -->
         <div class="mb-6">
           <div class="newspaper-section-header">Wards</div>

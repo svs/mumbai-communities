@@ -1,0 +1,88 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <!-- Header -->
+  <div class="border-b border-gray-300 pb-4">
+    <div class="flex justify-between items-start">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900"><%= @issue.title %></h1>
+        <p class="text-gray-600 mt-1">
+          <%= link_to @ward.name, ward_path(@ward), class: "text-blue-600 hover:underline" %> &middot;
+          <span class="font-medium <%= @issue.closed? ? 'text-gray-500' : 'text-green-600' %>"><%= @issue.status %></span> &middot;
+          by <%= @issue.created_by.name || @issue.created_by.email %> &middot;
+          <%= time_ago_in_words(@issue.created_at) %> ago
+          <% if @issue.category %>
+            &middot; <span class="inline-block px-2 py-0.5 text-xs rounded-full" style="background-color: <%= @issue.category.color || '#e5e7eb' %>20; color: <%= @issue.category.color || '#6b7280' %>"><%= @issue.category.name %></span>
+          <% end %>
+        </p>
+      </div>
+      <% if user_signed_in? && (@issue.created_by == current_user || current_user.admin?) %>
+        <% if @issue.open? %>
+          <%= button_to "Close Issue", close_ward_issue_path(@ward, @issue), method: :post, class: "bg-gray-100 border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-200 cursor-pointer" %>
+        <% else %>
+          <%= button_to "Reopen Issue", reopen_ward_issue_path(@ward, @issue), method: :post, class: "bg-gray-100 border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-200 cursor-pointer" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="prose prose-sm max-w-none">
+    <%= simple_format(@issue.description) %>
+  </div>
+
+  <% if @issue.tweet %>
+    <div class="bg-gray-50 border border-gray-200 rounded p-3 text-sm text-gray-700">
+      <p class="font-medium">Source tweet by @<%= @issue.tweet.author_username %></p>
+      <p class="mt-1"><%= @issue.tweet.body %></p>
+    </div>
+  <% end %>
+
+  <!-- Todo List -->
+  <div class="border border-gray-200 rounded p-4">
+    <h2 class="text-lg font-bold text-gray-900 mb-3">Todo</h2>
+    <div class="space-y-2">
+      <% @todo_items.each do |todo| %>
+        <div class="flex items-center gap-2">
+          <%= form_with url: toggle_ward_issue_todo_item_path(@ward, @issue, todo), method: :patch, class: "inline" do %>
+            <input type="checkbox"
+                   name="todo_item_<%= todo.id %>"
+                   id="todo_item_<%= todo.id %>"
+                   <%= "checked" if todo.completed? %>
+                   onchange="this.form.requestSubmit()"
+                   class="rounded border-gray-300" />
+          <% end %>
+          <label for="todo_item_<%= todo.id %>" class="text-sm <%= todo.completed? ? 'line-through text-gray-400' : 'text-gray-700' %>"><%= todo.title %></label>
+        </div>
+      <% end %>
+    </div>
+
+    <% if user_signed_in? %>
+      <%= form_with url: ward_issue_todo_items_path(@ward, @issue), class: "flex gap-2 mt-3" do |f| %>
+        <input type="text" name="todo_item[title]" id="todo_item_title" placeholder="Add a todo item..." class="flex-1 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" />
+        <button type="submit" class="bg-blue-600 text-white px-3 py-1.5 rounded text-sm hover:bg-blue-700 cursor-pointer">Add Todo</button>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Discussion -->
+  <div class="border border-gray-200 rounded p-4">
+    <h2 class="text-lg font-bold text-gray-900 mb-3">Discussion</h2>
+
+    <% @discussions.each do |discussion| %>
+      <% discussion.posts.roots.chronological.each do |post| %>
+        <div class="border-l-2 border-gray-200 pl-3 py-2 mb-2">
+          <div class="text-sm text-gray-500">
+            <strong><%= post.user.name || post.user.email %></strong> &middot; <%= time_ago_in_words(post.created_at) %> ago
+          </div>
+          <p class="text-sm text-gray-700 mt-1"><%= post.body %></p>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <%= form_with url: ward_issue_posts_path(@ward, @issue), class: "mt-3" do |f| %>
+        <textarea name="post[body]" id="post_body" rows="3" placeholder="Add a comment..." class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
+        <button type="submit" class="mt-2 bg-blue-600 text-white px-3 py-1.5 rounded text-sm hover:bg-blue-700 cursor-pointer">Post</button>
+      <% end %>
+    <% end %>
+  </div>
+</div>

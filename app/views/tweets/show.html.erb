@@ -39,8 +39,11 @@
     </div>
   <% end %>
 
-  <%# View on X link %>
-  <div class="mt-6 pt-4 border-t border-stone-200 text-center">
+  <%# Actions %>
+  <div class="mt-6 pt-4 border-t border-stone-200 flex justify-between items-center">
+    <% if user_signed_in? %>
+      <%= link_to "Create Issue", new_ward_issue_path(@ward, tweet_id: @tweet.id), class: "text-sm text-blue-600 hover:text-blue-800 font-medium" %>
+    <% end %>
     <a href="https://x.com/<%= @tweet.author_username || "i" %>/status/<%= @tweet.tweet_id %>"
        target="_blank" rel="noopener"
        class="text-sm text-stone-400 hover:text-stone-600 transition-colors">

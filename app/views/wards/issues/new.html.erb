@@ -1,0 +1,46 @@
+<div class="max-w-2xl mx-auto space-y-6">
+  <div class="border-b border-gray-300 pb-4">
+    <h1 class="text-2xl font-bold text-gray-900">New Issue</h1>
+    <p class="text-gray-600">
+      <%= link_to @ward.name, ward_path(@ward), class: "text-blue-600 hover:underline" %> &middot; Raise an issue for your community
+    </p>
+  </div>
+
+  <%= form_with model: @issue, url: ward_issues_path(@ward), class: "space-y-4" do |f| %>
+    <% if @issue.errors.any? %>
+      <div class="bg-red-50 border border-red-200 rounded p-3">
+        <% @issue.errors.full_messages.each do |msg| %>
+          <p class="text-red-600 text-sm"><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @tweet %>
+      <%= f.hidden_field :tweet_id, value: @tweet.id %>
+      <div class="bg-gray-50 border border-gray-200 rounded p-3 text-sm text-gray-700">
+        <p class="font-medium">From tweet by @<%= @tweet.author_username %></p>
+        <p class="mt-1"><%= @tweet.body %></p>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :title, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :title, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :description, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_area :description, rows: 5, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :category_id, "Category", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.collection_select :category_id, @categories, :id, :name, { include_blank: "Select a category", selected: @issue.category_id }, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+    </div>
+
+    <div class="pt-2">
+      <%= f.submit "Create Issue", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm cursor-pointer" %>
+      <%= link_to "Cancel", ward_issues_path(@ward), class: "ml-3 text-gray-600 hover:text-gray-800 text-sm" %>
+    </div>
+  <% end %>
+</div>

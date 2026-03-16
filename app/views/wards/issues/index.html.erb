@@ -1,0 +1,51 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <div class="flex justify-between items-center border-b border-gray-300 pb-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Issues</h1>
+      <p class="text-gray-600">
+        <%= link_to @ward.name, ward_path(@ward), class: "text-blue-600 hover:underline" %> &middot; Community Issues
+      </p>
+    </div>
+    <% if user_signed_in? %>
+      <%= link_to "New Issue", new_ward_issue_path(@ward), class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm" %>
+    <% end %>
+  </div>
+
+  <% if @categories.any? %>
+    <div class="flex gap-2 flex-wrap">
+      <%= link_to "All", ward_issues_path(@ward), class: "text-sm px-3 py-1 rounded-full #{params[:category].blank? ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+      <% @categories.each do |category| %>
+        <%= link_to category.name, ward_issues_path(@ward, category: category.slug), class: "text-sm px-3 py-1 rounded-full #{params[:category] == category.slug ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="space-y-1">
+    <% if @issues.any? %>
+      <% @issues.each do |issue| %>
+        <div class="border-l-2 <%= issue.closed? ? 'border-gray-300' : 'border-green-400' %> pl-4 py-3 hover:bg-gray-50 transition-colors">
+          <div class="flex justify-between items-start">
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-medium <%= issue.closed? ? 'text-gray-500' : 'text-green-600' %>"><%= issue.status %></span>
+                <%= link_to issue.title, ward_issue_path(@ward, issue), class: "font-medium text-gray-900 hover:text-blue-600" %>
+              </div>
+              <div class="text-sm text-gray-500 mt-1">
+                by <%= issue.created_by.name || issue.created_by.email %> &middot;
+                <%= time_ago_in_words(issue.created_at) %> ago
+                <% if issue.category %>
+                  &middot; <span class="inline-block px-2 py-0.5 text-xs rounded-full" style="background-color: <%= issue.category.color || '#e5e7eb' %>20; color: <%= issue.category.color || '#6b7280' %>"><%= issue.category.name %></span>
+                <% end %>
+              </div>
+            </div>
+            <div class="text-sm text-gray-500 text-right ml-4">
+              <div><%= issue.todo_items.completed.count %>/<%= issue.todo_items.count %> todos</div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-gray-500 italic py-8 text-center">No issues yet. Be the first to raise one!</p>
+    <% end %>
+  </div>
+</div>
