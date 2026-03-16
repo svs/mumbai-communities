@@ -20,6 +20,7 @@
   "type": "commonjs",
   "devDependencies": {
     "cypress": "^15.2.0",
-    "daisyui": "^5.1.13"
+    "daisyui": "^5.1.13",
+    "puppeteer": "^24.39.1"
   }
 }

@@ -1,0 +1,2624 @@
+{
+  "wards": {
+    "A": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee01.a@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.a@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01bf.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01bf.a@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeswm.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je03.a@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemt01.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se03maint.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01maint.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02maint.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je04.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01maint.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt04.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt02.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt03.a@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt01.a@mcgm.gov.in"
+          }
+        ],
+        "M&E": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seme01.a@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "B": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee01.b@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint01.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint02.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint02.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint03.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt01.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01maint.b@mcgm.gov.in"
+          }
+        ],
+        "Environment": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeenv01.b@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aebf01.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae02bf.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se03bf.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sebf01.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01bf.b@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01ldcity.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww04.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww05.b@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01swm.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm01.b@mcgm.gov.in"
+          }
+        ],
+        "M&E": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seelect01.b@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01ele.b@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "C": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "eecivil01.c@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeswm01.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01swm.c@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01bf.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01bf.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01civil.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01bf.c@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww04.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.c@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint01.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint02.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se03.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint03.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "SE01MT.C@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint01.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01maint.c@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je05maint.c@mcgm.gov.in"
+          }
+        ],
+        "M&E": [
+          {
+            "designation": "Sub Engineer",
+            "email": "se01mne.c@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "D": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee.d@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01swm.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm03.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm04.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm05.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm01.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm02.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeswm01.d@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "AE01bf.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae02bf.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01bf.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02bf.d@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww05.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.d@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemt01.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemt02.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint01.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint06.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "semaint02.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint07.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint04.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint02.d@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "E": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee.e@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae02bf.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aebf.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01bf.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sebf03.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01bf.e@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint02.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint02.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint03.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "aemaint01.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01maint.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sem.e01@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jem.e01@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sem.e02@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jem.e02@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sem.e03@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jem.e03@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jem.e04@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jem.e05@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jem.e06@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jem.e07@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jem.e08@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jem.e09@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.e@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.e@mcgm.gov.in"
+          }
+        ],
+        "Roads": [
+          {
+            "designation": "Road Engineer",
+            "email": "roadengg01.e@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "F_South": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee.fs@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint01.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint02.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint02.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint07.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint05.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint06.fs@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01swm.fs@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Sub Engineer",
+            "email": "ae01bf.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01bf.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01bf.fs@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.fs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.fs@mcgm.gov.in"
+          }
+        ],
+        "M&R": [
+          {
+            "designation": "Sub Engineer",
+            "email": "se01mr.fs@mcgm.gov.in"
+          }
+        ],
+        "Roads": [
+          {
+            "designation": "Road Engineer",
+            "email": "roadengg01.fs@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "G_North": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee.gn@mcgm.gov.in"
+          }
+        ],
+        "Town Planning": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aetp01.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "setp03.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "setp02.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "setp04.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "setp01.gn@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aebf02.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aebf01.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sebf01.gn@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint01.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint02.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint03.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint06.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint04.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint05.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint01.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint08.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint10.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint09.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint02.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint11.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint03.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint06.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint05.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint04.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint07.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt01.gn@mcgm.gov.in"
+          }
+        ],
+        "Environment": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeenv.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seenv.gn@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww03.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.gn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.gn@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm01.gn@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "G_South": {
+      "sections": {
+        "Maintenance": [
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint03.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint04.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint05.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint06.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint07.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint08.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint09.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.gs@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.gs@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01bf.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae02bf.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01bf.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02bf.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se03bf.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se04bf.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je03bf.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je04bf.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je06bf.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01swm.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seswmgs@gmail.com"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Medical Officer",
+            "email": "mohgs.phd@mcgm.gov.in"
+          }
+        ],
+        "Health": [
+          {
+            "designation": "Administrative Officer",
+            "email": "ao01gs.estate@mcgm.gov.in"
+          }
+        ],
+        "Estate": [
+          {
+            "designation": "Sr. Inspector",
+            "email": "srinsplicgs02.licence@mcgm.gov.in"
+          }
+        ],
+        "Licences": [
+          {
+            "designation": "Sr. Inspector",
+            "email": "Srinsp03lic.d@mcgm.gov.in"
+          },
+          {
+            "designation": "Sr. Inspector",
+            "email": "srinsplicgs01.licence@mcgm.gov.in"
+          }
+        ],
+        "Encroachment": [
+          {
+            "designation": "Sr. Inspector",
+            "email": "srinspench01gs.licence@mcgm.gov.in"
+          },
+          {
+            "designation": "Assessment and Assessment Assessor and collector",
+            "email": "aac.wardgs@gmail.com"
+          },
+          {
+            "designation": "Assistant Law Officer- City Civil Court",
+            "email": "rajashree2526@gmail.com"
+          }
+        ],
+        "Legal": [
+          {
+            "designation": "Sr. Inspector",
+            "email": "srinsp01gs.se@mcgm.gov.in"
+          }
+        ],
+        "Shop and Establishment": [
+          {
+            "designation": "Sr. Inspector",
+            "email": "srinsp02gs.se@mcgm.gov.in"
+          },
+          {
+            "designation": "Colony Officer",
+            "email": "hc.acestate@gmail.com"
+          }
+        ],
+        "Colony Department": [
+          {
+            "designation": "Colony Officer",
+            "email": "rdinesh369@gmail.com"
+          },
+          {
+            "designation": "Colony Officer",
+            "email": "rohinighegadmal@gmail.com"
+          },
+          {
+            "designation": "Assistant Security Officer",
+            "email": "vilassurve40@gmail.com"
+          }
+        ],
+        "School": [
+          {
+            "designation": "Horticultural Assistant",
+            "email": "asg01gs.garden@mcgm.gov.in"
+          }
+        ],
+        "Pest Control": [
+          {
+            "designation": "Junior Tree Officer",
+            "email": "pco.gs@mcgm.gov.in"
+          },
+          {
+            "designation": "Administrative Officer",
+            "email": "adminofficer01.gs@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "H_East": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee01.heast@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww02.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww04.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.heast@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01bf.heast@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm01.heast@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint06.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semt02.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semt01.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semt03.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint05.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt04.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt03.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt01.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt02.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt05.heast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemt06.heast@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "H_West": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.hw@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint02.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint01.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02maint.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je03maint.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint01.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint02.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint03.hw@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01swm.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01swm.hw@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.hw@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aebf01.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sebf02.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sebf01.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jebf01.hw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jebf02.hw@mcgm.gov.in"
+          }
+        ],
+        "Roads": [
+          {
+            "designation": "Road Engineer",
+            "email": "roadengg01.hw@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "K_East": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee01.ke@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww04.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww07.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww06.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.ke@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01maint.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02maint.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01maint.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se03maint.ke@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je03maint.ke@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "K_West": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ae01maint.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae02maint.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "eemaint01.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "roadengg02.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Road Engineer",
+            "email": "roadengg03.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Road Engineer",
+            "email": "roadengg01.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Road Engineer",
+            "email": "se06maint.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint02.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.kw@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Sub Engineer",
+            "email": "jemaint07.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01maint.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je08maint.kw@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Junior Engineer",
+            "email": "ae04bf.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "ae03bf.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aebf01.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae02bf.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "se03bf.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "se02bf.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01bf.kw@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Sub Engineer",
+            "email": "je02bf.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je06bf.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01bf.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je05bf.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01swm.kw@mcgm.gov.in"
+          }
+        ],
+        "Health": [
+          {
+            "designation": "Medical Offier of Health",
+            "email": "mohkw.phd@mvgm.gov.in"
+          }
+        ],
+        "Estate": [
+          {
+            "designation": "Administrative Officer",
+            "email": "adminofficer01estate.kw@mcgm.gov.in"
+          }
+        ],
+        "Licences": [
+          {
+            "designation": "Sr Inspector",
+            "email": "srinsplickw.licence@mcgm.gov.in"
+          }
+        ],
+        "Encroachment": [
+          {
+            "designation": "Sr Inspector",
+            "email": "srinsp01enchkw.licence@mcgm.gov.in"
+          }
+        ],
+        "Assessment and Collection": [
+          {
+            "designation": "Assistant Assessor and Collector",
+            "email": "aackw.ac@mcgm.gov.in"
+          }
+        ],
+        "Legal": [
+          {
+            "designation": "Assistant Law officer-City Civil Court",
+            "email": "alo01bccc.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Law officer-City Civil Court",
+            "email": "srinspkw01.se@mcgm.gov.in"
+          }
+        ],
+        "Shop and Establishment": [
+          {
+            "designation": "Sr Inspector",
+            "email": "srinspkw02.se@mcgm.gov.in"
+          }
+        ],
+        "Colony Department": [
+          {
+            "designation": "Colony Officer",
+            "email": "colo01.kw@mcgm.in"
+          }
+        ],
+        "Security Department": [
+          {
+            "designation": "Assistant Security Officer",
+            "email": "aseeco01sf.kw@mcgm.gov.in"
+          }
+        ],
+        "School": [
+          {
+            "designation": "Administrative Officer",
+            "email": "adminofficersch01kw.edu@mcgm.gov.in"
+          },
+          {
+            "designation": "Asst. Supdt. of Garden",
+            "email": "asg01z4.garden@mcgm.gov.in"
+          }
+        ],
+        "Garden and Trees": [
+          {
+            "designation": "Jr. Tree Officer",
+            "email": "jto01z4.garden@mcgm.gov.in"
+          }
+        ],
+        "Pest Control": [
+          {
+            "designation": "Pest control officer",
+            "email": "pco.kw@mcgm.gov.in"
+          }
+        ],
+        "Establishment": [
+          {
+            "designation": "Administrative Officer",
+            "email": "adminofficer01.kw@mcgm.gov.in"
+          },
+          {
+            "designation": "Complaint Officer",
+            "email": "co.kw@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "L": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "EE01.L@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01maint.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint04.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint05.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint03.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint02.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01maint.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je06maint.l@mcgm.gov.in"
+          }
+        ],
+        "M&E": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seelectrical.l@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww05.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww04.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww06.l@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.l@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "M_East": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee.meast@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint01.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint01.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint03.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint08.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint07.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint09.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint06.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint04.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint02.meast@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01bf.me@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm01.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seswm02.meast@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seww03.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww04.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww05.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.meast@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww06.meast@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "M_West": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commisioner",
+            "email": "ac.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint.mw01@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "roadengg01.mw@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Sub Engineer",
+            "email": "roadengg03.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "roadengg04.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint07.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jemaint04.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeesmw.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seesmw02.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "seesmw01.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "seesmw03.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "seesmw04.he@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Junior Engineer",
+            "email": "jeesmw02.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeesmw01.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeesmw03.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeesmw04.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01bf.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sebf01.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sebf02.mw@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Junior Engineer",
+            "email": "jebf07.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jebf02.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jebf05.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jebf06.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01swm.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Soild Waste Management Sub Engineer",
+            "email": "se01swm.mw@mcgm.gov.in"
+          },
+          {
+            "designation": "Medical Officer Health",
+            "email": "mohmw.phd@mcgm.gov.in"
+          }
+        ],
+        "Health": [
+          {
+            "designation": "Administrative Officer",
+            "email": "adminofficer01estate.mw@mcgm.gov.in"
+          }
+        ],
+        "Estate": [
+          {
+            "designation": "Sr.Inspector",
+            "email": "srinsp01lic.mw@mcgm.gov.in"
+          }
+        ],
+        "Encroachment": [
+          {
+            "designation": "Sr.Inspector",
+            "email": "srinspenchmw.licence@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Assessor and Collector",
+            "email": "aacmw.ac@mcgm.gov.in"
+          }
+        ],
+        "Assessment and Collection": [
+          {
+            "designation": "Assistant",
+            "email": "alo66.legal@mcgm.gov.in"
+          }
+        ],
+        "Legal": [
+          {
+            "designation": "Court",
+            "email": "alo62.legal@mcgm.gov.in"
+          },
+          {
+            "designation": "Sr.Inspector",
+            "email": "srinspmw01.se@mcgm.gov.in"
+          }
+        ],
+        "Colony Department": [
+          {
+            "designation": "Colony Officer",
+            "email": "colof01.mw@mcgm.gov.in"
+          }
+        ],
+        "School": [
+          {
+            "designation": "Assistant Supretandet of Garden",
+            "email": "asg01mw.garden@mcgm.gov.in"
+          }
+        ],
+        "Pest Control": [
+          {
+            "designation": "Junior Tree Officer",
+            "email": "pco.mw@mcgm.gov.in"
+          }
+        ],
+        "Establishment": [
+          {
+            "designation": "Administrative Officer",
+            "email": "adminofficer01.mw@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "N": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.n@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aebf.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01bf.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "sebf01.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01bf.n@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aemaint02.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se04maint.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02maint.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01maint.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se03maint.n@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww03.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww06.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww05.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww04.n@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01swm.n@mcgm.gov.in"
+          }
+        ],
+        "Roads": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01roadses.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "SE01RDES.N@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "SE02RDES.N@mcgm.gov.in"
+          },
+          {
+            "designation": "Road Engineer",
+            "email": "roadengg02.n@mcgm.gov.in"
+          },
+          {
+            "designation": "Road Engineer",
+            "email": "roadengg01.n@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "P_North": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee.pn@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww02.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww01.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww04.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww06.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww05.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww03.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.pn@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae02maint.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01maint.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint04.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint02.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint03.pn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.pn@mcgm.gov.in"
+          }
+        ],
+        "M&E": [
+          {
+            "designation": "Sub Engineer",
+            "email": "semne.pn@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Sub Engineer",
+            "email": "se01swm.pn@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "R_North": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee01.rn@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww01.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww04.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww03.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww05.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww01.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww02.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeww03.rn@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01maint.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se03maint.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se04maint.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se01maint.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02maint.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je02maint.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je03maint.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01maint.rn@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae01bf.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "ae02bf.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je01bf.rn@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je02bf.rn@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Sub Engineer",
+            "email": "se01swm.rn@mcgm.gov.in"
+          }
+        ],
+        "M&E": [
+          {
+            "designation": "Junior Engineer",
+            "email": "je01elec.rn@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "R_South": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commisioner",
+            "email": "ac.rs@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer (West)",
+            "email": "aemaint02.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer (East)",
+            "email": "aemaint01.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint02.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02.rews@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint03.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "semaint01.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Enginneer",
+            "email": "je08maint.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Enginneer",
+            "email": "je09maint.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Enginneer",
+            "email": "je10maint.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeww.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seww01.rs@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seww02.rs@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer (DO-I)",
+            "email": "ae03bf.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer (DO-II)",
+            "email": "ae02bf.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer (DO-III)",
+            "email": "ae01bf.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Enginneer",
+            "email": "je01bf.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Enginneer",
+            "email": "je03bf.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeswm.rs@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Medical Officer Health",
+            "email": "mohrs.phd@mcgm.gov.in"
+          }
+        ],
+        "Estate": [
+          {
+            "designation": "Sr.Inspector",
+            "email": "srinsplicrs.licence@mcgm.gov.in"
+          }
+        ],
+        "Licences": [
+          {
+            "designation": "Sr.Inspector",
+            "email": "srinsp02enchrs.licence@mcgm.gov.in"
+          }
+        ],
+        "Encroachment": [
+          {
+            "designation": "Assistant Assessor andCollector",
+            "email": "aacrs.ac@mcgm.gov.in"
+          }
+        ],
+        "Assessment and Collection": [
+          {
+            "designation": "Assistant Law officer- City Civil Court",
+            "email": "alo60.legal@mcgm.gov.in"
+          }
+        ],
+        "Legal": [
+          {
+            "designation": "Sr.Inspector (East)",
+            "email": "srinsprs01.se@mcgm.gov.in"
+          }
+        ],
+        "Shop and Establishment": [
+          {
+            "designation": "Sr.Inspector (West)",
+            "email": "srinsprs02.se@mcgm.gov.in"
+          }
+        ],
+        "Colony Department": [
+          {
+            "designation": "Administartive officer",
+            "email": "aosch.rs@mcgm.gov.in"
+          }
+        ],
+        "Pest Control": [
+          {
+            "designation": "Junior Tree officer",
+            "email": "pco01pc.rs@mcgm.gov.in"
+          },
+          {
+            "designation": "Administartive officer",
+            "email": "adminofficer01.rs@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "S": {
+      "sections": {
+        "Maintenance": [
+          {
+            "designation": "Executive Engineer",
+            "email": "ee01.s@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer I",
+            "email": "ae01mt.s@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer II",
+            "email": "ae02maint.s@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeess.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seess01.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seess02.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seess03.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seess04.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seess05.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "Jeess01.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "Jeess02.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "Jeess03.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "Jeess04.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "Jeess05.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "Jeess06.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "Jeess07.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "Jeess08.he@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Assistant Engineer I",
+            "email": "ae01bf.s@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer III",
+            "email": "ae03bf.s@mcgm.gov.in"
+          },
+          {
+            "designation": "Solid Waste Management Assistant Engineer",
+            "email": "aeswms@gmail.com"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02gs.swm@mcgm.gov.in"
+          }
+        ],
+        "Health": [
+          {
+            "designation": "Medical Officer Health",
+            "email": "mohs.phd@mcgm.gov.in"
+          }
+        ],
+        "Estate": [
+          {
+            "designation": "Administrative Officer",
+            "email": "Adminofficer01.n_s_t.estate@mcgm.gov.in"
+          }
+        ],
+        "Licences": [
+          {
+            "designation": "Sr. Inspector",
+            "email": "srinsplics.licence@mcgm.gov.in"
+          }
+        ],
+        "Shop and Establishment": [
+          {
+            "designation": "Sr. Inspector",
+            "email": "srinsp02s.se@mcgm.gov.in"
+          }
+        ],
+        "Garden and Trees": [
+          {
+            "designation": "Horticultural Assistant",
+            "email": "hs02n.garden@mcgm.gov.in"
+          }
+        ],
+        "Establishment": [
+          {
+            "designation": "Administrative Officer",
+            "email": "adminofficer02.s@mcgm.gov.in"
+          },
+          {
+            "designation": "Head Clerk",
+            "email": "hc01.s@mcgm.gov.in"
+          }
+        ]
+      }
+    },
+    "T": {
+      "sections": {
+        "Ward Office": [
+          {
+            "designation": "Assistant Commissioner",
+            "email": "ac.t@mcgm.gov.in"
+          },
+          {
+            "designation": "Executive Engineer",
+            "email": "ee.t@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer-I",
+            "email": "aemaint01.t@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer-II",
+            "email": "aemaint03.t@mcgm.gov.in"
+          }
+        ],
+        "Maintenance": [
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeest.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "seest01.he@mcgm.gov.in"
+          }
+        ],
+        "Water Works": [
+          {
+            "designation": "Sub Engineer",
+            "email": "seest02.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeest02.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "jeest06.he@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer-I",
+            "email": "ae01bf.t@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer-II",
+            "email": "ae02bf.t@mcgm.gov.in"
+          }
+        ],
+        "Building and Factory": [
+          {
+            "designation": "Sub Engineer",
+            "email": "se01bf.t@mcgm.gov.in"
+          },
+          {
+            "designation": "Sub Engineer",
+            "email": "se02bf.t@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je02bf.t@mcgm.gov.in"
+          },
+          {
+            "designation": "Junior Engineer",
+            "email": "je03bf.t@mcgm.gov.in"
+          },
+          {
+            "designation": "Assistant Engineer",
+            "email": "aeswm.t@mcgm.gov.in"
+          }
+        ],
+        "Solid Waste Management": [
+          {
+            "designation": "Medical Officer Health",
+            "email": "moht.phd@mcgm.gov.in"
+          }
+        ],
+        "Encroachment": [
+          {
+            "designation": "Asstt. Assessor & Collector",
+            "email": "aac.wardt@gmail.com"
+          }
+        ],
+        "Legal": [
+          {
+            "designation": "Assistant Law Officer - City Civil Court",
+            "email": "alo65.legal@mcgm.gov.in"
+          }
+        ],
+        "Shop and Establishment": [
+          {
+            "designation": "Sr. Inspector",
+            "email": "srinsptor.se@mcgm.gov.in"
+          }
+        ],
+        "Pest Control": [
+          {
+            "designation": "Junior Tree Officer",
+            "email": "pco01pco.t@mcgm.gov.in"
+          }
+        ],
+        "Establishment": [
+          {
+            "designation": "Administrative Officer",
+            "email": "adminofficer01.t@mcgm.gov.in"
+          },
+          {
+            "designation": "Head Clerk",
+            "email": "hc01estt.t@mcgm.gov.in"
+          }
+        ]
+      }
+    }
+  }
+}

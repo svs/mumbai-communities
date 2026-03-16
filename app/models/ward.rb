@@ -2,14 +2,17 @@ class Ward < ApplicationRecord
   include HasPois
   include Discussable
 
+  belongs_to :municipality, optional: true
   has_many :prabhags, foreign_key: 'ward_code', primary_key: 'ward_code'
   has_many :tickets, foreign_key: 'ward_code', primary_key: 'ward_code'
   has_many :boundaries, as: :boundable, dependent: :destroy
   has_many :tweets, dependent: :destroy
   has_many :facilities, foreign_key: 'ward_code', primary_key: 'ward_code'
+  has_many :issues, foreign_key: 'ward_code', primary_key: 'ward_code'
   has_many :ward_data_snapshots, foreign_key: 'ward_code', primary_key: 'ward_code'
   has_many :roles, as: :roleable, dependent: :destroy
   has_many :people, through: :roles
+  has_one :organisation, as: :organisable, dependent: :destroy
   
   validates :ward_code, presence: true, uniqueness: true
   validates :name, presence: true

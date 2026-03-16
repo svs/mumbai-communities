@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_15_090505) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_16_065012) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -62,6 +62,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_15_090505) do
     t.index ["slug"], name: "index_categories_on_slug", unique: true
   end
 
+  create_table "departments", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "organisation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_departments_on_organisation_id"
+  end
+
   create_table "discussions", force: :cascade do |t|
     t.string "title", null: false
     t.text "body", null: false
@@ -102,6 +111,45 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_15_090505) do
     t.index ["ward_code", "facility_type"], name: "index_facilities_on_ward_code_and_facility_type"
   end
 
+  create_table "issues", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.string "ward_code", null: false
+    t.integer "created_by_id", null: false
+    t.integer "tweet_id"
+    t.string "status", default: "open"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "category_id"
+    t.index ["category_id"], name: "index_issues_on_category_id"
+    t.index ["created_by_id"], name: "index_issues_on_created_by_id"
+    t.index ["status"], name: "index_issues_on_status"
+    t.index ["tweet_id"], name: "index_issues_on_tweet_id"
+    t.index ["ward_code"], name: "index_issues_on_ward_code"
+  end
+
+  create_table "municipalities", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "short_name"
+    t.string "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "organisations", force: :cascade do |t|
+    t.string "name"
+    t.string "org_type"
+    t.string "website"
+    t.string "jurisdiction"
+    t.string "organisable_type"
+    t.integer "organisable_id"
+    t.integer "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisable_type", "organisable_id"], name: "index_organisations_on_organisable"
+    t.index ["parent_id"], name: "index_organisations_on_parent_id"
+  end
+
   create_table "people", force: :cascade do |t|
     t.string "name"
     t.string "phone"
@@ -110,6 +158,21 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_15_090505) do
     t.json "metadata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "positions", force: :cascade do |t|
+    t.string "designation"
+    t.string "email"
+    t.string "phone"
+    t.string "person_name"
+    t.string "level"
+    t.integer "department_id", null: false
+    t.json "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "elected", default: false
+    t.string "political_party"
+    t.index ["department_id"], name: "index_positions_on_department_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -173,6 +236,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_15_090505) do
     t.datetime "updated_at", null: false
     t.index ["assigned_to_id"], name: "index_tickets_on_assigned_to_id"
     t.index ["created_by_id"], name: "index_tickets_on_created_by_id"
+  end
+
+  create_table "todo_items", force: :cascade do |t|
+    t.integer "issue_id", null: false
+    t.string "title", null: false
+    t.boolean "completed", default: false
+    t.integer "position", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["issue_id", "position"], name: "index_todo_items_on_issue_id_and_position"
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -253,14 +326,22 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_15_090505) do
     t.datetime "updated_at", null: false
     t.string "short_name"
     t.string "twitter_handle"
+    t.integer "municipality_id"
+    t.index ["municipality_id"], name: "index_wards_on_municipality_id"
     t.index ["ward_code"], name: "index_wards_on_ward_code", unique: true
   end
 
   add_foreign_key "boundaries", "users", column: "approved_by_id"
   add_foreign_key "boundaries", "users", column: "edited_by_id"
   add_foreign_key "boundaries", "users", column: "submitted_by_id"
+  add_foreign_key "departments", "organisations"
   add_foreign_key "discussions", "categories"
   add_foreign_key "discussions", "users"
+  add_foreign_key "issues", "categories"
+  add_foreign_key "issues", "tweets"
+  add_foreign_key "issues", "users", column: "created_by_id"
+  add_foreign_key "organisations", "organisations", column: "parent_id"
+  add_foreign_key "positions", "departments"
   add_foreign_key "posts", "discussions"
   add_foreign_key "posts", "posts", column: "parent_id"
   add_foreign_key "posts", "users"
@@ -268,5 +349,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_15_090505) do
   add_foreign_key "roles", "people"
   add_foreign_key "tickets", "users", column: "assigned_to_id"
   add_foreign_key "tickets", "users", column: "created_by_id"
+  add_foreign_key "todo_items", "issues"
   add_foreign_key "tweets", "wards"
+  add_foreign_key "wards", "municipalities"
 end

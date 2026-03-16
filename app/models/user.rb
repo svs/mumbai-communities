@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :assigned_prabhags, class_name: 'Prabhag', foreign_key: 'assigned_to_id'
   has_many :assigned_tickets, class_name: 'Ticket', foreign_key: 'assigned_to_id'
   has_many :created_tickets, class_name: 'Ticket', foreign_key: 'created_by_id'
+  has_many :created_issues, class_name: 'Issue', foreign_key: 'created_by_id'
   has_many :discussions, dependent: :destroy
   has_many :posts, dependent: :destroy
 
