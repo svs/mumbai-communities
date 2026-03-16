@@ -1,7 +1,7 @@
 class WardsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show, :info, :news]
-  before_action :set_ward, only: [:show, :info, :news]
-  before_action :set_variant, only: [:show, :info, :news]
+  skip_before_action :authenticate_user!, only: [:index, :show, :info, :news, :locate, :officials, :facilities_tab, :issues_tab]
+  before_action :set_ward, only: [:show, :info, :news, :officials, :facilities_tab, :issues_tab]
+  before_action :set_variant, only: [:show, :info, :news, :officials, :facilities_tab, :issues_tab]
 
   def index
     @wards = Ward.includes(:boundaries, :prabhags).order(:ward_code)
@@ -38,12 +38,29 @@ class WardsController < ApplicationController
     }
     # Include all prabhags for potential PNG image display (without boundaries or needing mapping)
     @all_prabhags_for_map = @prabhags
+
+    # Governance structure
+    @organisation = @ward.organisation
+    if @organisation
+      @departments = @organisation.departments.includes(:positions).ordered
+    end
   end
 
   def info
+    redirect_to officials_ward_path(@ward), status: :moved_permanently
+  end
+
+  def officials
+    @organisation = @ward.organisation
+    if @organisation
+      @departments = @organisation.departments.includes(:positions).ordered
+    end
+    @ward_roles = @ward.roles.active.includes(:person).order(Arel.sql("CASE role_name WHEN 'ward_office' THEN 0 WHEN 'assistant_commissioner' THEN 1 ELSE 2 END"), :role_name)
+  end
+
+  def facilities_tab
     @prabhags = @ward.prabhags.order(:number)
     @facility_type_counts = @ward.facilities.group(:facility_type).count
-    @ward_roles = @ward.roles.active.includes(:person).order(Arel.sql("CASE role_name WHEN 'ward_office' THEN 0 WHEN 'assistant_commissioner' THEN 1 ELSE 2 END"), :role_name)
 
     @ward_boundary = @ward.approved_boundary
     @prabhag_boundaries = @prabhags.select { |p|
@@ -51,6 +68,27 @@ class WardsController < ApplicationController
       boundary && boundary.status != 'pending'
     }
     @all_prabhags_for_map = @prabhags
+  end
+
+  def issues_tab
+    @issues = @ward.issues.order(created_at: :desc).limit(20)
+    @discussions = @ward.discussions.order(created_at: :desc).limit(20)
+  end
+
+  def locate
+    if params[:lat].blank? || params[:lng].blank?
+      redirect_to wards_path and return
+    end
+
+    boundary = Boundary.active.for_type('Ward').find_each do |b|
+      break b if b.contains_point?(params[:lat].to_f, params[:lng].to_f)
+    end
+    boundary = nil unless boundary.is_a?(Boundary)
+    if boundary
+      redirect_to ward_path(boundary.boundable)
+    else
+      redirect_to wards_path, alert: "No ward found for that location."
+    end
   end
 
   def news

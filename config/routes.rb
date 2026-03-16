@@ -22,9 +22,15 @@ Rails.application.routes.draw do
 
   # Ward-centric structure
   resources :wards, only: [:index, :show] do
+    collection do
+      get :locate
+    end
     member do
       get :info
       get :news
+      get :officials
+      get :facilities_tab, path: 'facilities-overview'
+      get :issues_tab, path: 'issues-overview'
     end
     resources :prabhags, only: [:index, :show]
     resources :tweets, only: [:create, :new, :show]
@@ -37,6 +43,18 @@ Rails.application.routes.draw do
       resources :changes, only: [:index]
       resources :discussions, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
         resources :posts, only: [:create, :edit, :update, :destroy]
+      end
+      resources :issues, only: [:index, :show, :new, :create] do
+        member do
+          post :close
+          post :reopen
+        end
+        resources :todo_items, only: [:create] do
+          member do
+            patch :toggle
+          end
+        end
+        resources :posts, only: [:create], controller: "issue_posts"
       end
     end
   end

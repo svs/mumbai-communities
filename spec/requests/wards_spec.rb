@@ -79,8 +79,9 @@ RSpec.describe "Wards", type: :request do
       get ward_path(ward)
       expect(response).to have_http_status(:success)
       expect(response.body).to include("News")
-      expect(response.body).to include("Info")
-      expect(response.body).to include("At a Glance")
+      expect(response.body).to include("Officials")
+      expect(response.body).to include("Facilities")
+      expect(response.body).to include("Issues")
     end
 
     it "displays tweets inline on show page" do
@@ -92,8 +93,15 @@ RSpec.describe "Wards", type: :request do
   end
 
   describe "GET /wards/:id/info" do
-    it "returns success" do
+    it "redirects to officials" do
       get info_ward_path(ward)
+      expect(response).to redirect_to(officials_ward_path(ward))
+    end
+  end
+
+  describe "GET /wards/:id/officials" do
+    it "returns success" do
+      get officials_ward_path(ward)
       expect(response).to have_http_status(:success)
     end
 
@@ -104,10 +112,43 @@ RSpec.describe "Wards", type: :request do
       corp = Person.create!(name: "Sujata Sanap", phone: "9870040562")
       corp.roles.create!(roleable: ward, role_name: "corporator")
 
-      get info_ward_path(ward)
+      get officials_ward_path(ward)
       expect(response.body).to include("Ramesh Pawar")
       expect(response.body).to include("Sujata Sanap")
       expect(response.body).to include("Assistant Commissioner")
+    end
+  end
+
+  describe "GET /wards/:id/facilities-overview" do
+    it "returns success" do
+      get facilities_tab_ward_path(ward)
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe "GET /wards/:id/issues-overview" do
+    it "returns success" do
+      get issues_tab_ward_path(ward)
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe "GET /wards/locate" do
+    it "redirects to the ward containing the given point" do
+      # Point inside G/S ward boundary (boundable_id: 21)
+      get locate_wards_path(lat: 19.005, lng: 72.822)
+      expect(response).to redirect_to(ward_path(wards(:"ward_G SOUTH")))
+    end
+
+    it "redirects back to wards index with alert when no ward found" do
+      get locate_wards_path(lat: 28.6, lng: 77.2)
+      expect(response).to redirect_to(wards_path)
+      expect(flash[:alert]).to be_present
+    end
+
+    it "redirects back to wards index when params missing" do
+      get locate_wards_path
+      expect(response).to redirect_to(wards_path)
     end
   end
 

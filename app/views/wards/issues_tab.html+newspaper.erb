@@ -1,0 +1,99 @@
+<turbo-frame id="ward-tab-content">
+  <%= render "wards/tab_nav", current_tab: "Issues" %>
+
+  <!-- Issues -->
+  <div class="mb-10">
+    <div class="flex items-center justify-between mb-4">
+      <div class="newspaper-section-header mb-0">Open Issues</div>
+      <% if user_signed_in? %>
+        <%= link_to new_ward_issue_path(@ward),
+            class: "text-xs font-medium text-blue-600 hover:text-blue-800",
+            data: { turbo_frame: "_top" } do %>
+          <i class="fas fa-plus mr-1"></i>New Issue
+        <% end %>
+      <% end %>
+    </div>
+
+    <% open_issues = @issues.select(&:open?) %>
+    <% closed_issues = @issues.reject(&:open?) %>
+
+    <% if open_issues.any? %>
+      <div class="space-y-1 mb-8">
+        <% open_issues.each do |issue| %>
+          <%= link_to ward_issue_path(@ward, issue), class: "block border-l-2 border-green-400 pl-4 py-3 hover:bg-stone-50 transition-colors", data: { turbo_frame: "_top" } do %>
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <div class="font-medium text-stone-800"><%= issue.title %></div>
+                <div class="text-xs text-stone-500 mt-1">
+                  by <%= issue.created_by.name || issue.created_by.email %> &middot;
+                  <%= time_ago_in_words(issue.created_at) %> ago
+                  <% if issue.category %>
+                    &middot; <span class="inline-block px-2 py-0.5 text-xs rounded-full" style="background-color: <%= issue.category.color || '#e5e7eb' %>20; color: <%= issue.category.color || '#6b7280' %>"><%= issue.category.name %></span>
+                  <% end %>
+                </div>
+              </div>
+              <div class="text-xs text-stone-400 ml-4">
+                <%= issue.todo_items.completed.count %>/<%= issue.todo_items.count %> todos
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-sm text-stone-400 italic mb-8">No open issues. Things looking good?</p>
+    <% end %>
+
+    <% if closed_issues.any? %>
+      <div class="newspaper-section-header">Recently Closed</div>
+      <div class="space-y-1 mb-8">
+        <% closed_issues.each do |issue| %>
+          <%= link_to ward_issue_path(@ward, issue), class: "block border-l-2 border-stone-300 pl-4 py-3 hover:bg-stone-50 transition-colors", data: { turbo_frame: "_top" } do %>
+            <div class="font-medium text-stone-500"><%= issue.title %></div>
+            <div class="text-xs text-stone-400 mt-1">
+              closed &middot; <%= time_ago_in_words(issue.updated_at) %> ago
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= link_to "View all issues", ward_issues_path(@ward),
+        class: "text-sm text-stone-600 hover:text-stone-800 underline",
+        data: { turbo_frame: "_top" } %>
+  </div>
+
+  <!-- Discussions -->
+  <div class="mb-10">
+    <div class="flex items-center justify-between mb-4">
+      <div class="newspaper-section-header mb-0">Discussions</div>
+      <% if user_signed_in? %>
+        <%= link_to new_ward_discussion_path(@ward),
+            class: "text-xs font-medium text-blue-600 hover:text-blue-800",
+            data: { turbo_frame: "_top" } do %>
+          <i class="fas fa-plus mr-1"></i>New Discussion
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if @discussions.any? %>
+      <div class="space-y-1">
+        <% @discussions.each do |discussion| %>
+          <%= link_to ward_discussion_path(@ward, discussion), class: "block border-l-2 border-stone-200 pl-4 py-3 hover:bg-stone-50 transition-colors", data: { turbo_frame: "_top" } do %>
+            <div class="font-medium text-stone-800"><%= discussion.title %></div>
+            <div class="text-xs text-stone-500 mt-1">
+              by <%= discussion.user.name || discussion.user.email %> &middot;
+              <%= time_ago_in_words(discussion.created_at) %> ago
+              &middot; <%= discussion.posts.count %> replies
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-sm text-stone-400 italic">No discussions yet. Start one!</p>
+    <% end %>
+
+    <%= link_to "View all discussions", ward_discussions_path(@ward),
+        class: "text-sm text-stone-600 hover:text-stone-800 underline mt-4 inline-block",
+        data: { turbo_frame: "_top" } %>
+  </div>
+</turbo-frame>

@@ -155,36 +155,43 @@
     <!-- Sidebar -->
     <div class="space-y-8">
       
-      <!-- BMC Contact -->
+      <!-- Governance Structure -->
       <div>
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">BMC Officials</h3>
-        <% if @ward.contact_officer_name.present? %>
-          <div class="space-y-2 text-sm">
-            <div><strong>Ward Officer:</strong> <%= @ward.contact_officer_name %></div>
-            <% if @ward.contact_officer_email.present? %>
-              <div><strong>Email:</strong> 
-                <a href="mailto:<%= @ward.contact_officer_email %>" class="text-blue-600 hover:underline">
-                  <%= @ward.contact_officer_email %>
-                </a>
-              </div>
-            <% end %>
-            <% if @ward.contact_officer_phone.present? %>
-              <div><strong>Phone:</strong> 
-                <a href="tel:<%= @ward.contact_officer_phone %>" class="text-blue-600 hover:underline">
-                  <%= @ward.contact_officer_phone %>
-                </a>
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Who Runs This Ward</h3>
+        <% if @departments&.any? %>
+          <div class="space-y-4">
+            <% @departments.each do |dept| %>
+              <% positions = dept.positions.ordered %>
+              <% next if positions.empty? %>
+              <div>
+                <h4 class="text-sm font-semibold text-gray-700 mb-1"><%= dept.name %></h4>
+                <div class="space-y-1">
+                  <% positions.each do |pos| %>
+                    <div class="text-sm flex justify-between items-start gap-2">
+                      <span class="text-gray-600"><%= pos.designation %></span>
+                      <% if pos.email.present? %>
+                        <a href="mailto:<%= pos.email %>" class="text-blue-600 hover:underline text-xs shrink-0" title="<%= pos.email %>">
+                          <i class="fa-solid fa-envelope"></i>
+                        </a>
+                      <% end %>
+                    </div>
+                    <% if pos.person_name.present? %>
+                      <div class="text-xs text-gray-500 ml-2"><%= pos.person_name %></div>
+                    <% end %>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>
+          <div class="mt-4 pt-4 border-t border-gray-200 text-xs text-gray-400">
+            Source: BMC &middot;
+            <a href="https://portal.mcgm.gov.in" target="_blank" class="text-blue-600 hover:underline">
+              MCGM Portal
+            </a>
+          </div>
         <% else %>
-          <p class="text-gray-500 text-sm">Contact details will be updated soon</p>
+          <p class="text-gray-500 text-sm">Governance data coming soon.</p>
         <% end %>
-        
-        <div class="mt-4 pt-4 border-t border-gray-200">
-          <a href="https://portal.mcgm.gov.in" target="_blank" class="text-blue-600 hover:underline text-sm">
-            Visit MCGM Portal →
-          </a>
-        </div>
       </div>
 
       <!-- Quick Actions -->
@@ -194,8 +201,9 @@
           <%= link_to "Discussions", ward_discussions_path(@ward), class: "block text-blue-600 hover:underline" %>
           <%= link_to "Browse prabhags", ward_prabhags_path(@ward.ward_code),
                       class: "block text-blue-600 hover:underline" %>
+          <%= link_to "Issues", ward_issues_path(@ward), class: "block text-blue-600 hover:underline" %>
           <% if user_signed_in? %>
-            <span class="block text-gray-400">Report issue (coming soon)</span>
+            <%= link_to "New Issue", new_ward_issue_path(@ward), class: "block text-blue-600 hover:underline" %>
           <% end %>
         </div>
       </div>

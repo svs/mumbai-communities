@@ -1,7 +1,6 @@
 <turbo-frame id="ward-tab-content">
 <%
   mapped_count = @prabhags.select { |p| p.boundary_geojson.present? }.count
-  unmapped_count = @prabhags.count - mapped_count
   total_facilities = @facility_type_counts.values.sum
   facility_color = lambda { |type|
     case type
@@ -48,76 +47,10 @@
   }
 %>
 
-  <!-- Tab Navigation -->
-  <div class="flex gap-6 border-b border-stone-200 mb-8">
-    <%= link_to "News", news_ward_path(@ward),
-        data: { turbo_frame: "ward-tab-content", turbo_action: "advance" },
-        class: "pb-2 text-sm text-stone-400 hover:text-stone-600 border-b-2 border-transparent" %>
-    <%= link_to "Info", info_ward_path(@ward),
-        data: { turbo_frame: "ward-tab-content", turbo_action: "advance" },
-        class: "pb-2 text-sm font-semibold border-b-2 border-stone-800 text-stone-800" %>
-  </div>
+  <%= render "wards/tab_nav", current_tab: "Facilities" %>
 
-  <!-- === WHO RUNS THIS WARD === -->
-  <div class="mb-10">
-    <div class="newspaper-section-header">Who Runs This Ward</div>
-
-    <% if @departments&.any? %>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <% @departments.each do |dept| %>
-          <% positions = dept.positions.ordered %>
-          <% next if positions.empty? %>
-          <div class="border border-stone-200 rounded-lg p-4 max-h-56 overflow-y-auto">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3 sticky top-0 bg-white"><%= dept.name %></h4>
-            <div class="space-y-2">
-              <% positions.each do |pos| %>
-                <div class="flex items-baseline justify-between gap-2">
-                  <div class="min-w-0">
-                    <div class="text-sm font-medium text-stone-800 truncate"><%= pos.designation %></div>
-                    <% if pos.person_name.present? %>
-                      <div class="text-xs text-stone-500 truncate"><%= pos.person_name %></div>
-                    <% end %>
-                  </div>
-                  <% if pos.email.present? %>
-                    <a href="mailto:<%= pos.email %>" class="text-blue-600 hover:text-blue-800 shrink-0" title="<%= pos.email %>">
-                      <i class="fa-solid fa-envelope text-xs"></i>
-                    </a>
-                  <% end %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-      <div class="mt-3 text-xs text-stone-400">
-        Source: BMC Civic Diary &middot;
-        <a href="https://portal.mcgm.gov.in" target="_blank" class="text-blue-600 hover:underline">MCGM Portal</a>
-      </div>
-    <% elsif @ward_roles&.any? %>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <% @ward_roles.each do |role| %>
-          <div class="border border-stone-200 rounded-lg p-4">
-            <div class="font-medium text-stone-800"><%= role.person.name %></div>
-            <div class="text-xs text-stone-500 mb-1"><%= role.role_name.humanize.titleize %></div>
-            <div class="space-y-0.5">
-              <% if role.person.phone.present? %>
-                <div><a href="tel:<%= role.person.phone %>" class="text-xs text-blue-600 hover:underline"><%= role.person.phone %></a></div>
-              <% end %>
-              <% if role.person.email.present? %>
-                <div><a href="mailto:<%= role.person.email %>" class="text-xs text-blue-600 hover:underline"><%= role.person.email %></a></div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="text-sm text-stone-400 italic">Governance data coming soon.</p>
-    <% end %>
-  </div>
-
-  <!-- === FACILITIES MAP === -->
-  <div class="mb-10"
-       data-controller="facility-map"
+  <!-- Facility Map Section -->
+  <div data-controller="facility-map"
        data-facility-map-url-value="<%= ward_facilities_path(@ward, format: :json) %>"
        data-facility-map-ward-id-value="<%= @ward.ward_code %>">
 
@@ -170,9 +103,9 @@
     </div>
   </div>
 
-  <!-- === FACILITY COVERAGE === -->
+  <!-- Data Coverage -->
   <% if total_facilities > 0 %>
-    <div class="mb-10">
+    <div class="mt-10 mb-10">
       <div class="newspaper-section-header">
         Data Coverage
         <span class="text-stone-400 font-normal">OSM vs BMC official records</span>
@@ -186,7 +119,7 @@
     </div>
   <% end %>
 
-  <!-- === PRABHAGS === -->
+  <!-- Prabhags -->
   <div class="mb-10">
     <div class="newspaper-section-header">
       Prabhags
@@ -233,46 +166,26 @@
     </div>
   </div>
 
-  <!-- === HOW YOU CAN HELP === -->
-  <% if unmapped_count > 0 || total_facilities > 0 %>
-    <div class="mb-10">
-      <div class="newspaper-section-header">How You Can Help</div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <% if unmapped_count > 0 %>
-          <div class="border border-stone-200 rounded-lg p-4">
-            <div class="text-sm font-semibold text-stone-800 mb-1">
-              <i class="fa-solid fa-map text-orange-500 mr-1"></i> Map Boundaries
-            </div>
-            <p class="text-xs text-stone-500">
-              <%= unmapped_count %> prabhag<%= unmapped_count == 1 ? '' : 's' %> still need<%= unmapped_count == 1 ? 's' : '' %> boundary tracing.
-            </p>
-          </div>
-        <% end %>
-        <div class="border border-stone-200 rounded-lg p-4">
-          <div class="text-sm font-semibold text-stone-800 mb-1">
-            <i class="fa-solid fa-camera text-blue-500 mr-1"></i> Audit Facilities
-          </div>
-          <p class="text-xs text-stone-500">
-            Visit a school, hospital, or garden near you. Take photos. Report what you find.
-          </p>
+  <!-- How to help -->
+  <div class="mb-10">
+    <div class="newspaper-section-header">Help Improve This Data</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="border border-stone-200 rounded-lg p-4">
+        <div class="text-sm font-semibold text-stone-800 mb-1">
+          <i class="fa-solid fa-camera text-blue-500 mr-1"></i> Audit a Facility
         </div>
-        <div class="border border-stone-200 rounded-lg p-4">
-          <div class="text-sm font-semibold text-stone-800 mb-1">
-            <i class="fa-solid fa-flag text-red-500 mr-1"></i> Report Issues
-          </div>
-          <p class="text-xs text-stone-500">
-            Spotted a problem? <%= link_to "File an issue", new_ward_issue_path(@ward), class: "text-blue-600 hover:underline", data: { turbo_frame: "_top" } %> to get it on record.
-          </p>
-        </div>
-      </div>
-      <% unless user_signed_in? %>
-        <p class="text-sm text-stone-500 mt-4">
-          <%= link_to "Sign up", new_user_registration_path, class: "text-stone-700 underline hover:text-stone-900", data: { turbo_frame: "_top" } %>
-          or
-          <%= link_to "sign in", new_user_session_path, class: "text-stone-700 underline hover:text-stone-900", data: { turbo_frame: "_top" } %>
-          to contribute.
+        <p class="text-xs text-stone-500">
+          Visit a school, hospital, or garden near you. Take photos. Report what you find.
         </p>
-      <% end %>
+      </div>
+      <div class="border border-stone-200 rounded-lg p-4">
+        <div class="text-sm font-semibold text-stone-800 mb-1">
+          <i class="fa-solid fa-map text-orange-500 mr-1"></i> Add Missing Facilities
+        </div>
+        <p class="text-xs text-stone-500">
+          Know a school or hospital that's not on our map? Help us add it.
+        </p>
+      </div>
     </div>
-  <% end %>
+  </div>
 </turbo-frame>

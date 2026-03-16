@@ -1,0 +1,16 @@
+<%
+  tabs = [
+    { label: "News", path: news_ward_path(@ward) },
+    { label: "Officials", path: officials_ward_path(@ward) },
+    { label: "Facilities", path: facilities_tab_ward_path(@ward) },
+    { label: "Issues", path: issues_tab_ward_path(@ward) },
+  ]
+%>
+<div class="flex gap-6 border-b border-stone-200 mb-8">
+  <% tabs.each do |tab| %>
+    <% active = (tab[:label] == current_tab) %>
+    <%= link_to tab[:label], tab[:path],
+        data: { turbo_frame: "ward-tab-content", turbo_action: "advance" },
+        class: "pb-2 text-sm #{active ? 'font-semibold border-b-2 border-stone-800 text-stone-800' : 'text-stone-400 hover:text-stone-600 border-b-2 border-transparent'}" %>
+  <% end %>
+</div>

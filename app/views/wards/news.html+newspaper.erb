@@ -4,15 +4,7 @@
   total_facilities = @facility_type_counts.values.sum
 %>
 
-  <!-- Tab Navigation -->
-  <div class="flex gap-6 border-b border-stone-200 mb-8">
-    <%= link_to "News", news_ward_path(@ward),
-        data: { turbo_frame: "ward-tab-content" },
-        class: "pb-2 text-sm font-semibold border-b-2 border-stone-800 text-stone-800" %>
-    <%= link_to "Info", info_ward_path(@ward),
-        data: { turbo_frame: "ward-tab-content" },
-        class: "pb-2 text-sm text-stone-400 hover:text-stone-600 border-b-2 border-transparent" %>
-  </div>
+  <%= render "wards/tab_nav", current_tab: "News" %>
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
@@ -78,12 +70,6 @@
         </div>
       <% end %>
 
-      <!-- Link to Info -->
-      <%= link_to info_ward_path(@ward),
-          data: { turbo_frame: "ward-tab-content" },
-          class: "block text-center text-sm font-medium text-stone-700 border border-stone-300 rounded-lg px-4 py-2 hover:bg-stone-50 transition-colors" do %>
-        See all info &rarr;
-      <% end %>
     </div>
 
     <!-- News Feed (8 cols) -->
