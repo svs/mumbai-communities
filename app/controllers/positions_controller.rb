@@ -12,5 +12,11 @@ class PositionsController < ApplicationController
     else
       Position.none
     end
+
+    # Auto-enrich on first visit if person has no profile data
+    person = @position.person
+    if person && person.profile_data.blank?
+      PersonEnrichmentJob.perform_later(person.id, @ward&.ward_code)
+    end
   end
 end
