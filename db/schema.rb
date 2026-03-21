@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_21_094523) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_21_230418) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -162,6 +162,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_094523) do
     t.string "linkedin_url"
     t.string "twitter_handle"
     t.json "profile_data"
+    t.string "avatar_url"
   end
 
   create_table "positions", force: :cascade do |t|

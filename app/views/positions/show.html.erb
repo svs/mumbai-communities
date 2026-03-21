@@ -17,9 +17,13 @@
 
   <!-- Officer Header -->
   <div class="flex items-start gap-6 mb-8 pb-8 border-b border-stone-200">
-    <div class="w-20 h-20 rounded-full bg-stone-100 flex items-center justify-center shrink-0">
-      <i class="fa-solid fa-user text-3xl text-stone-300"></i>
-    </div>
+    <% if person&.avatar_url.present? %>
+      <img src="<%= person.avatar_url %>" alt="<%= person.name %>" class="w-20 h-20 rounded-full object-cover shrink-0 bg-stone-100">
+    <% else %>
+      <div class="w-20 h-20 rounded-full bg-stone-100 flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-user text-3xl text-stone-300"></i>
+      </div>
+    <% end %>
     <div class="flex-1">
       <h1 class="text-2xl font-bold text-stone-900">
         <%= person&.name || "Vacant Position" %>

@@ -28,7 +28,12 @@
         <% leadership.each do |pos| %>
           <div class="border border-stone-200 rounded-lg p-5">
             <% if pos.person %>
-              <%= link_to pos.person.name, position_path(pos), class: "font-semibold text-stone-900 text-base hover:text-blue-600 transition-colors", data: { turbo_frame: "_top" } %>
+              <div class="flex items-center gap-3 mb-2">
+                <% if pos.person.avatar_url.present? %>
+                  <img src="<%= pos.person.avatar_url %>" alt="" class="w-10 h-10 rounded-full object-cover bg-stone-100">
+                <% end %>
+                <%= link_to pos.person.name, position_path(pos), class: "font-semibold text-stone-900 text-base hover:text-blue-600 transition-colors", data: { turbo_frame: "_top" } %>
+              </div>
             <% else %>
               <div class="font-semibold text-stone-400 text-base italic">Vacant</div>
             <% end %>

@@ -28,6 +28,7 @@ class PersonEnrichmentJob < ApplicationJob
 
     news = []
     linkedin_url = nil
+    avatar_url = nil
 
     results.each do |r|
       url = r["url"]
@@ -48,6 +49,24 @@ class PersonEnrichmentJob < ApplicationJob
           "excerpt" => excerpt
         }
       end
+
+      # Look for image URLs in excerpts (Facebook photos, news article images)
+      if avatar_url.nil?
+        (r["excerpts"] || []).each do |excerpt|
+          img_match = excerpt.match(%r{(https?://[^\s"']+\.(?:jpg|jpeg|png|webp)[^\s"']*)}i)
+          if img_match
+            candidate = img_match[1]
+            # Skip tiny icons, favicons, logos
+            next if candidate.match?(/favicon|icon|logo|sprite|pixel|1x1|badge/i)
+            avatar_url = candidate
+          end
+        end
+      end
+    end
+
+    # If no photo from excerpts, try a dedicated image search
+    if avatar_url.nil?
+      avatar_url = find_avatar(person, designation, ward_context, client)
     end
 
     # Generate bio from search results using LLM
@@ -56,6 +75,7 @@ class PersonEnrichmentJob < ApplicationJob
     person.update!(
       bio: bio.presence || person.bio,
       linkedin_url: linkedin_url.presence || person.linkedin_url,
+      avatar_url: avatar_url.presence || person.avatar_url,
       profile_data: {
         "news" => news.first(5),
         "enriched_at" => Time.current.iso8601,
@@ -67,6 +87,33 @@ class PersonEnrichmentJob < ApplicationJob
   end
 
   private
+
+  def find_avatar(person, designation, ward_context, client)
+    results = client.search(
+      objective: "Find a photograph or profile picture of #{person.name}, #{designation} of BMC #{ward_context} Mumbai. Look for news article photos, Facebook posts with photos, Instagram posts, or official portraits.",
+      queries: [
+        "#{person.name} BMC #{ward_context} Mumbai photo",
+      ],
+      max_chars: 1000
+    )
+
+    results = results["results"] if results.is_a?(Hash)
+    return nil unless results.is_a?(Array)
+
+    # Check for Facebook/Instagram photo posts
+    results.each do |r|
+      url = r["url"]
+      # Facebook photo posts often have og:image in excerpts
+      if url&.match?(/facebook\.com.*photo|instagram\.com\/p\//i)
+        (r["excerpts"] || []).each do |excerpt|
+          img = excerpt.match(%r{(https?://[^\s"']+\.(?:jpg|jpeg|png|webp)[^\s"']*)}i)
+          return img[1] if img && !img[1].match?(/favicon|icon|logo|sprite/i)
+        end
+      end
+    end
+
+    nil
+  end
 
   def generate_bio(person, designation, ward_context, results)
     excerpts = results.flat_map { |r| r["excerpts"] || [] }.first(5).join("\n")
