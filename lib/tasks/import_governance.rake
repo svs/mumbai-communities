@@ -183,6 +183,81 @@ namespace :governance do
     puts "\nDone! Imported: #{imported}, Skipped: #{skipped}"
   end
 
+  desc "Import officer names and phones from Civic Diary JSON"
+  task import_civic_diary: :environment do
+    json_path = ENV.fetch("CIVIC_DIARY_JSON", Rails.root.join("db/data/civic_diary_officers.json"))
+    unless File.exist?(json_path)
+      puts "ERROR: #{json_path} not found."
+      exit 1
+    end
+
+    data = JSON.parse(File.read(json_path))
+    puts "Source: #{data['source']}"
+
+    updated = 0
+    created = 0
+    skipped = 0
+
+    data["wards"].each do |ward_code, ward_data|
+      ward = Ward.find_by(ward_code: ward_code)
+      unless ward
+        puts "  SKIP: Ward '#{ward_code}' not found"
+        skipped += 1
+        next
+      end
+
+      ward_org = Organisation.find_or_create_by!(organisable: ward, org_type: "ward") do |org|
+        org.name = "Ward #{ward.ward_code}"
+      end
+
+      ward_data["sections"].each do |section_name, officers|
+        dept = Department.find_or_create_by!(organisation: ward_org, name: section_name)
+
+        officers.each do |officer|
+          next unless officer["designation"].present?
+
+          # Try to find existing position by email first, then by designation in same dept
+          position = nil
+          if officer["email"].present?
+            position = Position.find_by(department: dept, email: officer["email"])
+            # Also search across departments in same org (email list may have different section names)
+            position ||= Position.joins(department: :organisation)
+                                 .where(email: officer["email"], departments: { organisation_id: ward_org.id })
+                                 .first
+          end
+
+          if position
+            attrs = {}
+            attrs[:person_name] = officer["person_name"] if officer["person_name"].present?
+            attrs[:phone] = officer["phone"] if officer["phone"].present?
+            attrs[:level] = officer["level"] if officer["level"].present?
+            position.update!(attrs) if attrs.any?
+            updated += 1
+          else
+            Position.create!(
+              department: dept,
+              designation: officer["designation"],
+              person_name: officer["person_name"],
+              email: officer["email"],
+              phone: officer["phone"],
+              level: officer["level"]
+            )
+            created += 1
+          end
+        end
+      end
+
+      named = ward_org.departments.flat_map { |d| d.positions.where.not(person_name: [nil, ""]) }
+      puts "  Ward #{ward_code}: #{named.count} named officers"
+    end
+
+    puts "\nDone!"
+    puts "  Updated: #{updated}"
+    puts "  Created: #{created}"
+    puts "  Skipped: #{skipped}"
+    puts "  Total positions with names: #{Position.where.not(person_name: [nil, '']).count}"
+  end
+
   desc "Clear all governance data"
   task clear: :environment do
     Position.delete_all

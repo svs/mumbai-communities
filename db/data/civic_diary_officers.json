@@ -1,0 +1,310 @@
+{
+  "source": "BMC Civic Diary 2025 (67th Annual Publication)",
+  "wards": {
+    "A": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Jaydeep More", "email": "ac.a@mcgm.gov.in", "phone": "9969666505", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Jaydeep More", "phone": "9969666505", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Ravindra Mhaske", "phone": "9004688678", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Pawan Kaware", "phone": "9987515112", "level": "mid"}
+        ]
+      }
+    },
+    "B": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Santoshkumar Dhonde", "email": "ac.b@mcgm.gov.in", "phone": "8879335291", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Suryakant Choudhari", "phone": "9892303989", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Rupesh Bhadange", "phone": "9769978807", "level": "mid"}
+        ]
+      }
+    },
+    "C": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Vishnu Vidhate", "email": "ac.c@mcgm.gov.in", "phone": "8879787858", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Amol Meshram", "phone": "9930713520", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Manish Padawal", "phone": "9920955539", "level": "mid"}
+        ]
+      }
+    },
+    "D": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Sharad Ughade", "email": "ac.d@mcgm.gov.in", "phone": "9167494033", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Dilip Ahire", "phone": "9820371828", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Manoj Jeurkar", "phone": "9920291107", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Prashant Phatak", "phone": "9820112745", "level": "mid"}
+        ]
+      }
+    },
+    "E": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Suresh Sagar", "email": "ac.e@mcgm.gov.in", "phone": "9930260419", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Arunkumar Chouhan", "phone": "9167757002", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Yogesh Choudhari", "phone": "9029151589", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Sharad Chavan", "phone": "9920592171", "level": "mid"}
+        ]
+      }
+    },
+    "F SOUTH": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Mahesh Patil", "email": "ac.fs@mcgm.gov.in", "phone": "9151314141", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Mahesh Patil", "phone": "9151314141", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Prashant Bane", "phone": "9699717679", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Mangesh Taware", "phone": "9969562500", "level": "mid"}
+        ]
+      }
+    },
+    "F NORTH": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Dr. Prithwiraj Chauhan", "email": "ac.fn@mcgm.gov.in", "phone": "8879761272", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Bipin Surve", "phone": "9820069357", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Kiran Badgujar", "phone": "9769099110", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Harish Chavan", "phone": "9987528085", "level": "mid"}
+        ]
+      }
+    },
+    "G SOUTH": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Smt. Mrudula Ande", "email": "ac.gs@mcgm.gov.in", "phone": "8879558851", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Rajesh Chavan", "phone": "9850621889", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Rajesh Yadav", "phone": "8692886959", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Santosh Shinde", "phone": "9820946466", "level": "mid"}
+        ]
+      }
+    },
+    "G NORTH": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Ajeetkumar Ambi", "email": "ac.gn@mcgm.gov.in", "phone": "9167494002", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Ajitkumar Ambi", "phone": "9167494002", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Jagannath Gavhane", "phone": "9930987733", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Sudhir Nimbalkar", "phone": "9967603453", "level": "mid"}
+        ]
+      }
+    },
+    "H EAST": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Smt. Swapnaja Kshirsagar", "email": "ac.heast@mcgm.gov.in", "phone": "9137342343", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Smt. Swapnaja Kshirsagar", "phone": "9137342343", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Deepak Jadhav", "phone": "9920051809", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Ajaykumar Patil", "phone": "8928331536", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Sachin Bhujbal", "phone": "9867715317", "level": "mid"}
+        ]
+      }
+    },
+    "H WEST": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Vinayak Vispute", "email": "ac.hw@mcgm.gov.in", "phone": "9322906840", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Milind Kadam", "phone": "9892727150", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Arun Manjul", "phone": "9870907852", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Deepak Gholam", "phone": "9769541030", "level": "mid"}
+        ]
+      }
+    },
+    "K EAST": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Manish Valanju", "email": "ac.ke@mcgm.gov.in", "phone": "8657488916", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Manish Valanju", "phone": "8657488916", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Bhoopesh Rane", "phone": "8433636576", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Pravin Kapadis", "phone": "9930056397", "level": "mid"}
+        ]
+      }
+    },
+    "K WEST": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Chakrapani Alle", "email": "ac.kw@mcgm.gov.in", "phone": "9833815519", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Ajay Bhondave", "phone": "9820809244", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Sandeep Salunkhe", "phone": "9619524285", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Jitendra Mahale", "phone": "9870777776", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Yashpal Hangargekar", "phone": "9270290290", "level": "mid"}
+        ]
+      }
+    },
+    "K NORTH": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Manish Valanju", "email": "ac.ke@mcgm.gov.in", "phone": "8657488916", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Manish Valanju", "phone": "8657488916", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Prakash Dhumale", "phone": "8422958585", "level": "mid"}
+        ]
+      }
+    },
+    "L": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Dhanaji Herlekar", "email": "ac.l@mcgm.gov.in", "phone": "9867474477", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Suresh Hatekar", "phone": "9869384656", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Nitin Deshmukh", "phone": "9920061646", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Jeevan Rathod", "phone": "9820814766", "level": "mid"}
+        ]
+      }
+    },
+    "M EAST": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Smt. Alka Sasane", "email": "ac.meast@mcgm.gov.in", "phone": "9930040322", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Sanjay Waghmare", "phone": "9223391438", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Rajendra Pujari", "phone": "7506363845", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Santosh Mehtar", "phone": "9619081122", "level": "mid"}
+        ]
+      }
+    },
+    "M WEST": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Vishvas Mote", "email": "ac.mw@mcgm.gov.in", "phone": "9167494003", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Nitin Kamble", "phone": "9892820198", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Santosh Nikalje", "phone": "8652245786", "level": "mid"}
+        ]
+      }
+    },
+    "N": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Dr. Shri. Gajanan Bellale", "email": "ac.n@mcgm.gov.in", "phone": "8424046715", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Vishal Mhaiskar", "phone": "9892706891", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Dnyaneshwar Ukirde", "phone": "9769003738", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Anand Panchal", "phone": "9967634104", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Bharat Kedar", "phone": "9967769537", "level": "mid"}
+        ]
+      }
+    },
+    "P EAST": {
+      "sections": {
+        "Maintenance": [
+          {"designation": "Assistant Engineer", "person_name": "Shri. Ujjwalsing Jamadar", "phone": "9967539090", "level": "mid"}
+        ]
+      }
+    },
+    "P SOUTH": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Sanjay Jadhav", "email": "ac.ps@mcgm.gov.in", "phone": "9820150365", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": null, "phone": null, "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Nishad Kulkarni", "phone": "9769966635", "level": "mid"}
+        ]
+      }
+    },
+    "P NORTH": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Kiran Dighavkar", "email": "ac.pn@mcgm.gov.in", "phone": "9920185201", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Sagar S. Rane", "phone": "9769200051", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Ujjwalsing Jamadar", "phone": "9967539090", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Mandar Choudhari", "phone": "9967438274", "level": "mid"}
+        ]
+      }
+    },
+    "R SOUTH": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Manish Salwe", "email": "ac.rs@mcgm.gov.in", "phone": "9930879767", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Abhay Jagtap", "phone": "8779403882", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Amol Gavit", "phone": "9987538448", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Hemant Pant", "phone": "9819693536", "level": "mid"}
+        ]
+      }
+    },
+    "R/Central": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Smt. Sandhya Nandedkar", "email": "ac.rc@mcgm.gov.in", "phone": "9167833141", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": null, "phone": null, "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Machindra Mohite", "phone": "9594421385", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Hitendra Kosambiya", "phone": "9004022470", "level": "mid"}
+        ]
+      }
+    },
+    "R/North": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Nainish Vengurlekar", "email": "ac.rn@mcgm.gov.in", "phone": "9619071177", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Sanjay Sambare", "phone": "9870461326", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Shushil Ingole", "phone": "9004668485", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Nitin Shinde", "phone": "7718832424", "level": "mid"}
+        ]
+      }
+    },
+    "S": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Bhaskar Kasgikar", "email": "ac.s@mcgm.gov.in", "phone": "8291585332", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Amish Bangade", "phone": "9975926847", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Rahul Jadhav", "phone": "9967436619", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Mahesh Patil", "phone": "9221585700", "level": "mid"}
+        ]
+      }
+    },
+    "T": {
+      "sections": {
+        "Ward Office": [
+          {"designation": "Assistant Commissioner", "person_name": "Shri. Ajay Patane", "email": "ac.t@mcgm.gov.in", "phone": "9967297294", "level": "senior"}
+        ],
+        "Maintenance": [
+          {"designation": "Designated Officer", "person_name": "Shri. Gajanan Dhotre", "phone": "9004627409", "level": "senior"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Sandeep Deshpande", "phone": "9619705883", "level": "mid"},
+          {"designation": "Assistant Engineer", "person_name": "Shri. Sandeep More", "phone": "9757402848", "level": "mid"}
+        ]
+      }
+    }
+  }
+}
