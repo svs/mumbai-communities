@@ -52,10 +52,11 @@ class WardsController < ApplicationController
 
   def officials
     @organisation = @ward.organisation
-    if @organisation
-      @departments = @organisation.departments.includes(:positions).ordered
+    @positions = if @organisation
+      @organisation.positions.active.ordered.includes(:person)
+    else
+      Position.none
     end
-    @ward_roles = @ward.roles.active.includes(:person).order(Arel.sql("CASE role_name WHEN 'ward_office' THEN 0 WHEN 'assistant_commissioner' THEN 1 ELSE 2 END"), :role_name)
   end
 
   def facilities_tab

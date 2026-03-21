@@ -38,6 +38,7 @@ Rails.application.routes.draw do
     resources :prabhags, only: [:index, :show]
     resources :tweets, only: [:create, :new, :show]
     scope module: :wards do
+      resources :officers, only: [:create], controller: "officers"
       resources :facilities, only: [:index] do
         collection do
           get :scorecard

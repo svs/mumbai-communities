@@ -1,58 +1,57 @@
 <turbo-frame id="ward-tab-content">
   <%= render "wards/tab_nav", current_tab: "Officials" %>
 
-  <% if @departments&.any? %>
+  <% if @positions.any? %>
     <%
-      # Collect ward leadership: Ward Office seniors + Designated Officers
-      ward_office_dept = @departments.find { |d| d.name == "Ward Office" }
-      leadership = []
-      if ward_office_dept
-        leadership += ward_office_dept.positions.ordered.select { |p| p.level == "senior" }
-      end
-      # Add Designated Officers from any department
-      @departments.each do |dept|
-        dept.positions.ordered.each do |pos|
-          if pos.designation == "Designated Officer"
-            leadership << pos unless leadership.any? { |l| l.id == pos.id }
-          end
-        end
-      end
-      # Deduplicate by person_name (same person as AC and DO)
-      seen_names = Set.new
-      leadership = leadership.select do |pos|
-        if pos.person_name.present? && seen_names.include?(pos.person_name)
+      # Split into leadership (senior) and staff
+      all_senior = @positions.select { |p| p.level == "senior" }
+      # Deduplicate by person (same person as AC and DO — show once)
+      seen_person_ids = Set.new
+      leadership = all_senior.select do |pos|
+        if pos.person_id.present? && seen_person_ids.include?(pos.person_id)
           false
         else
-          seen_names << pos.person_name if pos.person_name.present?
+          seen_person_ids << pos.person_id if pos.person_id.present?
           true
         end
       end
-
-      # Department positions (everything except what's in leadership)
-      leadership_ids = leadership.map(&:id).to_set
+      # Exclude ALL senior positions from staff (including deduped ones)
+      senior_ids = all_senior.map(&:id).to_set
+      staff = @positions.reject { |p| senior_ids.include?(p.id) }
+      sections = staff.group_by(&:section).sort_by { |name, _| name || "" }
     %>
 
     <!-- Ward Leadership -->
-    <% if leadership.any? { |p| p.person_name.present? } %>
+    <% if leadership.any? %>
       <div class="newspaper-section-header">Ward Leadership</div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
         <% leadership.each do |pos| %>
           <div class="border border-stone-200 rounded-lg p-5">
-            <% if pos.person_name.present? %>
-              <%= link_to pos.person_name, position_path(pos), class: "font-semibold text-stone-900 text-base hover:text-blue-600 transition-colors", data: { turbo_frame: "_top" } %>
+            <% if pos.person %>
+              <% if pos.person.profile_data.present? %>
+                <%= link_to pos.person.name, position_path(pos), class: "font-semibold text-stone-900 text-base hover:text-blue-600 transition-colors", data: { turbo_frame: "_top" } %>
+              <% else %>
+                <div class="font-semibold text-stone-900 text-base"><%= pos.person.name %></div>
+              <% end %>
             <% else %>
               <div class="font-semibold text-stone-400 text-base italic">Vacant</div>
             <% end %>
             <div class="text-sm text-stone-500 mt-0.5"><%= pos.designation %></div>
             <div class="flex items-center gap-3 mt-3">
-              <% if pos.phone.present? %>
-                <a href="tel:<%= pos.phone %>" class="inline-flex items-center gap-1 text-xs text-stone-600 hover:text-stone-800">
-                  <i class="fa-solid fa-phone"></i> <%= pos.phone %>
+              <% phone = pos.person&.phone || pos.phone %>
+              <% if phone.present? %>
+                <a href="tel:<%= phone %>" class="inline-flex items-center gap-1 text-xs text-stone-600 hover:text-stone-800">
+                  <i class="fa-solid fa-phone"></i> <%= phone %>
                 </a>
               <% end %>
               <% if pos.email.present? %>
                 <a href="mailto:<%= pos.email %>" class="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800">
                   <i class="fa-solid fa-envelope"></i> email
+                </a>
+              <% end %>
+              <% if pos.person&.linkedin_url.present? %>
+                <a href="<%= pos.person.linkedin_url %>" target="_blank" class="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800">
+                  <i class="fa-brands fa-linkedin"></i>
                 </a>
               <% end %>
             </div>
@@ -61,94 +60,52 @@
       </div>
     <% end %>
 
-    <!-- Department Staff -->
-    <div class="newspaper-section-header">Department Staff</div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-      <% @departments.each do |dept| %>
-        <% positions = dept.positions.ordered.reject { |p| leadership_ids.include?(p.id) } %>
-        <% next if positions.empty? %>
-        <div class="border border-stone-200 rounded-lg p-4 max-h-64 overflow-y-auto">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3 sticky top-0 bg-white"><%= dept.name %></h4>
-          <div class="space-y-3">
-            <% positions.each do |pos| %>
-              <div class="flex items-start justify-between gap-2">
-                <div class="min-w-0">
-                  <% if pos.person_name.present? %>
-                    <%= link_to pos.person_name, position_path(pos), class: "text-sm font-medium text-stone-800 hover:text-blue-600 transition-colors block", data: { turbo_frame: "_top" } %>
-                    <div class="text-xs text-stone-500"><%= pos.designation %></div>
-                  <% else %>
-                    <div class="text-sm text-stone-600"><%= pos.designation %></div>
-                  <% end %>
+    <!-- Staff by Section -->
+    <% if sections.any? %>
+      <div class="newspaper-section-header">Department Staff</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <% sections.each do |section_name, positions| %>
+          <div class="border border-stone-200 rounded-lg p-4 max-h-64 overflow-y-auto">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3 sticky top-0 bg-white"><%= section_name || "General" %></h4>
+            <div class="space-y-3">
+              <% positions.each do |pos| %>
+                <div class="flex items-start justify-between gap-2">
+                  <div class="min-w-0">
+                    <% if pos.person %>
+                      <div class="text-sm font-medium text-stone-800"><%= pos.person.name %></div>
+                      <div class="text-xs text-stone-500"><%= pos.designation %></div>
+                    <% else %>
+                      <div class="text-sm text-stone-600"><%= pos.designation %></div>
+                    <% end %>
+                  </div>
+                  <div class="flex items-center gap-2 shrink-0">
+                    <% phone = pos.person&.phone || pos.phone %>
+                    <% if phone.present? %>
+                      <a href="tel:<%= phone %>" class="text-stone-400 hover:text-stone-600" title="<%= phone %>">
+                        <i class="fa-solid fa-phone text-xs"></i>
+                      </a>
+                    <% end %>
+                    <% if pos.email.present? %>
+                      <a href="mailto:<%= pos.email %>" class="text-blue-600 hover:text-blue-800" title="<%= pos.email %>">
+                        <i class="fa-solid fa-envelope text-xs"></i>
+                      </a>
+                    <% end %>
+                  </div>
                 </div>
-                <div class="flex items-center gap-2 shrink-0">
-                  <% if pos.phone.present? %>
-                    <a href="tel:<%= pos.phone %>" class="text-stone-400 hover:text-stone-600" title="<%= pos.phone %>">
-                      <i class="fa-solid fa-phone text-xs"></i>
-                    </a>
-                  <% end %>
-                  <% if pos.email.present? %>
-                    <a href="mailto:<%= pos.email %>" class="text-blue-600 hover:text-blue-800" title="<%= pos.email %>">
-                      <i class="fa-solid fa-envelope text-xs"></i>
-                    </a>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <div class="text-xs text-stone-400 mb-10">
-      Source: BMC Civic Diary 2025 &middot;
-      <a href="https://portal.mcgm.gov.in" target="_blank" class="text-blue-600 hover:underline">MCGM Portal</a>
-    </div>
-  <% elsif @ward_roles&.any? %>
-    <div class="newspaper-section-header">Ward Leadership</div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-      <% @ward_roles.each do |role| %>
-        <div class="border border-stone-200 rounded-lg p-4">
-          <div class="font-medium text-stone-800"><%= role.person.name %></div>
-          <div class="text-xs text-stone-500 mb-1"><%= role.role_name.humanize.titleize %></div>
-          <div class="space-y-0.5">
-            <% if role.person.phone.present? %>
-              <div><a href="tel:<%= role.person.phone %>" class="text-xs text-blue-600 hover:underline"><%= role.person.phone %></a></div>
-            <% end %>
-            <% if role.person.email.present? %>
-              <div><a href="mailto:<%= role.person.email %>" class="text-xs text-blue-600 hover:underline"><%= role.person.email %></a></div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  <% else %>
-    <p class="text-sm text-stone-400 italic mb-10">Governance data coming soon. Help us by contributing contact information for ward officials.</p>
-  <% end %>
-
-  <!-- Elected Representatives -->
-  <% elected_positions = @departments&.flat_map { |d| d.positions.ordered.select(&:elected?) } || [] %>
-  <% if elected_positions.any? %>
-    <div class="mb-10">
-      <div class="newspaper-section-header">Elected Representatives</div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <% elected_positions.each do |pos| %>
-          <div class="border border-stone-200 rounded-lg p-4 flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center shrink-0">
-              <i class="fa-solid fa-user text-stone-400"></i>
-            </div>
-            <div>
-              <div class="font-medium text-stone-800"><%= pos.person_name.presence || "Vacant" %></div>
-              <div class="text-xs text-stone-500"><%= pos.designation %></div>
-              <% if pos.party.present? %>
-                <div class="text-xs text-stone-400"><%= pos.party %></div>
-              <% end %>
-              <% if pos.email.present? %>
-                <a href="mailto:<%= pos.email %>" class="text-xs text-blue-600 hover:underline"><%= pos.email %></a>
               <% end %>
             </div>
           </div>
         <% end %>
       </div>
+    <% end %>
+
+    <div class="text-xs text-stone-400 mb-10">
+      Source: BMC Civic Diary 2025 &middot;
+      <a href="https://portal.mcgm.gov.in" target="_blank" class="text-blue-600 hover:underline">MCGM Portal</a>
     </div>
+
+  <% else %>
+    <p class="text-sm text-stone-400 italic mb-10">No officer data available yet.</p>
   <% end %>
 
   <!-- How to reach them -->

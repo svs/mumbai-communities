@@ -1,24 +1,23 @@
 ---
 name: enrich-ward
-description: Enrich ward data by searching Parallel AI for officer profiles, news, and social links. Use when asked to "enrich ward", "populate ward data", "find officer info", "update officer profiles", or "verify ward officers".
+description: Populate ward officer data using Parallel AI search and extract. Use when asked to "enrich ward", "populate ward data", "update officers", "refresh officer data", or "import ward officers".
 ---
 
 # Enrich Ward Data
 
-Uses Parallel AI's Search API to enrich ward officer data with names, bios, news coverage, social media links, and verification against public sources.
+Uses Parallel AI to find and extract ward officer data from MCGM portal contact lists, news articles, and social media. No manual PDF parsing needed — Parallel does the web research.
 
-## Prerequisites
+## API Details
 
-- Parallel API key stored in Rails credentials as `parallels_api_key`
-- Officers already imported via `governance:import` and `governance:import_civic_diary`
-- The Position model has: `person_name`, `phone`, `email`, `bio`, `linkedin_url`, `twitter_handle`, `profile_data` (JSON)
+**Base URL**: `https://api.parallel.ai/v1beta/`
+**Auth**: `x-api-key` header
+**Key**: Use `Rails.application.credentials.parallels_api_key` or from shell: source `.kamal/secrets` and use `$PARALLEL_API_KEY`, or hardcode from Rails credentials.
 
-## Parallel API
-
+### Search API
 ```bash
 curl https://api.parallel.ai/v1beta/search \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $PARALLEL_API_KEY" \
+  -H "x-api-key: $KEY" \
   -d '{
     "objective": "...",
     "search_queries": ["..."],
@@ -27,164 +26,239 @@ curl https://api.parallel.ai/v1beta/search \
   }'
 ```
 
-API key: `Rails.application.credentials.parallels_api_key`
-
-The key can also be found in the `.kamal/secrets` file or passed via env var.
-
-## Workflow
-
-### 1. Pick a ward (or all wards)
-
-If the user specifies a ward, enrich just that ward. Otherwise, iterate through all wards with named officers.
-
-```ruby
-# Single ward
-ward = Ward.find_by(ward_code: "A")
-
-# All wards
-Ward.all.each do |ward| ...
-```
-
-### 2. For each named officer, search Parallel
-
-For each Position with a `person_name`, search for:
-- News articles mentioning them + BMC
-- LinkedIn profile
-- Twitter/X handle
-- Any biographical information
-
-Use this search pattern:
-
+### Extract API
 ```bash
-curl -s https://api.parallel.ai/v1beta/search \
+curl https://api.parallel.ai/v1beta/extract \
   -H "Content-Type: application/json" \
-  -H "x-api-key: YOUR_KEY" \
+  -H "x-api-key: $KEY" \
   -d '{
-    "objective": "Find news articles, LinkedIn profile, Twitter handle, and biographical information about PERSON_NAME, DESIGNATION of WARD_CODE Ward BMC Mumbai.",
-    "search_queries": [
-      "PERSON_NAME BMC Mumbai WARD_CODE ward",
-      "PERSON_NAME MCGM Mumbai",
-      "PERSON_NAME BMC linkedin"
-    ],
-    "mode": "fast",
-    "excerpts": {"max_chars_per_result": 3000}
+    "urls": ["https://..."],
+    "objective": "...",
+    "excerpts": true,
+    "full_content": true
   }'
 ```
 
-### 3. Extract structured data from results
+## Workflow
 
-From the Parallel search results, extract:
+### Step 1: Find the ward contact PDF URL
 
-**LinkedIn URL**: Look for `linkedin.com/in/` URLs in results
-**Twitter handle**: Look for `twitter.com/` or `x.com/` URLs
-**News articles**: Collect article titles, URLs, sources, dates, and excerpts from news sites (hindustantimes.com, timesofindia.com, freepressjournal.in, mumbaimirror.indiatimes.com, ndtv.com, etc.)
-**Bio**: Synthesize a 2-3 sentence bio from search results describing the officer's role, background, and notable actions
-
-### 4. Update the Position record
-
-```ruby
-position.update!(
-  linkedin_url: "https://linkedin.com/in/...",
-  twitter_handle: "@handle",
-  bio: "2-3 sentence bio...",
-  profile_data: {
-    "news" => [
-      {
-        "title" => "Article headline",
-        "url" => "https://...",
-        "source" => "Hindustan Times",
-        "date" => "Mar 2025",
-        "excerpt" => "Brief summary of the article..."
-      }
-    ],
-    "enriched_at" => Time.current.iso8601,
-    "source" => "Parallel AI search"
-  }
-)
-```
-
-### 5. Verification mode
-
-When verifying officer names (checking if civic diary data is current):
-
-Search for the ward + "assistant commissioner" to find the latest name:
+For each ward, search Parallel for the MCGM portal contact list:
 
 ```bash
 curl -s https://api.parallel.ai/v1beta/search \
   -H "Content-Type: application/json" \
-  -H "x-api-key: YOUR_KEY" \
+  -H "x-api-key: $KEY" \
   -d '{
-    "objective": "Who is the current Assistant Commissioner of WARD_CODE Ward in BMC Mumbai as of 2025? Has there been any recent transfer or new appointment?",
+    "objective": "Find the official MCGM/BMC contact list PDF for WARD_CODE Ward Mumbai with officer names, designations, and phone numbers",
     "search_queries": [
-      "BMC WARD_CODE ward assistant commissioner 2025",
-      "MCGM WARD_CODE ward officer transfer 2025"
+      "site:mcgm.gov.in WARD_CODE ward important numbers contact",
+      "site:portal.mcgm.gov.in WARD_CODE ward officers"
+    ],
+    "mode": "fast"
+  }'
+```
+
+Known URL patterns on MCGM portal:
+- `https://portal.mcgm.gov.in/irj/go/km/docs/documents/D%20Ward/Important%20Numbers.pdf`
+- `https://dm.mcgm.gov.in/ward-directory` (disaster management ward directory)
+
+### Step 2: Extract officer data
+
+Once you have the PDF URL, extract structured data:
+
+```bash
+curl -s https://api.parallel.ai/v1beta/extract \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: $KEY" \
+  -d '{
+    "urls": ["PDF_URL_HERE"],
+    "objective": "Extract all officer names, designations, phone numbers, and email addresses from this BMC ward contact list",
+    "excerpts": true,
+    "full_content": true
+  }'
+```
+
+### Step 3: Parse the extracted content into our format
+
+From the Parallel Extract results, build a JSON structure. The extract returns markdown-formatted content that you should parse into:
+
+```json
+{
+  "ward_code": "D",
+  "source_url": "https://portal.mcgm.gov.in/...",
+  "extracted_at": "2026-03-21",
+  "officers": [
+    {
+      "designation": "Assistant Commissioner",
+      "person_name": "Shri. Sharad Ughade",
+      "phone": "9167494033",
+      "email": "ac.d@mcgm.gov.in",
+      "section": "Ward Office",
+      "level": "senior"
+    },
+    {
+      "designation": "Executive Engineer",
+      "person_name": "Suresh Kanoja",
+      "phone": "9975673419",
+      "email": "ee.d@mcgm.gov.in",
+      "section": "Ward Office",
+      "level": "senior"
+    }
+  ]
+}
+```
+
+#### Designation to Section mapping
+
+| Designation | Section | Level |
+|-------------|---------|-------|
+| Asst. Commissioner, Assistant Commissioner | Ward Office | senior |
+| Executive Engineer | Ward Office | senior |
+| Designated Officer | Ward Office | senior |
+| A.E. (Maint), A.E. (Maint) East/West | Maintenance | mid |
+| A.E. (SWM) | Solid Waste Management | mid |
+| A.E. (B&F) | Building and Factory | mid |
+| A.E. (Water) | Water Works | mid |
+| Medical Officer of Health, MOH | Health | senior |
+| Complaint Officer | Ward Office | mid |
+| Sr. Insp. Licence, Sr. Insp. Ench. | Licence | mid |
+| AA&C, Asst. Assessor & Collector | Assessment and Collection | mid |
+| PCO, Pest Control Officer | Health | mid |
+| ASG, Asst. Supdt. of Garden | Gardens | mid |
+| A.O. (School), Administrative Officer (School) | Education | mid |
+| Colony Officer | Estate | mid |
+
+### Step 4: Import into database (idempotent)
+
+Use this import logic that tracks tenure changes:
+
+```ruby
+ward = Ward.find_by(ward_code: ward_code)
+ward_org = Organisation.find_or_create_by!(organisable: ward, org_type: "ward") do |org|
+  org.name = "Ward #{ward.ward_code}"
+end
+
+officers_data.each do |officer|
+  dept = Department.find_or_create_by!(organisation: ward_org, name: officer["section"])
+
+  # Find existing active position by email OR by designation in same department
+  existing = nil
+  if officer["email"].present?
+    existing = Position.joins(:department)
+      .where(departments: { organisation_id: ward_org.id })
+      .where(email: officer["email"], active: true)
+      .first
+  end
+  existing ||= Position.where(
+    department: dept,
+    designation: officer["designation"],
+    active: true
+  ).first
+
+  if existing
+    if existing.person_name == officer["person_name"]
+      # Same person — update contact info only
+      existing.update!(
+        phone: officer["phone"].presence || existing.phone,
+        email: officer["email"].presence || existing.email
+      )
+    elsif officer["person_name"].present?
+      # Different person — officer has changed!
+      # End the old tenure
+      existing.update!(active: false, ended_on: Date.current)
+      # Create new position for new officer
+      Position.create!(
+        department: dept,
+        designation: officer["designation"],
+        person_name: officer["person_name"],
+        phone: officer["phone"],
+        email: officer["email"],
+        level: officer["level"],
+        active: true,
+        started_on: Date.current
+      )
+    end
+  else
+    # New position
+    Position.create!(
+      department: dept,
+      designation: officer["designation"],
+      person_name: officer["person_name"],
+      phone: officer["phone"],
+      email: officer["email"],
+      level: officer["level"],
+      active: true,
+      started_on: Date.current
+    )
+  end
+end
+```
+
+### Step 5: Enrich profiles (optional)
+
+After importing base data, optionally enrich key officers (AC, DO) with news and social links:
+
+```bash
+curl -s https://api.parallel.ai/v1beta/search \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: $KEY" \
+  -d '{
+    "objective": "Find news articles, LinkedIn profile, and Twitter handle for PERSON_NAME, DESIGNATION of WARD_CODE Ward BMC Mumbai",
+    "search_queries": [
+      "PERSON_NAME BMC Mumbai",
+      "PERSON_NAME MCGM linkedin"
     ],
     "mode": "fast",
     "excerpts": {"max_chars_per_result": 2000}
   }'
 ```
 
-Compare the name found with what we have in the database. Report:
-- **Match**: Name confirmed by web sources
-- **Outdated**: New officer found, our data needs updating
-- **Unverified**: No clear confirmation found
+Update the Position with:
+- `linkedin_url`: LinkedIn profile URL if found
+- `twitter_handle`: Twitter/X handle if found
+- `bio`: 2-3 sentence bio synthesized from results
+- `profile_data`: JSON with news articles array
 
-### 6. Also check MCGM portal contact pages
+### Step 6: Verify against current news
 
-Each ward has a contact page on the MCGM portal with officer names. Use Parallel's Extract API to pull structured data:
+Search for recent transfers to catch stale data:
 
 ```bash
-curl -s https://api.parallel.ai/v1beta/extract \
+curl -s https://api.parallel.ai/v1beta/search \
   -H "Content-Type: application/json" \
-  -H "x-api-key: YOUR_KEY" \
+  -H "x-api-key: $KEY" \
   -d '{
-    "url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/WARD_CODE%20Ward/Important%20Numbers.pdf",
-    "objective": "Extract all officer names, designations, phone numbers, and email addresses from this ward contact list.",
-    "schema": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {"type": "string"},
-          "designation": {"type": "string"},
-          "phone": {"type": "string"},
-          "email": {"type": "string"}
-        }
-      }
-    }
+    "objective": "Has there been any recent transfer or new appointment for WARD_CODE Ward assistant commissioner in BMC Mumbai?",
+    "search_queries": [
+      "BMC WARD_CODE ward assistant commissioner transfer 2025 2026",
+      "MCGM WARD_CODE ward new officer appointment"
+    ],
+    "mode": "fast"
   }'
 ```
 
-Known ward contact PDF URLs on MCGM portal:
-- `https://portal.mcgm.gov.in/irj/go/km/docs/documents/D%20Ward/Important%20Numbers.pdf`
-- Pattern: `https://portal.mcgm.gov.in/irj/go/km/docs/documents/WARD%20Ward/Important%20Numbers.pdf`
-
 ## Rate Limiting
 
-- Add 2-second sleep between Parallel API calls
-- Each search uses 1 SKU credit
-- For bulk enrichment, process max 5 officers per ward (leadership + named AEs)
-- Cache results in `profile_data` to avoid re-fetching
+- Sleep 2 seconds between API calls
+- Each search/extract uses 1 SKU credit
+- For bulk processing, do one ward at a time
+
+## Running for all wards
+
+Process wards in order. For each ward:
+1. Search for contact PDF URL (1 API call)
+2. Extract officer data from PDF (1 API call)
+3. Parse and import (no API call)
+4. Optionally enrich top 2-3 officers (2-3 API calls)
+
+Total per ward: 2-5 API calls. All 27 wards: ~60-135 calls.
 
 ## Output
 
-After enrichment, summarize what was found:
-
+After processing, report:
 ```
-Ward A:
-  Shri. Jaydeep More (AC) — LinkedIn found, 4 news articles, bio written
-  Shri. Ravindra Mhaske (AE) — Facebook found, no news
-  Shri. Pawan Kaware (AE) — 2 news articles (suspended for parking violations)
-
-Ward B:
-  Shri. Santoshkumar Dhonde (AC) — OUTDATED: replaced by Yogesh Desai (Oct 2025)
-  ...
+Ward A: 17 officers imported (4 new, 2 updated, 1 transfer detected)
+Ward B: 15 officers imported (15 new)
+...
 ```
-
-## Notes
-
-- Officers are public servants; their professional information is public record
-- Focus on professional/civic role information, not personal details
-- News articles should relate to their BMC duties
-- When an officer is found to have been transferred, note it but don't auto-update — flag for manual review
-- The MCGM portal ward pages (mcgm.gov.in/irj/portal/anonymous/qlward*) have official contact lists that are more current than the civic diary

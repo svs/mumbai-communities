@@ -1,4 +1,8 @@
 <div class="max-w-4xl mx-auto py-8 px-4">
+  <%
+    person = @position.person
+    phone = person&.phone || @position.phone
+  %>
 
   <!-- Breadcrumb -->
   <div class="text-sm text-stone-400 mb-6">
@@ -8,7 +12,7 @@
       <%= link_to "Officials", officials_ward_path(@ward), class: "hover:text-stone-600" %>
       <span class="mx-1">/</span>
     <% end %>
-    <span class="text-stone-600"><%= @position.person_name || @position.designation %></span>
+    <span class="text-stone-600"><%= person&.name || @position.designation %></span>
   </div>
 
   <!-- Officer Header -->
@@ -18,18 +22,20 @@
     </div>
     <div class="flex-1">
       <h1 class="text-2xl font-bold text-stone-900">
-        <%= @position.person_name || "Vacant Position" %>
+        <%= person&.name || "Vacant Position" %>
       </h1>
       <p class="text-stone-600 mt-1"><%= @position.designation %></p>
-      <% if @department %>
-        <p class="text-sm text-stone-500"><%= @department.name %> &middot; <%= @ward&.name || @organisation.name %></p>
+      <% if @position.section.present? || @ward %>
+        <p class="text-sm text-stone-500">
+          <%= [@position.section, @ward&.name].compact.join(" · ") %>
+        </p>
       <% end %>
 
       <!-- Contact -->
       <div class="flex flex-wrap items-center gap-4 mt-4">
-        <% if @position.phone.present? %>
-          <a href="tel:<%= @position.phone %>" class="inline-flex items-center gap-1.5 text-sm text-stone-700 hover:text-stone-900">
-            <i class="fa-solid fa-phone text-stone-400"></i> <%= @position.phone %>
+        <% if phone.present? %>
+          <a href="tel:<%= phone %>" class="inline-flex items-center gap-1.5 text-sm text-stone-700 hover:text-stone-900">
+            <i class="fa-solid fa-phone text-stone-400"></i> <%= phone %>
           </a>
         <% end %>
         <% if @position.email.present? %>
@@ -37,14 +43,14 @@
             <i class="fa-solid fa-envelope"></i> <%= @position.email %>
           </a>
         <% end %>
-        <% if @position.linkedin_url.present? %>
-          <a href="<%= @position.linkedin_url %>" target="_blank" class="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800">
+        <% if person&.linkedin_url.present? %>
+          <a href="<%= person.linkedin_url %>" target="_blank" class="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800">
             <i class="fa-brands fa-linkedin"></i> LinkedIn
           </a>
         <% end %>
-        <% if @position.twitter_handle.present? %>
-          <a href="https://twitter.com/<%= @position.twitter_handle.delete('@') %>" target="_blank" class="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800">
-            <i class="fa-brands fa-x-twitter"></i> <%= @position.twitter_handle %>
+        <% if person&.twitter_handle.present? %>
+          <a href="https://twitter.com/<%= person.twitter_handle.delete('@') %>" target="_blank" class="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800">
+            <i class="fa-brands fa-x-twitter"></i> <%= person.twitter_handle %>
           </a>
         <% end %>
       </div>
@@ -56,22 +62,22 @@
     <div class="lg:col-span-2 space-y-8">
 
       <!-- Bio -->
-      <% if @position.bio.present? %>
+      <% if person&.bio.present? %>
         <div>
           <h2 class="text-sm font-bold uppercase tracking-wider text-stone-400 mb-3">About</h2>
-          <p class="text-stone-700 leading-relaxed"><%= @position.bio %></p>
+          <p class="text-stone-700 leading-relaxed"><%= person.bio %></p>
         </div>
       <% end %>
 
-      <!-- Other Roles -->
-      <% if @other_positions.any? %>
+      <!-- Other Positions -->
+      <% if person && @other_positions.any? %>
         <div>
           <h2 class="text-sm font-bold uppercase tracking-wider text-stone-400 mb-3">Also Serves As</h2>
           <div class="space-y-2">
             <% @other_positions.each do |pos| %>
               <div class="text-sm">
                 <span class="font-medium text-stone-800"><%= pos.designation %></span>
-                <span class="text-stone-500">— <%= pos.department.name %></span>
+                <span class="text-stone-500">— <%= pos.section || pos.organisation.name %></span>
               </div>
             <% end %>
           </div>
@@ -79,11 +85,12 @@
       <% end %>
 
       <!-- News Coverage -->
+      <% news_articles = person&.profile_data&.dig("news") || [] %>
       <div>
         <h2 class="text-sm font-bold uppercase tracking-wider text-stone-400 mb-3">In the News</h2>
-        <% if @news_articles.any? %>
+        <% if news_articles.any? %>
           <div class="space-y-4">
-            <% @news_articles.each do |article| %>
+            <% news_articles.each do |article| %>
               <a href="<%= article['url'] %>" target="_blank" class="block border border-stone-200 rounded-lg p-4 hover:border-stone-400 hover:shadow-sm transition-all group">
                 <div class="font-medium text-stone-800 group-hover:text-blue-600"><%= article['title'] %></div>
                 <% if article['excerpt'].present? %>
@@ -103,11 +110,10 @@
         <% end %>
       </div>
 
-      <!-- Ward Tweets Mentioning This Officer -->
-      <% if @ward && @position.person_name.present? %>
+      <!-- Ward Tweets Mentioning This Person -->
+      <% if @ward && person %>
         <%
-          # Search tweets mentioning this officer's name (simplified)
-          last_name = @position.person_name.split.last
+          last_name = person.name.split.last
           related_tweets = @ward.tweets.original.where("body LIKE ?", "%#{last_name}%").limit(5)
         %>
         <% if related_tweets.any? %>
@@ -128,30 +134,40 @@
 
     <!-- Sidebar -->
     <div class="space-y-6">
-      <!-- Quick Facts -->
       <div class="border border-stone-200 rounded-lg p-4">
         <h3 class="text-sm font-bold uppercase tracking-wider text-stone-400 mb-3">Details</h3>
         <div class="space-y-2 text-sm">
-          <div class="flex justify-between">
-            <span class="text-stone-500">Ward</span>
-            <span class="font-medium text-stone-800"><%= @ward&.name || "—" %></span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-stone-500">Department</span>
-            <span class="font-medium text-stone-800"><%= @department.name %></span>
-          </div>
+          <% if @ward %>
+            <div class="flex justify-between">
+              <span class="text-stone-500">Ward</span>
+              <span class="font-medium text-stone-800"><%= @ward.name %></span>
+            </div>
+          <% end %>
+          <% if @position.section.present? %>
+            <div class="flex justify-between">
+              <span class="text-stone-500">Section</span>
+              <span class="font-medium text-stone-800"><%= @position.section %></span>
+            </div>
+          <% end %>
           <div class="flex justify-between">
             <span class="text-stone-500">Designation</span>
             <span class="font-medium text-stone-800"><%= @position.designation %></span>
           </div>
-          <div class="flex justify-between">
-            <span class="text-stone-500">Level</span>
-            <span class="font-medium text-stone-800"><%= @position.level&.capitalize || "—" %></span>
-          </div>
+          <% if @position.level.present? %>
+            <div class="flex justify-between">
+              <span class="text-stone-500">Level</span>
+              <span class="font-medium text-stone-800"><%= @position.level.capitalize %></span>
+            </div>
+          <% end %>
+          <% if @position.started_on.present? %>
+            <div class="flex justify-between">
+              <span class="text-stone-500">Since</span>
+              <span class="font-medium text-stone-800"><%= @position.started_on.strftime("%b %Y") %></span>
+            </div>
+          <% end %>
         </div>
       </div>
 
-      <!-- Ward Link -->
       <% if @ward %>
         <div class="border border-stone-200 rounded-lg p-4">
           <h3 class="text-sm font-bold uppercase tracking-wider text-stone-400 mb-3">Ward</h3>
@@ -162,6 +178,26 @@
               &middot; <%= @ward.facilities.count %> facilities
             </div>
           <% end %>
+        </div>
+      <% end %>
+
+      <!-- Position History -->
+      <% if person && person.positions.count > 1 %>
+        <div class="border border-stone-200 rounded-lg p-4">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-stone-400 mb-3">Career History</h3>
+          <div class="space-y-2">
+            <% person.positions.order(started_on: :desc).each do |pos| %>
+              <div class="text-sm">
+                <div class="font-medium text-stone-800"><%= pos.designation %></div>
+                <div class="text-xs text-stone-500">
+                  <%= pos.organisation.name %>
+                  <% if pos.started_on %>
+                    &middot; <%= pos.started_on.strftime("%b %Y") %><%= pos.ended_on ? " – #{pos.ended_on.strftime('%b %Y')}" : " – present" %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
       <% end %>
     </div>

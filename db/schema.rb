@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_21_084340) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_21_094523) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -115,12 +115,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_084340) do
     t.string "title", null: false
     t.text "description", null: false
     t.string "ward_code", null: false
+    t.integer "category_id"
     t.integer "created_by_id", null: false
     t.integer "tweet_id"
     t.string "status", default: "open"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "category_id"
     t.index ["category_id"], name: "index_issues_on_category_id"
     t.index ["created_by_id"], name: "index_issues_on_created_by_id"
     t.index ["status"], name: "index_issues_on_status"
@@ -158,6 +158,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_084340) do
     t.json "metadata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
+    t.string "linkedin_url"
+    t.string "twitter_handle"
+    t.json "profile_data"
   end
 
   create_table "positions", force: :cascade do |t|
@@ -166,7 +170,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_084340) do
     t.string "phone"
     t.string "person_name"
     t.string "level"
-    t.integer "department_id", null: false
+    t.integer "department_id"
     t.json "metadata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -176,6 +180,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_084340) do
     t.text "bio"
     t.string "linkedin_url"
     t.string "twitter_handle"
+    t.date "started_on"
+    t.date "ended_on"
+    t.boolean "active", default: true
+    t.integer "organisation_id"
+    t.string "section"
+    t.integer "person_id"
     t.index ["department_id"], name: "index_positions_on_department_id"
   end
 

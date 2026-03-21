@@ -106,15 +106,12 @@ RSpec.describe "Wards", type: :request do
     end
 
     it "displays ward officials in the directory" do
-      ac = Person.create!(name: "Ramesh Pawar", phone: "022-22607000", email: "ac.a@mcgm.gov.in")
-      ac.roles.create!(roleable: ward, role_name: "assistant_commissioner")
-
-      corp = Person.create!(name: "Sujata Sanap", phone: "9870040562")
-      corp.roles.create!(roleable: ward, role_name: "corporator")
+      org = Organisation.create!(name: "Ward #{ward.ward_code}", org_type: "ward_office", organisable: ward)
+      ac_person = Person.create!(name: "Ramesh Pawar", phone: "022-22607000")
+      Position.create!(organisation: org, designation: "Assistant Commissioner", email: "ac.a@mcgm.gov.in", level: "senior", person: ac_person, active: true, section: "Ward Office")
 
       get officials_ward_path(ward)
       expect(response.body).to include("Ramesh Pawar")
-      expect(response.body).to include("Sujata Sanap")
       expect(response.body).to include("Assistant Commissioner")
     end
   end

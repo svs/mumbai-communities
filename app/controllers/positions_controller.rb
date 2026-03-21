@@ -3,21 +3,14 @@ class PositionsController < ApplicationController
 
   def show
     @position = Position.find(params[:id])
-    @department = @position.department
-    @organisation = @department.organisation
+    @organisation = @position.organisation
     @ward = @organisation.organisable if @organisation.organisable_type == "Ward"
 
-    # Find other positions held by same person (same name across departments)
-    @other_positions = if @position.person_name.present? && @ward
-      Position.joins(department: :organisation)
-              .where(person_name: @position.person_name)
-              .where(organisations: { organisable: @ward })
-              .where.not(id: @position.id)
+    # Other active positions held by same person
+    @other_positions = if @position.person_id.present?
+      Position.active.where(person_id: @position.person_id).where.not(id: @position.id).includes(:organisation)
     else
       Position.none
     end
-
-    # News articles from cached profile_data
-    @news_articles = @position.profile_data&.dig("news") || []
   end
 end

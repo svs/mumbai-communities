@@ -12,7 +12,8 @@ class Ward < ApplicationRecord
   has_many :ward_data_snapshots, foreign_key: 'ward_code', primary_key: 'ward_code'
   has_many :roles, as: :roleable, dependent: :destroy
   has_many :people, through: :roles
-  has_one :organisation, as: :organisable, dependent: :destroy
+  has_many :organisations, as: :organisable, dependent: :destroy
+  has_one :organisation, -> { order(:id) }, as: :organisable # legacy compat — prefer .organisations
   
   validates :ward_code, presence: true, uniqueness: true
   validates :name, presence: true
