@@ -28,11 +28,7 @@
         <% leadership.each do |pos| %>
           <div class="border border-stone-200 rounded-lg p-5">
             <% if pos.person %>
-              <% if pos.person.profile_data.present? %>
-                <%= link_to pos.person.name, position_path(pos), class: "font-semibold text-stone-900 text-base hover:text-blue-600 transition-colors", data: { turbo_frame: "_top" } %>
-              <% else %>
-                <div class="font-semibold text-stone-900 text-base"><%= pos.person.name %></div>
-              <% end %>
+              <%= link_to pos.person.name, position_path(pos), class: "font-semibold text-stone-900 text-base hover:text-blue-600 transition-colors", data: { turbo_frame: "_top" } %>
             <% else %>
               <div class="font-semibold text-stone-400 text-base italic">Vacant</div>
             <% end %>
