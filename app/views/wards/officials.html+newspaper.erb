@@ -68,7 +68,7 @@
                 <div class="flex items-start justify-between gap-2">
                   <div class="min-w-0">
                     <% if pos.person %>
-                      <div class="text-sm font-medium text-stone-800"><%= pos.person.name %></div>
+                      <%= link_to pos.person.name, position_path(pos), class: "text-sm font-medium text-stone-800 hover:text-blue-600 transition-colors block", data: { turbo_frame: "_top" } %>
                       <div class="text-xs text-stone-500"><%= pos.designation %></div>
                     <% else %>
                       <div class="text-sm text-stone-600"><%= pos.designation %></div>
