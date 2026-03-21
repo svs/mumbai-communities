@@ -19,3 +19,6 @@ production:
   refresh_tweet_activity:
     class: RefreshTweetsJob
     schedule: every 6 hours
+  enrich_ward_officers:
+    class: WardEnrichmentJob
+    schedule: at 3am every day
