@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   # Facility pages — each facility gets its own page
   resources :facilities, only: [:show]
 
+  # Officer profile pages
+  resources :positions, only: [:show], path: 'officers'
+
   # Ward-centric structure
   resources :wards, only: [:index, :show] do
     collection do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_16_065012) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_21_084340) do
   create_table "attachments", force: :cascade do |t|
     t.string "attachable_type", null: false
     t.integer "attachable_id", null: false
@@ -172,6 +172,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_16_065012) do
     t.datetime "updated_at", null: false
     t.boolean "elected", default: false
     t.string "political_party"
+    t.json "profile_data"
+    t.text "bio"
+    t.string "linkedin_url"
+    t.string "twitter_handle"
     t.index ["department_id"], name: "index_positions_on_department_id"
   end
 

@@ -1,12 +1,71 @@
 <turbo-frame id="ward-tab-content">
   <%= render "wards/tab_nav", current_tab: "Officials" %>
 
-  <div class="newspaper-section-header">Who Runs This Ward</div>
-
   <% if @departments&.any? %>
+    <%
+      # Collect ward leadership: Ward Office seniors + Designated Officers
+      ward_office_dept = @departments.find { |d| d.name == "Ward Office" }
+      leadership = []
+      if ward_office_dept
+        leadership += ward_office_dept.positions.ordered.select { |p| p.level == "senior" }
+      end
+      # Add Designated Officers from any department
+      @departments.each do |dept|
+        dept.positions.ordered.each do |pos|
+          if pos.designation == "Designated Officer"
+            leadership << pos unless leadership.any? { |l| l.id == pos.id }
+          end
+        end
+      end
+      # Deduplicate by person_name (same person as AC and DO)
+      seen_names = Set.new
+      leadership = leadership.select do |pos|
+        if pos.person_name.present? && seen_names.include?(pos.person_name)
+          false
+        else
+          seen_names << pos.person_name if pos.person_name.present?
+          true
+        end
+      end
+
+      # Department positions (everything except what's in leadership)
+      leadership_ids = leadership.map(&:id).to_set
+    %>
+
+    <!-- Ward Leadership -->
+    <% if leadership.any? { |p| p.person_name.present? } %>
+      <div class="newspaper-section-header">Ward Leadership</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+        <% leadership.each do |pos| %>
+          <div class="border border-stone-200 rounded-lg p-5">
+            <% if pos.person_name.present? %>
+              <%= link_to pos.person_name, position_path(pos), class: "font-semibold text-stone-900 text-base hover:text-blue-600 transition-colors", data: { turbo_frame: "_top" } %>
+            <% else %>
+              <div class="font-semibold text-stone-400 text-base italic">Vacant</div>
+            <% end %>
+            <div class="text-sm text-stone-500 mt-0.5"><%= pos.designation %></div>
+            <div class="flex items-center gap-3 mt-3">
+              <% if pos.phone.present? %>
+                <a href="tel:<%= pos.phone %>" class="inline-flex items-center gap-1 text-xs text-stone-600 hover:text-stone-800">
+                  <i class="fa-solid fa-phone"></i> <%= pos.phone %>
+                </a>
+              <% end %>
+              <% if pos.email.present? %>
+                <a href="mailto:<%= pos.email %>" class="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800">
+                  <i class="fa-solid fa-envelope"></i> email
+                </a>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Department Staff -->
+    <div class="newspaper-section-header">Department Staff</div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
       <% @departments.each do |dept| %>
-        <% positions = dept.positions.ordered %>
+        <% positions = dept.positions.ordered.reject { |p| leadership_ids.include?(p.id) } %>
         <% next if positions.empty? %>
         <div class="border border-stone-200 rounded-lg p-4 max-h-64 overflow-y-auto">
           <h4 class="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3 sticky top-0 bg-white"><%= dept.name %></h4>
@@ -14,16 +73,25 @@
             <% positions.each do |pos| %>
               <div class="flex items-start justify-between gap-2">
                 <div class="min-w-0">
-                  <div class="text-sm font-medium text-stone-800"><%= pos.designation %></div>
                   <% if pos.person_name.present? %>
-                    <div class="text-xs text-stone-500"><%= pos.person_name %></div>
+                    <%= link_to pos.person_name, position_path(pos), class: "text-sm font-medium text-stone-800 hover:text-blue-600 transition-colors block", data: { turbo_frame: "_top" } %>
+                    <div class="text-xs text-stone-500"><%= pos.designation %></div>
+                  <% else %>
+                    <div class="text-sm text-stone-600"><%= pos.designation %></div>
                   <% end %>
                 </div>
-                <% if pos.email.present? %>
-                  <a href="mailto:<%= pos.email %>" class="text-blue-600 hover:text-blue-800 shrink-0" title="<%= pos.email %>">
-                    <i class="fa-solid fa-envelope text-xs"></i>
-                  </a>
-                <% end %>
+                <div class="flex items-center gap-2 shrink-0">
+                  <% if pos.phone.present? %>
+                    <a href="tel:<%= pos.phone %>" class="text-stone-400 hover:text-stone-600" title="<%= pos.phone %>">
+                      <i class="fa-solid fa-phone text-xs"></i>
+                    </a>
+                  <% end %>
+                  <% if pos.email.present? %>
+                    <a href="mailto:<%= pos.email %>" class="text-blue-600 hover:text-blue-800" title="<%= pos.email %>">
+                      <i class="fa-solid fa-envelope text-xs"></i>
+                    </a>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>
@@ -31,10 +99,11 @@
       <% end %>
     </div>
     <div class="text-xs text-stone-400 mb-10">
-      Source: BMC Civic Diary &middot;
+      Source: BMC Civic Diary 2025 &middot;
       <a href="https://portal.mcgm.gov.in" target="_blank" class="text-blue-600 hover:underline">MCGM Portal</a>
     </div>
   <% elsif @ward_roles&.any? %>
+    <div class="newspaper-section-header">Ward Leadership</div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       <% @ward_roles.each do |role| %>
         <div class="border border-stone-200 rounded-lg p-4">
