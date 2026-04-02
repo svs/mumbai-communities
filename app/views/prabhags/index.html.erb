@@ -103,7 +103,12 @@
   <div class="w-full">
     <div class="flex justify-between items-center mb-8">
       <h1 class="font-bold text-3xl">Ward Boundary Mapping</h1>
-      <%= link_to "← Back to Home", root_path, class: "text-blue-500 hover:text-blue-700" %>
+      <div class="flex items-center gap-4">
+        <%= link_to download_kml_prabhags_path, class: "inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg" do %>
+          <i class="fas fa-download mr-2"></i>Download KML
+        <% end %>
+        <%= link_to "← Back to Home", root_path, class: "text-blue-500 hover:text-blue-700" %>
+      </div>
     </div>
     <!-- Progress Statistics -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">

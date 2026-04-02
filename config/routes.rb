@@ -65,6 +65,9 @@ Rails.application.routes.draw do
   
   # Legacy prabhag routes (for backward compatibility)
   resources :prabhags, only: [:index, :show] do
+    collection do
+      get :download_kml
+    end
     member do
       post :assign
       get :trace

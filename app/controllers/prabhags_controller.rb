@@ -1,7 +1,9 @@
+require "builder"
+
 class PrabhagsController < ApplicationController
   include ActionView::Helpers::DateHelper
 
-  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :authenticate_user!, except: [ :index, :show, :download_kml ]
   before_action :set_prabhag, only: [ :show, :assign, :trace, :submit ]
 
   def index
@@ -64,6 +66,19 @@ class PrabhagsController < ApplicationController
     end
   end
 
+  def download_kml
+    ward_pairs = Ward.includes(:boundaries).where.not(boundaries: { id: nil }).map { |w|
+      [w, w.boundaries.best_ordered.first]
+    }.select { |_, b| b }
+
+    prabhag_pairs = Prabhag.includes(:boundaries).where.not(boundaries: { id: nil }).map { |p|
+      [p, p.boundaries.best_ordered.first]
+    }.select { |_, b| b }
+
+    kml = build_kml(ward_pairs, prabhag_pairs)
+    send_data kml, filename: "mumbai_boundaries.kml", type: "application/vnd.google-earth.kml+xml"
+  end
+
   def assign
     if @prabhag.can_be_assigned_to?(current_user)
       @prabhag.assign_to!(current_user)
@@ -95,6 +110,70 @@ class PrabhagsController < ApplicationController
   end
 
   private
+
+  def build_kml(ward_pairs, prabhag_pairs)
+    xml = Builder::XmlMarkup.new(indent: 2)
+    xml.instruct!
+    xml.kml(xmlns: "http://www.opengis.net/kml/2.2") do
+      xml.Document do
+        xml.name "Mumbai Ward & Prabhag Boundaries"
+
+        xml.Folder do
+          xml.name "Wards"
+          ward_pairs.each do |ward, boundary|
+            add_placemark(xml, "Ward #{ward.ward_code} - #{ward.name}", boundary)
+          end
+        end
+
+        xml.Folder do
+          xml.name "Prabhags"
+          prabhag_pairs.each do |prabhag, boundary|
+            add_placemark(xml, "Prabhag #{prabhag.number} (Ward #{prabhag.ward_code})", boundary)
+          end
+        end
+      end
+    end
+  end
+
+  def add_placemark(xml, name, boundary)
+    geojson = JSON.parse(boundary.geojson)
+    geometry = geojson["type"] == "Feature" ? geojson["geometry"] : geojson
+    return unless geometry
+
+    xml.Placemark do
+      xml.name name
+      xml.description "Status: #{boundary.status}, Source: #{boundary.source_type}"
+      kml_geometry(xml, geometry)
+    end
+  end
+
+  def kml_geometry(xml, geometry)
+    case geometry["type"]
+    when "Polygon"
+      kml_polygon(xml, geometry["coordinates"])
+    when "MultiPolygon"
+      xml.MultiGeometry do
+        geometry["coordinates"].each { |poly_coords| kml_polygon(xml, poly_coords) }
+      end
+    end
+  end
+
+  def kml_polygon(xml, coordinates)
+    xml.Polygon do
+      xml.outerBoundaryIs do
+        xml.LinearRing do
+          xml.coordinates coordinates[0].map { |lng, lat| "#{lng},#{lat},0" }.join(" ")
+        end
+      end
+      coordinates[1..].each do |hole|
+        xml.innerBoundaryIs do
+          xml.LinearRing do
+            xml.coordinates hole.map { |lng, lat| "#{lng},#{lat},0" }.join(" ")
+          end
+        end
+      end
+    end
+  end
 
   def set_prabhag
     if params[:ward_id].present?
